@@ -139,7 +139,7 @@ public class TypeTable {
 	 * 
 	 */
 	public boolean addType(String methodName, boolean staticMethod, TypeClass returnValue, int dimOfRetVal, 
-						   List<TypeClass> params, ICClass methodClass, int line){
+						   List<TypeClass> params, ICClass methodClass, int line, ASTNode node){
 		
 		//Check for no func redef in the same class (no method overloading in IC)
 		String key = Utils.hashKeyForMethods(methodName, methodClass.getName()); 
@@ -164,7 +164,7 @@ public class TypeTable {
 				Utils.handleSemanticError(e);
 			}
 			//Add method signature to TypeTable
-			entry = new MethodSigType(methodName, staticMethod, returnValue, params);
+			entry = new MethodSigType(methodName, staticMethod, returnValue, params, node);
 			types.put(key, entry);
 		}
 		

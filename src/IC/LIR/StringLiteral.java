@@ -31,7 +31,8 @@ public class StringLiteral {
 		for (int i = 0 ; i < alliterals.size();i++)
 			toRet =toRet + "str"+i+": "+alliterals.get(i)+"\n";
 		//Remove last \n:
-		toRet = toRet.substring(0, toRet.length() - 1);
+		if (toRet.length() > 0)
+			toRet = toRet.substring(0, toRet.length() - 1);	
 		return toRet;
 	}
 }

@@ -22,13 +22,15 @@ public class Op {
 	public enum OpType
 	{
 		Label,
-		FuncName,
+		FuncHeader,
 		Immediate,
 		Memory,
 		Reg,
+		ThisType,
 		Param, //Param is to mark that op will be returned by his function.
 		Disabled,
 		Var,  //var is strliteral or variable
+		DV, //Dispatch table vector
 		Other; //TBD: should this be?
 	}
 	

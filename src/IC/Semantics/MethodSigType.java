@@ -3,12 +3,15 @@ package IC.Semantics;
 import java.util.Iterator;
 import java.util.List;
 
+import IC.AST.ASTNode;
+
 public class MethodSigType extends TypeClassMold {
 
 	private String methodName;
 	private List<TypeClass> params;
 	private TypeClass returnVal;
 	private boolean staticMethod;
+	private ASTNode node; 
 
 	/**
 	 * @param methodName The name of the method
@@ -19,13 +22,14 @@ public class MethodSigType extends TypeClassMold {
 	 * 
 	 * A constructor for a method signature 
 	 */
-	public MethodSigType(String methodName, boolean staticMethod, TypeClass returnVal, List<TypeClass> params) 
+	public MethodSigType(String methodName, boolean staticMethod, TypeClass returnVal, List<TypeClass> params, ASTNode node) 
 	{
 		super();
 		this.methodName = methodName;
 		this.staticMethod = staticMethod;
 		this.params = params;
 		this.returnVal  = returnVal;
+		this.node = node;
 	}
 
 	public String getName()
@@ -100,6 +104,10 @@ public class MethodSigType extends TypeClassMold {
 	public boolean equals(MethodSigType other)
 	{
 		return this.sigString().equals(other.sigString());
+	}
+
+	public ASTNode getNode() {
+		return node;
 	}
 
 }

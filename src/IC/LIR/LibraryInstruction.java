@@ -1,6 +1,7 @@
 package IC.LIR;
 
 public class LibraryInstruction extends Instruction {
+	private int size = 0;
 	
 	/**
 	 * Type's constructor
@@ -8,21 +9,9 @@ public class LibraryInstruction extends Instruction {
 	 * @param op2P Second Op
 	 * @param type Instruction's Type
 	 */
-	public LibraryInstruction(Op op1P, Op op2P, 
-			LibraryInstructionType type) 
+	public LibraryInstruction(Op op1P, Op op2P) 
 	{
-		super(op1P, op2P, type);
-	}
-	
-	/**
-	 * Type's constructor
-	 * @param op1P First Op 
-	 * @param type Instruction's Type
-	 */
-	public LibraryInstruction(Op op1P, 
-			LibraryInstructionType type) 
-	{
-		super(op1P, type);
+		super(op1P, op2P, LibraryInstructionType.Dummy);
 	}
 	
 	/**
@@ -31,29 +20,23 @@ public class LibraryInstruction extends Instruction {
 	*/
 	public enum LibraryInstructionType implements InstructionType
 	{
-		AllocateArray("AllocateArray"),
-		Exit("exit(0)");
-		
-		private String print;
-
-		private LibraryInstructionType(String print) {
-			this.print = print;
-		}
-		
-		public String toString(){
-			return print;
-		}
+		Dummy;
 	}
 	
-	public String toString(){
-		String output = "Library __" + getInstructionType().toString();
-		if (getOp1() != null)
-			output += ", " + getOp1();
-		if (getOp2() != null)
-			output += ", " + getOp2();
-		if (getOp3() != null)
-			output += ", " + getOp3();
-		return output;
+	public int getSize()
+	{
+		return this.size;
+	}
+
+	     public String toString(){
+             String ret = "Library " + getOp1().getName()+"," + getOp2().getName();
+
+             //Good for all types:
+             if (this.getOptComment() != null)
+             {
+                     ret+= " " + this.getOptComment();
+             }
+             return ret;
 
 	}
 }
