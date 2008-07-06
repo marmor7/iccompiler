@@ -1,0 +1,20 @@
+class A
+{
+	static void main(string[] args)
+	{
+	}
+}
+
+class B extends A
+{
+}
+
+class C
+{
+	void bar()
+	{
+		B b = new B();
+		A a = new A();
+		a = b;
+	}
+}

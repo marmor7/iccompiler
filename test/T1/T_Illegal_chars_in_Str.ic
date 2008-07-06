@@ -1,0 +1,19 @@
+class Class {
+	void main(){
+		string s = "this is an identifier";
+		s = "this is an identifier";
+		s = "this is an identifier";
+		s = "this is a class";
+
+		s = "not an error yet: \n";
+		s = "not an error yet: \n \t \\ not yet...";
+		s = "not an error yet: \n \t \"weee!!!\" ";
+		
+		boolean b = "hello" == "world";
+
+		string error_1 = "this a is an error \";
+		string error_2 = "also an error: \a\b ";
+		
+		return 0;
+	}
+}

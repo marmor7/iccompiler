@@ -1,0 +1,17 @@
+class SimpleClass {
+	int simpleMethod() {
+		string s = "this is an identifier";
+		s = "this is an identifier";
+		s = "this is an identifier";
+		s = "this is an identifier";
+		s = "this is an identifier";
+		s = "";
+		s = "";
+		s = "";
+
+		string error_1 = "this a is an error \";
+		string error_2 = "\a\b";
+		
+		return 0;
+	}
+}

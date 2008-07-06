@@ -1,0 +1,11 @@
+
+class B{
+
+	void c(){
+		a = "hello";
+	}
+
+	static void main(string[] args)
+	{
+	}
+}

@@ -1,0 +1,20 @@
+class Class1 {
+	int simpleMethod() {
+	}
+}
+
+class C1lass {
+	int simpleMethod() {
+	}
+}
+
+class Class {
+	int simpleMethod() {
+		string identifier = "this is an identifier";
+		string identifier1 = "this is an identifier";
+		string i1dentifier = "this is an identifier";
+
+		string err1 = "this is an error";
+		string $ = "never see me";
+	}
+}

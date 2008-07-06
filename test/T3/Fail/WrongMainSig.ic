@@ -1,0 +1,13 @@
+
+class A
+{
+	int x;
+}
+
+class B
+{
+	static void main(string[] args, int k)
+	{
+		Library.println("hello");
+	}
+}

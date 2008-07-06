@@ -1,0 +1,16 @@
+class A
+{
+	static void main(string[] args)
+	{
+		int a = 5;
+		while(a > 0)
+		{
+			a = a-1;
+			while(a == 1)
+			{
+				break;
+			}
+			continue;
+		}
+	}
+}

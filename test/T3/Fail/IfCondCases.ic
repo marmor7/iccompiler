@@ -1,0 +1,37 @@
+class B
+{
+}
+
+class A
+{
+	int field;
+
+	int bar(int x)
+	{
+		int[] a = new int[3];
+		B[] b = new B[7];
+		return this.field;
+	}
+
+	int foo(int x)
+	{
+		x = bar(5);
+	
+		boolean bool = true;
+		if (bool)
+			Library.println("ok");
+
+		if (true)
+			Library.println("ok");
+
+		if (x == 3)
+			Library.println("ok");
+
+		if (x)
+			Library.println("not ok");
+	}
+
+	static void main(string[] args)
+	{
+	}
+}

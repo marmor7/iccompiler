@@ -1,0 +1,5 @@
+class Class {
+	void main(){
+		int x = new int [5];
+	}
+}

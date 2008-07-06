@@ -1,0 +1,12 @@
+
+class B{
+
+	void c(){
+		int a;
+		a = b;
+	}
+
+	static void main(string[] args)
+	{
+	}
+}

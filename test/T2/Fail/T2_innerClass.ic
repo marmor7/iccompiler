@@ -1,0 +1,16 @@
+class Quicksort {
+    int[] a;
+    
+    int pivot;
+    int x;
+    string v,g,t,y;
+    int j;
+    int tmp;
+    boolean b,o;
+    boolean l,o;
+    QCKSRT[] p;
+	QCKSRT ee;
+	
+	class Foo{}
+
+}

@@ -1,0 +1,36 @@
+
+class A
+{
+	int f;
+}
+
+class B
+{
+	int y;
+	int n(int x)
+	{
+		return (x*x);
+	}
+
+	void csn(int x)
+	{
+		return;
+	}
+}
+
+class C extends B
+{
+	int d;
+	static int m(int x, int y)
+	{
+		A a = new A();
+		a.f = 4; //legal
+		x = 4;   //legal
+
+		return x*y*d*n(x); //not legal
+	}
+	
+	static void main(string[] args) 
+	{
+	}
+}

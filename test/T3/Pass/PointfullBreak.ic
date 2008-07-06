@@ -1,0 +1,29 @@
+
+class Point{
+	int x;
+	int y;
+	
+	static void main(string[] args)
+	{
+	}
+}
+
+class B{
+
+	Point e()
+	{
+		return new Point();
+	}
+
+	int c(int d){
+		while (4>3)
+		{
+			break;
+		}
+		return d;
+
+	}
+}
+
+
+

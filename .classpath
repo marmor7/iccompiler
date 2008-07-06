@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry path="src" output="classes" kind="src"/>
+	<classpathentry sourcepath="JRE_SRC" path="JRE_LIB" kind="var"/>
+	<classpathentry path="src/java-cup-v11a.jar" kind="lib"/>
+	<classpathentry path="src/java-cup-v11a-runtime.jar" kind="lib"/>
+	<classpathentry path="src/JFlex.jar" kind="lib"/>
+	<classpathentry path="bin" kind="output"/>
+</classpath>

@@ -1,0 +1,19 @@
+class A {
+	static int foo(boolean b) {
+		if (b == true) {
+			{
+				int a = 0;
+			}
+			return 1;
+		}
+		else {
+			return 0;
+		}
+	}
+	
+	static void main(string[] args)
+	{
+		Library.printi(foo(true));
+	}
+}
+

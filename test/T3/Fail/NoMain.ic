@@ -1,0 +1,30 @@
+
+class A
+{
+	int a(int x, int y)
+	{
+		Library.printi(x);
+		return 0;
+	}
+	
+	int b(int x, int y)
+	{
+		Library.printi(y);
+		return 0;
+	}
+}
+
+class B
+{
+	int c(int x, int y)
+	{
+		Library.printi(x);
+		return 0;
+	}
+	
+	int d(int x, int y)
+	{
+		Library.printi(y);
+		return 0;
+	}
+}
