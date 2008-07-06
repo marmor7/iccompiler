@@ -1,0 +1,36 @@
+//legal:
+class A {
+	int x;
+	void foo() {
+		int x;
+		x = 1; // here 'x' refers to the local variable 'x'
+		this.x = 1; // here 'x' refers to the field 'x'
+	}
+}
+
+//Code like this is also legal:
+class B {
+	void foo() {
+		int x;
+		{
+			boolean x;
+			x = true; // 'x' refers to the variable defined in the inner scope.
+		}
+	}
+}
+
+//Shadowing method parameters with local variables is illegal. For example:
+class C {
+	void foo(int x) {
+		int x = 1;
+	}
+}
+
+//The following code is illegal since the same identifier (foo) appears both in the scope of
+//the class A and in the scope of the class B, which inherits from A:
+class D {
+	int foo;
+}
+class E extends D {
+	void foo() {}
+}

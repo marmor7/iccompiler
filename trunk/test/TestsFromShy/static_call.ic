@@ -1,0 +1,10 @@
+class StaticTest {
+
+	static int returnOne() {
+		return 1;
+	}
+	
+	static void main(string[] args) {
+		Library.printi(StaticTest.returnOne());
+	}
+}

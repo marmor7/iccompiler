@@ -1,0 +1,23 @@
+
+class A
+{
+	int foo(int x)
+	{
+		boolean bool = true;
+		if (bool)
+			x=3;
+
+		if (true)
+						x=3;
+
+		if (x == 3)
+						x=3;
+
+		if (x)
+						x=3;
+	}
+
+	static void main(string[] args)
+	{
+	}
+}

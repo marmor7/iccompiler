@@ -1,0 +1,19 @@
+// comment /* start of block comment
+// cont. of block comment, next token is parsed: */
+
+class Class {
+	void main(){
+		string a = "this is a string /* still a string";
+
+		string b = "this is a string // still a string";
+
+		///* outer comment /* inner comment */ out of comment */
+
+		string c = "unterminated string
+		cont of string";
+
+		/* unterminated comment
+		comment
+		comment
+	}
+}

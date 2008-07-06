@@ -1,0 +1,5 @@
+Fail {
+	int a(){
+		return 1;
+	}
+}

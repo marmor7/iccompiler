@@ -1,0 +1,25 @@
+
+class Point{
+	static void main(string[] args) {}
+
+	int x;
+	int y;
+}
+
+class B{
+	int i;
+
+	Point e()
+	{
+		return new Point();
+	}
+
+	int c(int d){
+		{{{{d = this.i;}}}}
+		return d;
+
+	}
+}
+
+
+

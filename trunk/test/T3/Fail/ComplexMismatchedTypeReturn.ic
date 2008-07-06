@@ -1,0 +1,23 @@
+
+class Point{
+	int x;
+	int y;
+}
+
+class B{
+
+	Point e()
+	{
+		return new Point();
+	}
+
+	int c(int d)
+	{
+		return (e());
+	}
+	
+	static void main(string[] args)
+	{
+		return;
+	}
+}

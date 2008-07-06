@@ -1,0 +1,16 @@
+class A
+{
+	static void main(string[] args)
+	{
+	}
+}
+
+class B
+{
+	int a;
+	int foo()
+	{	
+		a = 5;
+		return this.a;
+	}
+}

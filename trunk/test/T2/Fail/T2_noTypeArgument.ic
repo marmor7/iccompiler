@@ -1,0 +1,5 @@
+class Test{
+	int foobar(int n, m){
+		return 1;
+	}
+}

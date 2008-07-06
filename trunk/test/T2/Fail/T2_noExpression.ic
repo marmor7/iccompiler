@@ -1,0 +1,5 @@
+class Test{
+	void foobar(){
+		1 + 2;
+	}
+}

@@ -1,0 +1,9 @@
+"this is an identifier" identifier
+"this is an identifier" identifier1
+"this is an identifier" i1dentifier
+"this is a class" Class
+"this is a class" Class1
+"this is a class" C1lass
+
+"this is an error"
+string $ = "never see me";

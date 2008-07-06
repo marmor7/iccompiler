@@ -1,0 +1,37 @@
+/* Quicksort <n>: sorts an array of n integers initialized
+   with random values.
+   Output: the array contents before and after sorting.
+*/
+
+//class Library{
+//    void println(string s) {}
+//    void print(string s) {}
+//    void printi(int i) {}
+//    int stoi(string s, int i) {}
+//   int random(int n) {}
+//    void exit(int n) {}
+//}
+
+class Quicksort {
+	static void mymethod(int x,MYCLAS myc){
+		x = myc.x;
+		int j = 8;
+	}
+
+	int mysecmethod()
+	{
+		return 99;
+	}
+
+	CustmCls mythirdmethod()
+	{
+		int j = mysecondmethod();
+		CustomCls newcsm;
+		return newcsm
+	}
+	string[] myfourthmethod()
+	{
+		string[] s;
+		return s;
+	}
+}

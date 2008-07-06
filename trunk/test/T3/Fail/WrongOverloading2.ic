@@ -1,0 +1,46 @@
+/* Quicksort <n>: sorts an array of n integers initialized
+with random values.
+Output: the array contents before and after sorting.
+*/
+
+//class Library{
+//    void println(string s) {}
+//    void print(string s) {}
+//    void printi(int i) {}
+//    int stoi(string s, int i) {}
+//   int random(int n) {}
+//    void exit(int n) {}
+//}
+
+
+//class Quicksort extends Sort{
+
+
+class A{
+	int[] a;
+	int dosom()
+	{
+		return 9;
+	}
+}
+
+class B extends A{
+	int b;
+	int dosom()
+	{
+		return 7;
+	}
+}
+
+class C{
+
+	void dosom()
+	{
+		return 7;
+	}
+
+	int dosom(int x	)
+	{
+		return 2;
+	}
+}

@@ -1,0 +1,28 @@
+/* Quicksort <n>: sorts an array of n integers initialized
+   with random values.
+   Output: the array contents before and after sorting.
+*/
+
+//class Library{
+//    void println(string s) {}
+//    void print(string s) {}
+//    void printi(int i) {}
+//    int stoi(string s, int i) {}
+//   int random(int n) {}
+//    void exit(int n) {}
+//}
+
+class Quicksort {
+    int[] a;
+    
+    int pivot;
+    int x;
+    string v,g,t,y;
+    int j;
+    int tmp;
+    boolean b,o;
+    boolean l,o;
+    QCKSRT[] p;
+	QCKSRT ee;
+
+}

@@ -1,0 +1,4 @@
+static class Bad{
+	static void static(int fail){
+	}
+}
