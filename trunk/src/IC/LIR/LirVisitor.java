@@ -592,7 +592,7 @@ public class LirVisitor implements Visitor {
 
 		if (two.getOpType() != OpType.Reg)
 			System.out.println("THROW NEW ERROR"); // TBD Throw error
-		Instruction i = new ArithmeticInstruction(one, two, AIT);
+		Instruction i = new ArithmeticInstruction(two,one, AIT);
 		list.add(i);
 		return two;
 	}
