@@ -1,5 +1,7 @@
 package IC.LIR;
 
+import IC.LIR.Op.OpType;
+
 
 public class ArithmeticInstruction extends Instruction{
 	
@@ -14,6 +16,12 @@ public class ArithmeticInstruction extends Instruction{
 	{
 		super(op1P, op2P, type);
 	}
+	
+	public ArithmeticInstruction(Op op1P,
+			 ArithmeticInstructionType type) 
+{
+		super(op1P,  type);
+}
 
 	/**
 	 * Type's <code>enum</code> 
@@ -26,8 +34,18 @@ public class ArithmeticInstruction extends Instruction{
 		Mul,
 		Div,
 		Mod,
-		Inc,
-		Dec,
 		Neg;
 	}
+	
+	public String toString(){
+		String str  = getInstructionType().toString() + " ";
+		str += getOp1();
+		if (getOp2() != null)
+			str += "," + getOp2();
+		
+		if (getOptComment() != null)
+			str += "\t\t" + getOptComment();
+		return str;
+	}
+	
 }

@@ -3,14 +3,17 @@ package IC.LIR;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import IC.AST.*;
 import IC.LIR.ArithmeticInstruction.ArithmeticInstructionType;
-import IC.LIR.ControlTransfer.ControlTransferInstructionType;
+import IC.LIR.CallInstruction.CallInstructionType;
+import IC.LIR.ControlTransferInstruction.ControlTransferInstructionType;
 import IC.LIR.DataTransferInstruction.DataTransferInstructionType;
 import IC.LIR.LibraryInstruction.LibraryInstructionType;
 import IC.LIR.LogicalInstruction.LogicalInstructionType;
 import IC.LIR.Op.OpType;
+import IC.Semantics.TypeTable;
 
 /**
  * Visitor which translates the AST tree to LIR functions
@@ -24,22 +27,32 @@ public class LirVisitor implements Visitor {
 	private String latestWhileStartLabel = "";
 	private String latestWhileEndLabel = "";
 	private Op dummyOp = new Op("Rdummy", OpType.Reg);
+	private boolean isAssignmentIsNewClass = false; 
+	private HashMap<String, Op> objects = new HashMap<String, Op>();
+	private Program prog;
+	private TypeTable typeTable;
+	private String currentVisitedClassName;
 
 	/**
 	 * Constructs a new LIR visitor.
 	 * 
 	 */
-	public LirVisitor(String progName) {
+	public LirVisitor(String progName,TypeTable typetable) {
 		this.progName = progName;
+		typeTable =typetable;
 		// TBD: init some fields here
 	}
 
 	public Object visit(Program program) {
-
-		list.add(new Label(progName, "Program start"));
-
+		
+		this.prog = program;
+		
 		for (ICClass icClass : program.getClasses())
+		{
+			this.currentVisitedClassName = icClass.getName(); 
 			icClass.accept(this);
+				
+		}
 				
 		list.add(0, new StringInstruction());
 		list.add(0, new StringInstruction("######################"));
@@ -110,23 +123,12 @@ public class LirVisitor implements Visitor {
 	}
 
 	public Object visit(LibraryMethod method) {
-		StringBuffer output = new StringBuffer();
-
-		output.append("Declaration of library method: " + method.getName());
-
-		output.append(method.getType().accept(this));
-		for (Formal formal : method.getFormals())
-			output.append(formal.accept(this));
-
+		
 		return null;
 	}
 
 	public Object visit(Formal formal) {
-		StringBuffer output = new StringBuffer();
-
-		output.append("Parameter: " + formal.getName());
-
-		output.append(formal.getType().accept(this));
+		
 
 		return null;
 	}
@@ -168,7 +170,7 @@ public class LirVisitor implements Visitor {
 		}
 		
 		if (method.getName().equals("main")){
-			list.add(new LibraryInstruction(dummyOp, LibraryInstructionType.Exit));
+			list.add(new LibraryInstruction(new Op("__exit(0)", OpType.FuncHeader), dummyOp));
 		}
 		
 		list.add(new Comment("Method " + method.getName() + " end"));
@@ -182,6 +184,15 @@ public class LirVisitor implements Visitor {
 		{
 			Op loc =   (Op)assignment.getVariable().accept(this);
 			Op value = (Op)assignment.getAssignment().accept(this);
+			
+			if (this.isAssignmentIsNewClass) 
+			{
+				this.isAssignmentIsNewClass = false;
+				String mangledName = Utils.getObjectsMapName(loc.getName(),
+															 assignment.enclosingScope().getId(),
+															 this.currentVisitedClassName);
+				objects.put(mangledName , value);				
+			}
 			
 			// Copy value into location:
 			Instruction ins = new DataTransferInstruction(value, loc,
@@ -197,12 +208,7 @@ public class LirVisitor implements Visitor {
 	}
 
 	public Object visit(CallStatement callStatement) {
-		StringBuffer output = new StringBuffer();
-
-		output.append("Method call statement");
-
-		output.append(callStatement.getCall().accept(this));
-
+		callStatement.getCall().accept(this);		
 		return null;
 	}
 
@@ -210,17 +216,10 @@ public class LirVisitor implements Visitor {
 	//	if (returnStatement.getValue() == null)
 		//	list.add(new)
 		
+		Op reg = (Op)returnStatement.getValue().accept(this);
+		Op newregister = new Op(Register.getFreeReg(), OpType.Reg);
+		list.add(new DataTransferInstruction(reg, newregister, DataTransferInstruction.DataTransferInstructionType.Move) );
 		
-		StringBuffer output = new StringBuffer();
-
-		output.append("Return statement");
-		if (returnStatement.hasValue())
-			output.append(", with return value");
-		if (returnStatement.hasValue()) {
-
-			output.append(returnStatement.getValue().accept(this));
-
-		}
 		return null;
 	}
 
@@ -241,7 +240,7 @@ public class LirVisitor implements Visitor {
 		list.add(li);
 		
 		//If condition is true, jump to then label
-		ControlTransfer ctThen = new ControlTransfer(new Op(thenLabel, OpType.Label), null, 
+		ControlTransferInstruction ctThen = new ControlTransferInstruction(new Op(thenLabel, OpType.Label),  
 				 									 ControlTransferInstructionType.JumpLE);
 		ctThen.setOptComment("Conditional jump when If's outcome is true");
 		list.add(ctThen);
@@ -249,7 +248,7 @@ public class LirVisitor implements Visitor {
 		//If we are here, means that If's condition is false. Goto else label if exists.
 		if (ifStatement.hasElse())
 		{			
-			ControlTransfer ctElse = new ControlTransfer(new Op(elseLabel, OpType.Label), null, 
+			ControlTransferInstruction ctElse = new ControlTransferInstruction(new Op(elseLabel, OpType.Label),  
 					 				 ControlTransferInstructionType.Jump);
 			ctElse.setOptComment("Jump to else label");
 			list.add(ctElse);
@@ -262,7 +261,7 @@ public class LirVisitor implements Visitor {
 		ifStatement.getOperation().accept(this);
 		
 		//Then must jump to then label in order not to execute else's part
-		ControlTransfer ctEnd = new ControlTransfer(new Op(endLabel, OpType.Label), null,
+		ControlTransferInstruction ctEnd = new ControlTransferInstruction(new Op(endLabel, OpType.Label), 
 													ControlTransferInstructionType.Jump);
 		ctEnd.setOptComment("Jump to end label(end of then part)");
 		list.add(ctEnd);
@@ -306,7 +305,7 @@ public class LirVisitor implements Visitor {
 		list.add(li);
 		
 		//Add to list the JumpLe instruction 
-		ControlTransfer ct = new ControlTransfer(new Op(falseWhileLabel, OpType.Label), null, 
+		ControlTransferInstruction ct = new ControlTransferInstruction(new Op(falseWhileLabel, OpType.Label),  
 												 ControlTransferInstructionType.JumpLE);
 		ct.setOptComment("Conditional jump when while statement is false");
 		list.add(ct);
@@ -328,7 +327,7 @@ public class LirVisitor implements Visitor {
 
 	public Object visit(Break breakStatement) {
 		//Upon break call, jump to innest while end label:
-		ControlTransfer ctBreak = new ControlTransfer(new Op(this.latestWhileEndLabel, OpType.Label), null, 
+		ControlTransferInstruction ctBreak = new ControlTransferInstruction(new Op(this.latestWhileEndLabel, OpType.Label),  
 				 ControlTransferInstructionType.Jump);
 		ctBreak.setOptComment("Break statement. Jump to end of while statement label: " + this.latestWhileEndLabel);
 		list.add(ctBreak);
@@ -338,7 +337,7 @@ public class LirVisitor implements Visitor {
 
 	public Object visit(Continue continueStatement) {
 		//Upon continue statement, jump to closest while start label:
-		ControlTransfer ctContinue = new ControlTransfer(new Op(this.latestWhileStartLabel, OpType.Label), null, 
+		ControlTransferInstruction ctContinue = new ControlTransferInstruction(new Op(this.latestWhileStartLabel, OpType.Label),  
 				 ControlTransferInstructionType.Jump);
 		ctContinue.setOptComment("Continue statement. Jump to the start of while statement label: " + this.latestWhileStartLabel);
 		list.add(ctContinue);
@@ -363,7 +362,22 @@ public class LirVisitor implements Visitor {
 		
 		if (localVariable.hasInitValue()) 
 		{
-			list.add(new DataTransferInstruction( (Op)localVariable.getInitValue().accept(this) ,new Op(localVariable.getName(),OpType.Memory),DataTransferInstructionType.Move)); 			
+			Op init = (Op)localVariable.getInitValue().accept(this);
+			Op mem = new Op(localVariable.getName(), OpType.Memory);
+			
+			if (this.isAssignmentIsNewClass) 
+			{
+				this.isAssignmentIsNewClass = false;
+				String mangledName = Utils.getObjectsMapName(localVariable.getName(), 
+															 localVariable.enclosingScope().getId(),
+															 this.currentVisitedClassName);
+				objects.put(mangledName , init);		
+			}
+			else
+			{
+				list.add(new DataTransferInstruction(init, mem, DataTransferInstructionType.Move));
+			}
+			
 			return new Op(localVariable.getName(),OpType.Memory);
 		}
 
@@ -373,7 +387,14 @@ public class LirVisitor implements Visitor {
 	public Object visit(VariableLocation location) {
 
 		// Put the variable's value into a register
-		Op reg = new Op(Register.getFreeReg(), OpType.Reg);
+		Op reg = objects.get(Utils.getObjectsMapName(location.getName(), 
+				location.enclosingScope().getId(), this.currentVisitedClassName));
+		if (reg == null)
+		{
+			System.out.println("TMP didn't find a reg for " + location.getName() + 
+					"(" + location.getLine() + ")");
+			reg = new Op(Register.getFreeReg(), OpType.Reg);
+		}
 		Op var = new Op(location.getName(), OpType.Var);
 
 		list.add(new DataTransferInstruction(var, reg,
@@ -401,44 +422,122 @@ public class LirVisitor implements Visitor {
 	}
 	
 	public Object visit(StaticCall call) {
-		StringBuffer output = new StringBuffer();
-
-		output.append("Call to static method: " + call.getName()
-				+ ", in class " + call.getClassName());
-
-		for (Expression argument : call.getArguments())
-			output.append(argument.accept(this));
-
-		return null;
+		
+		String funcHeader = "";
+		Op reg;
+		
+		if (call.getClassName().equals("Library"))
+		{
+			funcHeader = "__" + call.getName();
+			for (int i = 0 ; i < call.getArguments().size();i++)
+			{
+				Op op = (Op)call.getArguments().get(i).accept(this);
+				funcHeader += "("+op.getName() + "," ;
+			}
+			if (call.getArguments().size() > 0)
+			{
+				funcHeader = funcHeader.substring(0, funcHeader.length() - 1);
+				funcHeader+= ")";
+			}
+				
+			
+			reg = new Op(Register.getFreeReg(), OpType.Reg);
+			
+			list.add(new LibraryInstruction(new Op(funcHeader, OpType.FuncHeader), reg));
+		}
+		else
+		{
+		
+			funcHeader = "_" +call.getClassName()+"_"+call.getName()+"(";
+				
+			Method m = (Method) typeTable.getMethodSig(call.getName(), call.getClassName()).getNode();
+			List<Formal> lst = m.getFormals(); 
+			
+			for (int i = 0 ; i < call.getArguments().size();i++)
+			{
+				Op op = (Op)call.getArguments().get(i).accept(this);
+				funcHeader += lst.get(i).getName() + "=" + op.getName() ;
+			}
+			
+			funcHeader= funcHeader + ")";
+			reg = new Op(Register.getFreeReg(),OpType.Reg);
+			list.add(new CallInstruction(new Op(funcHeader,OpType.FuncHeader), reg , CallInstructionType.StaticCall));
+		}
+		
+		return reg;
 	}
 
 	public Object visit(VirtualCall call) {
-		StringBuffer output = new StringBuffer();
-
-		output.append("Call to virtual method: " + call.getName());
+		Op reg;
+		int offset;
+		
+		//call.getName() = function name
+		
 		if (call.isExternal())
-			output.append(", in external scope");
-
-		if (call.isExternal())
-			output.append(call.getLocation().accept(this));
-		for (Expression argument : call.getArguments())
-			output.append(argument.accept(this));
+		{
+			reg = (Op) call.getLocation().accept(this);
+		}
+		else
+		{
+			reg = new Op(Register.getFreeReg(), OpType.Reg); 
+			DataTransferInstruction dti = new DataTransferInstruction(new Op("this", OpType.ThisType), reg, DataTransferInstructionType.Move);
+			list.add(dti);			
+		}
+		
+		
+		
+		
+		System.out.println("AAAAAAAAAAAAAAAAAAAA " + call.getName());
 
 		return null;
 	}
-
 	public Object visit(This thisExpression) {
-		StringBuffer output = new StringBuffer();
-
-		output.append("Reference to 'this' instance");
-		return null;
+	
+		Op toRet = new Op(Register.getFreeReg(), OpType.Reg);
+		list.add(new DataTransferInstruction(new Op("this",OpType.ThisType) ,toRet,DataTransferInstructionType.Move));
+		return toRet;
 	}
 
 	public Object visit(NewClass newClass) {
-		StringBuffer output = new StringBuffer();
-
-		output.append("Instantiation of class: " + newClass.getName());
-		return null;
+		String className = newClass.getName();
+		ICClass newClassClass = null; 
+		int objectSize = 1; // = 1 for obj DV
+		String objReg;
+		String objectDVName;
+		
+		newClassClass = getIcClassFromName(className);
+		
+		assert(newClassClass != null); //Possible bug
+		
+		//Take amount of fields into account
+		objectSize+= getClassFieldsNumber(newClassClass);
+		
+		//Multiply by 4 to get size in bytes:
+		objectSize*=4;
+	
+		//Create types to add to list:
+		objReg = Register.getFreeReg();
+		Op reg = new Op(objReg, OpType.Reg);
+		
+		objectDVName = dTables.get(newClassClass.getName()).getName();
+		
+		LibraryInstruction li = new LibraryInstruction(new Op("allocateObject(" + objectSize + ")", 
+				OpType.FuncHeader), reg);
+		li.setOptComment("Allocation of " + newClassClass.getName());
+		
+		Op offset = new Op("0", OpType.Immediate);
+		Op dvOp = new Op(objectDVName, OpType.DV);
+		
+		DataTransferInstruction dti = new DataTransferInstruction(reg, offset, dvOp, 
+																DataTransferInstructionType.MoveField);
+		dti.setOptComment("Move field for DV pointer");
+		
+		list.add(li);
+		list.add(dti);
+		
+		this.isAssignmentIsNewClass = true;
+		
+		return reg; 
 	}
 
 	public Object visit(NewArray newArray) {
@@ -456,7 +555,7 @@ public class LirVisitor implements Visitor {
 		list.add(i);
 		
 		Op reg = new Op(Register.getFreeReg(), OpType.Reg);
-		i = new LibraryInstruction(size,reg,LibraryInstructionType.AllocateArray); 
+		i = new LibraryInstruction(new Op("allocateArray(" + size +")", OpType.FuncHeader), reg); 
 		list.add(i);
 		return reg;
 	}
@@ -476,7 +575,7 @@ public class LirVisitor implements Visitor {
 
 	public Object visit(MathBinaryOp binaryOp) {
 
-		ArithmeticInstructionType AIT;
+		ArithmeticInstructionType AIT = null;
 		if (binaryOp.getOperator() == IC.BinaryOps.PLUS)
 			AIT = ArithmeticInstructionType.Add;
 		if (binaryOp.getOperator() == IC.BinaryOps.MINUS)
@@ -485,8 +584,7 @@ public class LirVisitor implements Visitor {
 			AIT = ArithmeticInstructionType.Mul;
 		if (binaryOp.getOperator() == IC.BinaryOps.DIVIDE)
 			AIT = ArithmeticInstructionType.Div;
-		else
-			// if (binaryOp.getOperator() == IC.BinaryOps.MOD)
+		if (binaryOp.getOperator() == IC.BinaryOps.MOD)
 			AIT = ArithmeticInstructionType.Mod;
 
 		Op one = (Op) binaryOp.getFirstOperand().accept(this);
@@ -535,42 +633,42 @@ public class LirVisitor implements Visitor {
 			LIT = LogicalInstructionType.Compare;
 			i = new LogicalInstruction(one, two, LIT);
 			list.add(i);
-			i = new ControlTransfer(jumpto,jumpto,ControlTransferInstructionType.JumpFalse); 
+			i = new ControlTransferInstruction(jumpto,ControlTransferInstructionType.JumpFalse); 
 			}
 		if (binaryOp.getOperator() == IC.BinaryOps.NEQUAL)
 		{
 		LIT = LogicalInstructionType.Compare;
 		i = new LogicalInstruction(one, two, LIT);
 		list.add(i);
-		i = new ControlTransfer(jumpto,jumpto,ControlTransferInstructionType.JumpTrue); 
+		i = new ControlTransferInstruction(jumpto,ControlTransferInstructionType.JumpTrue); 
 		}
 		if (binaryOp.getOperator() == IC.BinaryOps.GT)
 		{
 		LIT = LogicalInstructionType.Compare;
 		i = new LogicalInstruction(one, two, LIT);
 		list.add(i);
-		i = new ControlTransfer(jumpto,jumpto,ControlTransferInstructionType.JumpLE); 
+		i = new ControlTransferInstruction(jumpto,ControlTransferInstructionType.JumpLE); 
 		}
 		if (binaryOp.getOperator() == IC.BinaryOps.GTE)
 		{
 		LIT = LogicalInstructionType.Compare;
 		i = new LogicalInstruction(one, two, LIT);
 		list.add(i);
-		i = new ControlTransfer(jumpto,jumpto,ControlTransferInstructionType.JumpL); 
+		i = new ControlTransferInstruction(jumpto,ControlTransferInstructionType.JumpL); 
 		}
 		if (binaryOp.getOperator() == IC.BinaryOps.LTE)
 		{
 		LIT = LogicalInstructionType.Compare;
 		i = new LogicalInstruction(one, two, LIT);
 		list.add(i);
-		i = new ControlTransfer(jumpto,jumpto,ControlTransferInstructionType.JumpG); 
+		i = new ControlTransferInstruction(jumpto,ControlTransferInstructionType.JumpG); 
 		}
 		if (binaryOp.getOperator() == IC.BinaryOps.LT)
 		{
 		LIT = LogicalInstructionType.Compare;
 		i = new LogicalInstruction(one, two, LIT);
 		list.add(i);
-		i = new ControlTransfer(jumpto,jumpto,ControlTransferInstructionType.JumpGE); 
+		i = new ControlTransferInstruction(jumpto,ControlTransferInstructionType.JumpGE); 
 	
 		}
 	
@@ -587,7 +685,7 @@ public class LirVisitor implements Visitor {
 		Op one = (Op) unaryOp.getOperand().accept(this);
 		ArithmeticInstructionType AIT;
 		AIT = ArithmeticInstructionType.Neg;
-		Instruction i = new ArithmeticInstruction(one,one, AIT); // TBD - how do we handle arithmetic instructions that have only one parameter-  currently im passing the same op twice
+		Instruction i = new ArithmeticInstruction(one, AIT); // TBD - how do we handle arithmetic instructions that have only one parameter-  currently im passing the same op twice
 		list.add(i);
 		
 		return (one);
@@ -642,12 +740,52 @@ public class LirVisitor implements Visitor {
 	}
 
 	public Object visit(ExpressionBlock expressionBlock) {
-		StringBuffer output = new StringBuffer();
+		
 
-		output.append("Parenthesized expression");
-
-		output.append(expressionBlock.getExpression().accept(this));
+	expressionBlock.getExpression().accept(this);
 
 		return null;
+	}
+	
+	
+	private int getClassFieldsNumber(ICClass icClass)
+	{
+		int fieldsNums = 0;
+		ICClass superClass = null;
+		//String superClassName = "";
+		
+		if (icClass == null)
+		{
+			return 0;
+		}
+		else
+		{
+			for (Field field : icClass.getFields())
+			{
+				field.hashCode(); //Remove compiler warning
+				fieldsNums++;
+			}
+			
+			if(icClass.hasSuperClass())
+			{
+				superClass = getIcClassFromName(icClass.getSuperClassName());
+			}
+			
+			return (fieldsNums + getClassFieldsNumber(superClass));
+		}
+	}
+	
+	private ICClass getIcClassFromName(String className) {
+		ICClass toRet = null;
+		
+		for (ICClass icClass : this.prog.getClasses())
+		{
+			if(icClass.getName().equals(className))
+			{
+				toRet = icClass;
+				break;
+			}
+		}
+		return toRet;
 	}
 }

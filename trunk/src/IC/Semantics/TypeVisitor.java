@@ -77,7 +77,7 @@ public class TypeVisitor implements Visitor {
 			//Add method to type table
 			TypeClass t = table.getType( method.getType().getName(),  method.getType().getDimension());
 			table.addType(method.getName(), isStatic, t, method.getType().getDimension(),
-					  params, icClass, method.getLine());
+					  params, icClass, method.getLine(), method);
 		}
 		
 		return null;

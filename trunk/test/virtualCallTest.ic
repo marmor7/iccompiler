@@ -1,0 +1,69 @@
+
+class A
+{
+	int x;
+}
+
+class B extends A
+{
+	int y;
+	int statx;
+	int n(int x)
+	{
+		return (x*x);
+	}
+
+	void csn(int x)
+	{
+		return;
+	}
+}
+
+class C extends B
+{
+	static int m(int x, int y)
+	{
+		return x*y;
+	}
+}
+
+
+
+class Point
+{
+	int x;
+	int y;
+
+	static void main(string[] args) {
+		A a = new A();
+		B b = new B();
+		A[] i = new A[2];
+		int x;
+		int y;
+		boolean n;
+		string k;
+		n = true;
+		a = i[1];
+		x = i.length;	
+		n = (null == null);
+		a = b;
+		x = a.x;
+		x = C.m(x,x);
+		y = b.n(x);
+		if (false)
+		x = 3;
+		else
+		x = 5;
+		while (x == 5)
+			x = 2;
+		
+		while (true)
+		break;
+		b.n(x);
+
+	}
+}
+
+
+
+

@@ -32,4 +32,59 @@ public class DataTransferInstruction extends Instruction{
 		MoveField,
 		ArrayLength;
 	}
+	
+	public String toString()
+    {
+            String ret = "";
+            DataTransferInstructionType dtit = (DataTransferInstructionType)this.getInstructionType();
+
+            if (dtit.equals(DataTransferInstructionType.MoveField))
+            {
+                    if(this.getOp3() != null)
+                    {
+                            ret     = "MoveField" +
+                                      this.getOp1().toString() +
+                                      "." +
+                                      this.getOp2().toString() +
+                                      "," +
+                                      this.getOp3().toString();
+                    }
+                    else
+                    {
+                            ret     = "MoveField" +
+                              this.getOp1().toString() +
+                              "," +
+                              this.getOp2().toString();
+                    }
+            }
+            else if (dtit.equals(DataTransferInstructionType.Move))
+            {
+                    ret = "Move " +
+                          this.getOp1() + "," +
+                          this.getOp2();
+            }
+            //TBD: All other types
+            else if (dtit.equals(DataTransferInstructionType.ArrayLength))
+            {
+            	   ret = "ArrayLength " +
+                   this.getOp1() + "," +
+                   this.getOp2();
+            }
+            else if (dtit.equals(DataTransferInstructionType.MoveArray))
+            {
+            	   ret = "ArrayLength " +
+                   this.getOp1() + "," +
+                   this.getOp2()+"[" +
+                   this.getOp3()+"]";                   ;
+            }
+
+            
+            if (this.getOptComment() != null)
+            {
+                    ret+= " " + this.getOptComment();
+            }
+
+            return ret;
+
+    }
 }

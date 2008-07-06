@@ -82,11 +82,11 @@ public abstract class Instruction {
 	public String toString(){
 		String str  = getInstructionType().toString() + " ";
 		if ((op1 != null)&&(op1.getOpType() != OpType.Disabled))
-			str += op1 + " ";
+			str += op1;
 		if ((op2 != null)&&(op2.getOpType() != OpType.Disabled))
-			str += op2;
+			str += "," + op2;
 		if ((op3 != null)&&(op3.getOpType() != OpType.Disabled))
-			str += op3;
+			str += "," + op3;
 		if (optComment != null)
 			str += "\t\t" + optComment;
 		return str;

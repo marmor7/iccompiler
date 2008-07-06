@@ -108,6 +108,14 @@ public class DispatchTable {
 		return ret;
 	}
 	
+	public String getName()
+	{
+		String ret = "_DV_" + className;
+		return ret;
+		
+	}
+	
+	
 	public StringInstruction getInstruction(){
 		return new StringInstruction(this.toString());
 	}

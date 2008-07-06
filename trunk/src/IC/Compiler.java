@@ -116,7 +116,7 @@ public class Compiler
             	classList.remove(0);
             }
             
-            LirVisitor lir = new LirVisitor(croppedFileName);
+            LirVisitor lir = new LirVisitor(croppedFileName,typeTable);
             ArrayList<Instruction> lirList = (ArrayList<Instruction>) lir.visit(root);
             
             System.out.println("LIR TRANSLATION DONE"); //TMP
