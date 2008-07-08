@@ -10,11 +10,14 @@ public class SymbolTable {
 
 	/** Method Map id->entry **/
 
+	private static int counter = 0; 
+	
 	private Map<String,SymbolClass>  classEntries;
 	private Map<String,SymbolClass>  methodEntries;
 	private Map<String,SymbolClass>  varEntries;
 	private Map<String,SymbolClass>  fieldEntries;
 	private String                   id;
+	private int                   	numid;
 	private ScopeKind                kind;
 	private SymbolTable              parent;
 	private Map<String, SymbolTable> children;
@@ -35,6 +38,7 @@ public class SymbolTable {
 		varEntries = new HashMap<String, SymbolClass>();
 		fieldEntries = new HashMap<String, SymbolClass>();
 		children = new HashMap<String, SymbolTable>();
+		numid = counter++;
 	}
 	
 	public SymbolClass getClass(String id){
@@ -232,5 +236,9 @@ public class SymbolTable {
 		CLASS,
 		METHOD,
 		BLOCK;
+	}
+
+	public int getNumid() {
+		return numid;
 	}
 }

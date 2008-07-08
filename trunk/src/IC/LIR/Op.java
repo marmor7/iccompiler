@@ -56,4 +56,8 @@ public class Op {
 		return getName();
 	}
 
+	public void setOpName(String opName) {
+		this.opName = opName;
+	}
+
 }
