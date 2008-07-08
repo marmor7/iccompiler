@@ -1,6 +1,6 @@
 package IC;
 
-/**
+/** 
  * Enum of the IC language's binary operators.
  * 
  * @author Tovi Almozlino
