@@ -74,7 +74,7 @@ public class DispatchTable {
 	}
 
 	public int getFieldPos(String name){
-		return fieldToOffset.get(name);
+		return (fieldToOffset.get(name) + 1 ) ;
 	}
 	
 	public String toString(){

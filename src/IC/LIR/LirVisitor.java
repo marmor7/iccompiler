@@ -205,10 +205,20 @@ public class LirVisitor implements Visitor {
 			}
 			
 			// Copy value into location:
+			if (loc.getName().contains(".")) 
+			{
 			Instruction ins = new DataTransferInstruction(value, loc,
-									DataTransferInstructionType.Move);
+									DataTransferInstructionType.MoveField);
 			ins.setOptComment("(Assignment statement)");
 			list.add(ins);
+			}
+			else
+			{
+				Instruction ins = new DataTransferInstruction(value, loc,
+										DataTransferInstructionType.Move);
+				ins.setOptComment("(Assignment statement)");
+				list.add(ins);
+				}
 					
 		}catch (Exception e){
 			System.out.println("casting error - need to implement something"); //TMP!
@@ -454,7 +464,13 @@ public class LirVisitor implements Visitor {
 			for (int i = 0 ; i < call.getArguments().size();i++)
 			{
 				Op op = (Op)call.getArguments().get(i).accept(this);
-				funcHeader += "("+op.getName() + "," ;
+				if (op.getName().contains("."))
+				{
+					reg = new Op(Register.getFreeReg(), OpType.Reg);
+					list.add(new DataTransferInstruction(op,reg,DataTransferInstructionType.MoveField));
+					op = reg;
+				}
+				funcHeader += "("+op.getName() + "," ;	
 			}
 			if (call.getArguments().size() > 0)
 			{

@@ -127,11 +127,14 @@ public class Compiler
             
             System.out.println("LIR TRANSLATION DONE"); //TMP
             
+            
+            
             if (printLir)
             {
             	Iterator<Instruction> it = lirList.iterator();
-            	while (it.hasNext())
+            	while (it.hasNext()){
             		System.out.println(it.next());
+            	}
             }
             
             
