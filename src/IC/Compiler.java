@@ -5,7 +5,17 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import IC.Parser.*;
+
+import IC.AST.ICClass;
+import IC.AST.PrettyPrinter;
+import IC.AST.Program;
+import IC.LIR.Instruction;
+import IC.LIR.LirVisitor;
+import IC.LibraryParser.LibraryParser;
+import IC.Parser.Lexer;
+import IC.Parser.LexicalError;
+import IC.Parser.Parser;
+import IC.Parser.SyntaxError;
 import IC.Semantics.SemanticError;
 import IC.Semantics.SymbolChecks;
 import IC.Semantics.SymbolTable;
@@ -13,11 +23,6 @@ import IC.Semantics.SymbolVisitor;
 import IC.Semantics.TypeCheckingVisitor;
 import IC.Semantics.TypeTable;
 import IC.Semantics.TypeVisitor;
-import IC.LIR.Instruction;
-import IC.LIR.LirVisitor;
-import IC.LIR.StringLiteral;
-import IC.LibraryParser.*;
-import IC.AST.*;
 
 public class Compiler
 {	
@@ -117,6 +122,7 @@ public class Compiler
             }
             
             LirVisitor lir = new LirVisitor(croppedFileName,typeTable);
+            System.out.println("Lir constructor");
             ArrayList<Instruction> lirList = (ArrayList<Instruction>) lir.visit(root);
             
             System.out.println("LIR TRANSLATION DONE"); //TMP

@@ -80,6 +80,7 @@ public class DispatchTable {
 	public String toString(){
 		String ret = "_DV_" + className + ": [";
 		
+		/*
 		for (int i = 0; i < fieldCounter; i++){
 			Iterator<String> it = fieldToOffset.keySet().iterator();
 			while (it.hasNext()){
@@ -90,6 +91,7 @@ public class DispatchTable {
 				}
 			}
 		}
+		*/
 		
 		for (int i = 0; i < methodCounter; i++){
 			Iterator<String> it = methodToOffset.keySet().iterator();
@@ -101,7 +103,7 @@ public class DispatchTable {
 				}
 			}
 		}
-		if ((methodCounter > 0)||(fieldCounter > 0))
+		if ((methodCounter > 0))
 			ret = ret.substring(0, ret.length() - 1);
 		
 		ret += "]";
