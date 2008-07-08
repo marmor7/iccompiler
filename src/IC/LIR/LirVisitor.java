@@ -407,13 +407,12 @@ public class LirVisitor implements Visitor {
 			Op ret = (Op)location.getLocation().accept(this); // puts b in r5
 			location.enclosingScope().getId();// B
 			int pos = dTables.get(location.enclosingScope().getId()).getFieldPos(location.getName());
-			Op var = new Op(ret.getName() +"."+pos ,OpType.Var);
+			Op reg = new Op(ret.getName() +"."+pos ,OpType.Var);
 //			location.getLocation().accept(this);
-			Op reg = new Op(Register.getFreeReg(), OpType.Reg);
+			//Op reg = new Op(Register.getFreeReg(), OpType.Reg);
 			
 			
-			list.add(new DataTransferInstruction(var, reg,
-					DataTransferInstructionType.MoveField));
+			//list.add(new DataTransferInstruction(var, reg,DataTransferInstructionType.MoveField));
 			return reg;
 
 		}
