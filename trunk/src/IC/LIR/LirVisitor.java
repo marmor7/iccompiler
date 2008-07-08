@@ -13,6 +13,7 @@ import IC.LIR.DataTransferInstruction.DataTransferInstructionType;
 import IC.LIR.LibraryInstruction.LibraryInstructionType;
 import IC.LIR.LogicalInstruction.LogicalInstructionType;
 import IC.LIR.Op.OpType;
+import IC.Semantics.SymbolTable;
 import IC.Semantics.TypeTable;
 
 /**
@@ -40,12 +41,29 @@ public class LirVisitor implements Visitor {
 	public LirVisitor(String progName,TypeTable typetable) {
 		this.progName = progName;
 		typeTable =typetable;
-		// TBD: init some fields here
 	}
 
 	public Object visit(Program program) {
 		
 		this.prog = program;
+		
+		for (ICClass icClass : program.getClasses())
+		{
+			curDt = new DispatchTable(icClass.getName());
+			dTables.put(icClass.getName(), curDt);
+
+			if (icClass.hasSuperClass()) {
+				curDt.setParent(dTables.get(icClass.getSuperClassName()));
+			}
+			
+			for (Field field : icClass.getFields())
+				curDt.addField(field);
+			for (Method method : icClass.getMethods()){
+				if (!method.getName().equals("main")){
+					curDt.addMethod(method);
+				}
+			}
+		}
 		
 		for (ICClass icClass : program.getClasses())
 		{
@@ -79,14 +97,9 @@ public class LirVisitor implements Visitor {
 	}
 
 	public Object visit(ICClass icClass) {
+
+		curDt = dTables.get(icClass.getName());
 		
-		curDt = new DispatchTable(icClass.getName());
-		dTables.put(icClass.getName(), curDt);
-
-		if (icClass.hasSuperClass()) {
-			curDt.setParent(dTables.get(icClass.getSuperClassName()));
-		}
-
 		for (Field field : icClass.getFields())
 			field.accept(this);
 		for (Method method : icClass.getMethods())
@@ -115,8 +128,6 @@ public class LirVisitor implements Visitor {
 
 	public Object visit(Field field) {
 
-		curDt.addField(field);
-
 		field.getType().accept(this);
 
 		return null;
@@ -135,13 +146,13 @@ public class LirVisitor implements Visitor {
 
 	public Object visit(VirtualMethod method) {
 
-		curDt.addMethod(method);
 		method.getType().accept(this);
 
 		for (Formal formal : method.getFormals())
 			formal.accept(this);
 		for (Statement statement : method.getStatements()) {
 			list.add(new Comment("Line " + statement.getLine() + ": "));
+			System.out.println("LINE - " + statement.getLine());//TMP
 			statement.accept(this);
 		}
 
@@ -155,7 +166,6 @@ public class LirVisitor implements Visitor {
 					"Main Method"));
 		}
 		else {
-			curDt.addMethod(method);
 			list.add(new Label(method.getName(), 
 					"Method " + method.getName() + ":"));
 		}
@@ -180,7 +190,7 @@ public class LirVisitor implements Visitor {
 
 	public Object visit(Assignment assignment) {
 
-		try//TBD - after all visitors return OP remove try-catch
+		try
 		{
 			Op loc =   (Op)assignment.getVariable().accept(this);
 			Op value = (Op)assignment.getAssignment().accept(this);
@@ -200,7 +210,7 @@ public class LirVisitor implements Visitor {
 			ins.setOptComment("(Assignment statement)");
 			list.add(ins);
 					
-		}finally{
+		}catch (Exception e){
 			System.out.println("casting error - need to implement something"); //TMP!
 		}
 
@@ -479,13 +489,10 @@ public class LirVisitor implements Visitor {
 		}
 		else
 		{
-			reg = new Op(Register.getFreeReg(), OpType.Reg); 
-			DataTransferInstruction dti = new DataTransferInstruction(new Op("this", OpType.ThisType), reg, DataTransferInstructionType.Move);
-			list.add(dti);			
+//			reg = new Op(Register.getFreeReg(), OpType.Reg); 
+//			DataTransferInstruction dti = new DataTransferInstruction(new Op("this", OpType.ThisType), reg, DataTransferInstructionType.Move);
+//			list.add(dti);
 		}
-		
-		
-		
 		
 		System.out.println("AAAAAAAAAAAAAAAAAAAA " + call.getName());
 
