@@ -42,11 +42,11 @@ public class DataTransferInstruction extends Instruction{
             {
                     if(this.getOp3() != null)
                     {
-                            ret     = "MoveField" +
+                            ret     = "MoveField " +
                                       this.getOp1().toString() +
-                                      "." +
-                                      this.getOp2().toString() +
                                       "," +
+                                      this.getOp2().toString() +
+                                      "." +
                                       this.getOp3().toString();
                     }
                     else
