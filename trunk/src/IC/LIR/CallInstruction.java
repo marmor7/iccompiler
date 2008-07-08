@@ -27,6 +27,7 @@ public class CallInstruction extends Instruction{
 	 */
 	public enum CallInstructionType implements InstructionType
 	{
-		StaticCall
+		StaticCall,
+		VirtualCall
 	}
 }

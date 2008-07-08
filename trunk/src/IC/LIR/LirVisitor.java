@@ -53,6 +53,7 @@ public class LirVisitor implements Visitor {
 			dTables.put(icClass.getName(), curDt);
 
 			if (icClass.hasSuperClass()) {
+				curDt.setParent(dTables.get(icClass.getSuperClassName()));
 			}
 			
 			for (Field field : icClass.getFields())
@@ -69,8 +70,7 @@ public class LirVisitor implements Visitor {
 			this.currentVisitedClassName = icClass.getName(); 
 			icClass.accept(this);
 				
-		}
-				
+		}		
 		list.add(0, new StringInstruction());
 		list.add(0, new StringInstruction("######################"));
 		Iterator<DispatchTable> it = dTables.values().iterator();
@@ -175,6 +175,7 @@ public class LirVisitor implements Visitor {
 			formal.accept(this);
 		for (Statement statement : method.getStatements()) {
 			list.add(new Comment("Line " + statement.getLine() + ": "));
+			System.out.println("LINE - " + statement.getLine());//TMP
 			statement.accept(this);
 		}
 		
@@ -490,25 +491,61 @@ public class LirVisitor implements Visitor {
 	}
 
 	public Object visit(VirtualCall call) {
-		Op reg;
-		int offset;
-		
+		Op methodRegister, firstOp;
+		int methodPos;
+		DataTransferInstruction dti;
+		String params = "";
 		//call.getName() = function name
+		
+		methodRegister = new Op(Register.getFreeReg(), OpType.Reg);
 		
 		if (call.isExternal())
 		{
-			reg = (Op) call.getLocation().accept(this);
+			methodRegister = (Op) call.getLocation().accept(this); //Adds "Move a,R4" for example
+			firstOp = null;			
 		}
 		else
 		{
-//			reg = new Op(Register.getFreeReg(), OpType.Reg); 
-//			DataTransferInstruction dti = new DataTransferInstruction(new Op("this", OpType.ThisType), reg, DataTransferInstructionType.Move);
-//			list.add(dti);
+			firstOp = new Op("this", OpType.ThisType);
+			
+			//Move this,methodRegister
+			dti = new DataTransferInstruction(firstOp,
+											  methodRegister,
+	    									  DataTransferInstructionType.Move);
+			list.add(dti);
 		}
 		
-		System.out.println("AAAAAAAAAAAAAAAAAAAA " + call.getName());
-
-		return null;
+		int i;
+		
+		Method m = (Method) typeTable.getMethodSig(call.getName(), currentVisitedClassName).getNode();
+		List<Formal> lst = m.getFormals(); 
+		
+		params = "(";
+		
+		//Prepare params for instruction
+		for (i = 0 ; i < call.getArguments().size();i++)
+		{
+			Op op = (Op)call.getArguments().get(i).accept(this);
+			params += lst.get(i).getName() + "=" + op.getName();
+			params+=",";
+		}
+		
+		if(i > 0)  
+		{
+			params = params.substring(0, params.length() -1 );
+		}
+		
+		params+= ")";
+		
+		//VirtualCall FreeReg.pos(params), FreeReg
+		methodPos = curDt.getMethodPos(call.getName());
+		CallInstruction ci = new CallInstruction(new Op(methodRegister.getName()+"."+methodPos+params , OpType.Reg),
+												 methodRegister,
+												 CallInstructionType.VirtualCall);
+	
+		list.add(ci);
+				
+		return methodRegister;
 	}
 	public Object visit(This thisExpression) {
 	
@@ -544,16 +581,16 @@ public class LirVisitor implements Visitor {
 				OpType.FuncHeader), reg);
 		li.setOptComment("Allocation of " + newClassClass.getName());
 		
-		Op offset = new Op("0", OpType.Immediate);
+		Op offset = new Op("0", OpType.Immediate); //DV is always in offset 0
 		Op dvOp = new Op(objectDVName, OpType.DV);
 		
-		DataTransferInstruction dti = new DataTransferInstruction(dvOp ,reg, offset, 
+		DataTransferInstruction dti = new DataTransferInstruction(dvOp, reg, offset,  
 																DataTransferInstructionType.MoveField);
 		dti.setOptComment("Move field for DV pointer");
 		
 		list.add(li);
 		list.add(dti);
-	//	list.add(new DataTransferInstruction( reg,newClass., ))
+		
 		this.isAssignmentIsNewClass = true;
 		
 		return reg; 

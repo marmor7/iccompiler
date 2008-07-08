@@ -11,7 +11,7 @@ class A
 	static void main(string[] args)
 	{
 		A p = new B();
-		//p.foo(5);
+		p.foo(5);
 	}
 }
 
@@ -27,5 +27,6 @@ class B extends A
 		int l = sarr.length;
 		Library.printi(l);
 		return l;
+		foo(5);
 	}
 }
