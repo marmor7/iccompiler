@@ -33,6 +33,7 @@ public class LirVisitor implements Visitor {
 	private Program prog;
 	private TypeTable typeTable;
 	private String currentVisitedClassName;
+	private ArrayList<String> localParams = new ArrayList<String>();
 
 	/**
 	 * Constructs a new LIR visitor.
@@ -102,7 +103,10 @@ public class LirVisitor implements Visitor {
 		for (Field field : icClass.getFields())
 			field.accept(this);
 		for (Method method : icClass.getMethods())
+		{
 			method.accept(this);
+			list.add(new ControlTransferInstruction(new Op("9999", OpType.Immediate ),ControlTransferInstructionType.Return ));	
+		}
 
 		return null;
 	}
@@ -145,15 +149,23 @@ public class LirVisitor implements Visitor {
 
 	public Object visit(VirtualMethod method) {
 
+		
+		list.add(new Label(method.enclosingScope().getParent().getId()+"_"+method.getName(), 
+				"Method " + method.getName() + ":"));
+		
 		method.getType().accept(this);
-
+		localParams.clear();
 		for (Formal formal : method.getFormals())
+		{
 			formal.accept(this);
+			localParams.add(formal.getName());
+		}
 		for (Statement statement : method.getStatements()) {
 			list.add(new Comment("Line " + statement.getLine() + ": "));
 			System.out.println("LINE - " + statement.getLine());//TMP
 			statement.accept(this);
 		}
+		localParams.clear();
 
 		return null;
 	}
@@ -383,8 +395,11 @@ public class LirVisitor implements Visitor {
 		if (localVariable.hasInitValue()) 
 		{
 			Op init = (Op)localVariable.getInitValue().accept(this);
-//			Op mem = new Op(localVariable.getName(), OpType.Memory);
-			Op var = new Op(localVariable.getName()+"_"+ this.currentVisitedClassName+"_"+localVariable.enclosingScope().getNumid() ,OpType.Var);
+			Op var;
+			if (localParams.contains(localVariable.getName()))
+				var = new Op(localVariable.getName() ,OpType.Var);
+			else
+				var = new Op(localVariable.getName()+"_"+ this.currentVisitedClassName+"_"+localVariable.enclosingScope().getNumid() ,OpType.Var);
 			
 			if (this.isAssignmentIsNewClass) 
 			{
@@ -409,11 +424,6 @@ public class LirVisitor implements Visitor {
 	public Object visit(VariableLocation location) {
 
 		if (location.isExternal()) {
-			// TBD: get location from dispatch vecto
-			//location.getLocation().accept(this);
-			//location.getClass()
-			//location.getLocation().get
-			//location.getLocation(); accept(this);
 			Op ret = (Op)location.getLocation().accept(this); // puts b in r5
 			location.enclosingScope().getId();// B
 			int pos = dTables.get(location.enclosingScope().getId()).getFieldPos(location.getName());
@@ -428,13 +438,15 @@ public class LirVisitor implements Visitor {
 		}
 		else
 		{
-		Op var = new Op(location.getName()+"_"+ this.currentVisitedClassName+"_"+location.enclosingScope().getNumid() ,OpType.Var);
-		Op reg = new Op(Register.getFreeReg(), OpType.Reg);
+			Op var;
+			if (localParams.contains(location.getName()))
+				var = new Op(location.getName() ,OpType.Var);
+			else
+				var = new Op(location.getName()+"_"+ this.currentVisitedClassName+"_"+location.enclosingScope().getNumid() ,OpType.Var);
+			Op reg = new Op(Register.getFreeReg(), OpType.Reg);
 		
-		
-		list.add(new DataTransferInstruction(var, reg,
-				DataTransferInstructionType.Move));
-		return reg;
+			list.add(new DataTransferInstruction(var, reg, DataTransferInstructionType.Move));
+			return reg;
 		}
 
 		

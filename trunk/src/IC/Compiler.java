@@ -1,7 +1,9 @@
 package IC; 
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -127,17 +129,19 @@ public class Compiler
             
             System.out.println("LIR TRANSLATION DONE"); //TMP
             
+            fileName = fileName.substring(0, fileName.indexOf('.')) + ".lir";
             
-            
-            if (printLir)
-            {
-            	Iterator<Instruction> it = lirList.iterator();
-            	while (it.hasNext()){
-            		System.out.println(it.next());
-            	}
-            }
-            
-            
+            BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
+            String line = "";
+        	Iterator<Instruction> it = lirList.iterator();
+        	while (it.hasNext()){
+        		line = it.next().toString();
+        		out.write(line + "\n");
+        		if (printLir)
+        			System.out.println(line);
+        	}
+        	out.close();
+                
     	}
     	
     	catch (LexicalError e)
