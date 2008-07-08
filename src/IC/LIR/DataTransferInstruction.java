@@ -51,7 +51,7 @@ public class DataTransferInstruction extends Instruction{
                     }
                     else
                     {
-                            ret     = "MoveField" +
+                            ret     = "MoveField " +
                               this.getOp1().toString() +
                               "," +
                               this.getOp2().toString();

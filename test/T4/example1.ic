@@ -1,8 +1,14 @@
+class B{
+int x;
+
+}
 
 
 class C {
   static void main(string[] args) {
+B b = new B();
   int x = 7-3;
+b.x = 5;
 //	 x= 12;
-Library.printi(x) ;}
+Library.printi(b.x) ;}
 }

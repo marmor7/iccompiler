@@ -53,7 +53,6 @@ public class LirVisitor implements Visitor {
 			dTables.put(icClass.getName(), curDt);
 
 			if (icClass.hasSuperClass()) {
-				curDt.setParent(dTables.get(icClass.getSuperClassName()));
 			}
 			
 			for (Field field : icClass.getFields())
@@ -373,7 +372,8 @@ public class LirVisitor implements Visitor {
 		if (localVariable.hasInitValue()) 
 		{
 			Op init = (Op)localVariable.getInitValue().accept(this);
-			Op mem = new Op(localVariable.getName(), OpType.Memory);
+//			Op mem = new Op(localVariable.getName(), OpType.Memory);
+			Op var = new Op(localVariable.getName()+"_"+ this.currentVisitedClassName+"_"+localVariable.enclosingScope().getNumid() ,OpType.Var);
 			
 			if (this.isAssignmentIsNewClass) 
 			{
@@ -382,10 +382,11 @@ public class LirVisitor implements Visitor {
 															 localVariable.enclosingScope().getId(),
 															 this.currentVisitedClassName);
 				objects.put(mangledName , init);		
+				list.add(new DataTransferInstruction(init, var, DataTransferInstructionType.Move));
 			}
 			else
 			{
-				list.add(new DataTransferInstruction(init, mem, DataTransferInstructionType.Move));
+				list.add(new DataTransferInstruction(init, var, DataTransferInstructionType.Move));
 			}
 			
 			return new Op(localVariable.getName(),OpType.Memory);
@@ -396,26 +397,37 @@ public class LirVisitor implements Visitor {
 
 	public Object visit(VariableLocation location) {
 
-		// Put the variable's value into a register
-		Op reg = objects.get(Utils.getObjectsMapName(location.getName(), 
-				location.enclosingScope().getId(), this.currentVisitedClassName));
-		if (reg == null)
-		{
-			System.out.println("TMP didn't find a reg for " + location.getName() + 
-					"(" + location.getLine() + ")");
-			reg = new Op(Register.getFreeReg(), OpType.Reg);
-		}
-		Op var = new Op(location.getName(), OpType.Var);
+		if (location.isExternal()) {
+			// TBD: get location from dispatch vecto
+			//location.getLocation().accept(this);
+			//location.getClass()
+			//location.getLocation().get
+			//location.getLocation(); accept(this);
+			Op ret = (Op)location.getLocation().accept(this); // puts b in r5
+			location.enclosingScope().getId();// B
+			int pos = dTables.get(location.enclosingScope().getId()).getFieldPos(location.getName());
+			Op var = new Op(ret.getName() +"."+pos ,OpType.Var);
+//			location.getLocation().accept(this);
+			Op reg = new Op(Register.getFreeReg(), OpType.Reg);
+			
+			
+			list.add(new DataTransferInstruction(var, reg,
+					DataTransferInstructionType.MoveField));
+			return reg;
 
+		}
+		else
+		{
+		Op var = new Op(location.getName()+"_"+ this.currentVisitedClassName+"_"+location.enclosingScope().getNumid() ,OpType.Var);
+		Op reg = new Op(Register.getFreeReg(), OpType.Reg);
+		
+		
 		list.add(new DataTransferInstruction(var, reg,
 				DataTransferInstructionType.Move));
-
-		if (location.isExternal()) {
-			// TBD: get location from dispatch vector
-			location.getLocation().accept(this);
+		return reg;
 		}
 
-		return reg;
+		
 	}
 
 	public Object visit(ArrayLocation location) {
@@ -528,20 +540,20 @@ public class LirVisitor implements Visitor {
 		
 		objectDVName = dTables.get(newClassClass.getName()).getName();
 		
-		LibraryInstruction li = new LibraryInstruction(new Op("allocateObject(" + objectSize + ")", 
+		LibraryInstruction li = new LibraryInstruction(new Op("__allocateObject(" + objectSize + ")", 
 				OpType.FuncHeader), reg);
 		li.setOptComment("Allocation of " + newClassClass.getName());
 		
 		Op offset = new Op("0", OpType.Immediate);
 		Op dvOp = new Op(objectDVName, OpType.DV);
 		
-		DataTransferInstruction dti = new DataTransferInstruction(reg, offset, dvOp, 
+		DataTransferInstruction dti = new DataTransferInstruction(dvOp ,reg, offset, 
 																DataTransferInstructionType.MoveField);
 		dti.setOptComment("Move field for DV pointer");
 		
 		list.add(li);
 		list.add(dti);
-		
+	//	list.add(new DataTransferInstruction( reg,newClass., ))
 		this.isAssignmentIsNewClass = true;
 		
 		return reg; 
@@ -601,7 +613,7 @@ public class LirVisitor implements Visitor {
 			System.out.println("THROW NEW ERROR"); // TBD Throw error
 		Instruction i = new ArithmeticInstruction(two,one, AIT);
 		list.add(i);
-		return two;
+		return one;
 	}
 
 	public Object visit(LogicalBinaryOp binaryOp) {
