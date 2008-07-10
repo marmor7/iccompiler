@@ -5,15 +5,48 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import IC.AST.*;
+import IC.AST.ArrayLocation;
+import IC.AST.Assignment;
+import IC.AST.Break;
+import IC.AST.CallStatement;
+import IC.AST.Continue;
+import IC.AST.ExpressionBlock;
+import IC.AST.Field;
+import IC.AST.Formal;
+import IC.AST.ICClass;
+import IC.AST.If;
+import IC.AST.Length;
+import IC.AST.LibraryMethod;
+import IC.AST.Literal;
+import IC.AST.LocalVariable;
+import IC.AST.LogicalBinaryOp;
+import IC.AST.LogicalUnaryOp;
+import IC.AST.MathBinaryOp;
+import IC.AST.MathUnaryOp;
+import IC.AST.Method;
+import IC.AST.NewArray;
+import IC.AST.NewClass;
+import IC.AST.PrimitiveType;
+import IC.AST.Program;
+import IC.AST.Return;
+import IC.AST.Statement;
+import IC.AST.StatementsBlock;
+import IC.AST.StaticCall;
+import IC.AST.StaticMethod;
+import IC.AST.This;
+import IC.AST.UserType;
+import IC.AST.VariableLocation;
+import IC.AST.VirtualCall;
+import IC.AST.VirtualMethod;
+import IC.AST.Visitor;
+import IC.AST.While;
 import IC.LIR.ArithmeticInstruction.ArithmeticInstructionType;
 import IC.LIR.CallInstruction.CallInstructionType;
 import IC.LIR.ControlTransferInstruction.ControlTransferInstructionType;
 import IC.LIR.DataTransferInstruction.DataTransferInstructionType;
-import IC.LIR.LibraryInstruction.LibraryInstructionType;
 import IC.LIR.LogicalInstruction.LogicalInstructionType;
 import IC.LIR.Op.OpType;
-import IC.Semantics.SymbolTable;
+import IC.Semantics.TypeClass;
 import IC.Semantics.TypeTable;
 
 /**
@@ -28,7 +61,10 @@ public class LirVisitor implements Visitor {
 	private String latestWhileStartLabel = "";
 	private String latestWhileEndLabel = "";
 	private Op dummyOp = new Op("Rdummy", OpType.Reg);
-	private boolean isAssignmentIsNewClass = false; 
+	
+	private boolean isAssignmentNewClass = false;
+	private boolean isString = false;
+	
 	private HashMap<String, Op> objects = new HashMap<String, Op>();
 	private Program prog;
 	private TypeTable typeTable;
@@ -161,6 +197,7 @@ public class LirVisitor implements Visitor {
 			localParams.add(formal.getName());
 		}
 		for (Statement statement : method.getStatements()) {
+			isString = false;
 			list.add(new Comment("Line " + statement.getLine() + ": "));
 			System.out.println("LINE - " + statement.getLine());//TMP
 			statement.accept(this);
@@ -186,6 +223,7 @@ public class LirVisitor implements Visitor {
 		for (Formal formal : method.getFormals())
 			formal.accept(this);
 		for (Statement statement : method.getStatements()) {
+			isString = false;
 			list.add(new Comment("Line " + statement.getLine() + ": "));
 			System.out.println("LINE - " + statement.getLine());//TMP
 			statement.accept(this);
@@ -207,9 +245,9 @@ public class LirVisitor implements Visitor {
 			Op loc =   (Op)assignment.getVariable().accept(this);
 			Op value = (Op)assignment.getAssignment().accept(this);
 			
-			if (this.isAssignmentIsNewClass) 
+			if (this.isAssignmentNewClass) 
 			{
-				this.isAssignmentIsNewClass = false;
+				this.isAssignmentNewClass = false;
 				String mangledName = Utils.getObjectsMapName(loc.getName(),
 															 assignment.enclosingScope().getId(),
 															 this.currentVisitedClassName);
@@ -251,7 +289,7 @@ public class LirVisitor implements Visitor {
 		Op reg = (Op)returnStatement.getValue().accept(this);
 		Op newregister = new Op(Register.getFreeReg(), OpType.Reg);
 		list.add(new DataTransferInstruction(reg, newregister, DataTransferInstruction.DataTransferInstructionType.Move) );
-		
+		list.add(new ControlTransferInstruction(newregister,ControlTransferInstructionType.Return));
 		return null;
 	}
 
@@ -401,9 +439,9 @@ public class LirVisitor implements Visitor {
 			else
 				var = new Op(localVariable.getName()+"_"+ this.currentVisitedClassName+"_"+localVariable.enclosingScope().getNumid() ,OpType.Var);
 			
-			if (this.isAssignmentIsNewClass) 
+			if (this.isAssignmentNewClass) 
 			{
-				this.isAssignmentIsNewClass = false;
+				this.isAssignmentNewClass = false;
 				String mangledName = Utils.getObjectsMapName(localVariable.getName(), 
 															 localVariable.enclosingScope().getId(),
 															 this.currentVisitedClassName);
@@ -418,23 +456,25 @@ public class LirVisitor implements Visitor {
 			return new Op(localVariable.getName(),OpType.Memory);
 		}
 
-		return null;
+		throw new RuntimeException("local variable Bug?");
 	}
 
 	public Object visit(VariableLocation location) {
 
+		TypeClass tc = (TypeClass) location.enclosingScope().getVariable(location.getName()).getType();
+		System.out.println(tc.getId());//TMP
+		if (tc.getId().equals("string"))
+		{
+			isString = true;
+		}
+		
 		if (location.isExternal()) {
-			Op ret = (Op)location.getLocation().accept(this); // puts b in r5
-			location.enclosingScope().getId();// B
+			Op ret = (Op)location.getLocation().accept(this);
+			location.enclosingScope().getId();
 			int pos = dTables.get(location.enclosingScope().getId()).getFieldPos(location.getName());
 			Op reg = new Op(ret.getName() +"."+pos ,OpType.Var);
-//			location.getLocation().accept(this);
-			//Op reg = new Op(Register.getFreeReg(), OpType.Reg);
-			
-			
-			//list.add(new DataTransferInstruction(var, reg,DataTransferInstructionType.MoveField));
-			return reg;
 
+			return reg;
 		}
 		else
 		{
@@ -618,7 +658,7 @@ public class LirVisitor implements Visitor {
 		list.add(li);
 		list.add(dti);
 		
-		this.isAssignmentIsNewClass = true;
+		this.isAssignmentNewClass = true;
 		
 		return reg; 
 	}
@@ -675,7 +715,15 @@ public class LirVisitor implements Visitor {
 
 		if (two.getOpType() != OpType.Reg)
 			System.out.println("THROW NEW ERROR"); // TBD Throw error
-		Instruction i = new ArithmeticInstruction(two,one, AIT);
+		Instruction i;
+		if (isString)
+		{
+			i = new LibraryInstruction(new Op("__stringCat(" + one.getName() +
+					"," + two.getName()	+ ")", OpType.FuncHeader), one);
+		}
+		else
+			i = new ArithmeticInstruction(two,one, AIT);
+			
 		list.add(i);
 		return one;
 	}
@@ -809,6 +857,7 @@ public class LirVisitor implements Visitor {
 		}
 		
 		if (literal.getType() == IC.LiteralTypes.STRING) {
+			isString = true;
 			String strlit = (String) literal.getValue();
 			String strOutput;
 			if (!StringLiteral.isIn(strlit))
@@ -816,18 +865,20 @@ public class LirVisitor implements Visitor {
 				StringLiteral.addtoliterals(strlit);
 			}
 			strOutput = StringLiteral.getindexoflit(strlit);
-			return (new Op(strOutput, OpType.Var));
+			Op reg = new Op(Register.getFreeReg(), OpType.Reg);
+			Op strLitOp = new Op(strOutput, OpType.Var);
+			list.add(new DataTransferInstruction(strLitOp,reg,DataTransferInstructionType.Move).setOptComment("assigning string lit to register"));
+			return (reg);
 		}
 
-		return null;
+		throw new RuntimeException("Lit Exception");
 	}
 
 	public Object visit(ExpressionBlock expressionBlock) {
 		
 
-	expressionBlock.getExpression().accept(this);
+	return expressionBlock.getExpression().accept(this);
 
-		return null;
 	}
 	
 	

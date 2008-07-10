@@ -1,0 +1,36 @@
+
+######################
+# Program workspace/IC_COMPILER/test/T4/basicVirtualCall.ic
+######################
+
+######################
+# STRING LITERALS
+
+######################
+
+######################
+# DISPATCH VECTORS
+_DV_A: [_A_foo_foo]
+######################
+
+_A_foo_foo:   # Method foo_foo:
+# Line 5: 
+Move a,R1
+Library __printi(R1),R2
+# Line 6: 
+Move b,R3
+Library __printi(R3),R4
+Return 9999
+_ic_main:   # Main Method
+# Line 11: 
+Library __allocateObject(4),R5 # Allocation of A
+MoveField _DV_A,R5.0 # Move field for DV pointer
+Move R5,a_A_18
+# Line 12: 
+Move a_A_18,R7
+Move 18,R8
+Move 10,R9
+VirtualCall R7.0(a=R8,b=R9),R7
+Library __exit(0),Rdummy
+# Method main end
+Return 9999
