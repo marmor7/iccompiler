@@ -1,14 +1,12 @@
 class StringConcat {
 
 	string concatHello(string s) {
-	
-		
 		return (s + "Hello");
 	}
 
 	static void main(string[] args) {
 		StringConcat sc = new StringConcat();
-		string s = "";
+		string s = "abc";
 		Library.println(s);
 		s = sc.concatHello(s);
 		Library.println(s);

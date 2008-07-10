@@ -1,0 +1,65 @@
+
+######################
+# Program workspace/IC_COMPILER/test/T4/string_concat.ic
+######################
+
+######################
+# STRING LITERALS
+str0: "Hello"
+str1: "abc"
+######################
+
+######################
+# DISPATCH VECTORS
+_DV_StringConcat: [_StringConcat_concatHello]
+######################
+
+_StringConcat_concatHello:   # Method concatHello:
+# Line 4: 
+Move s,R1
+Move str0,R2 # assigning string lit to register
+Library __stringCat(R1,R2),R1
+Move R1,R3
+Return R3
+Return 9999
+_ic_main:   # Main Method
+# Line 8: 
+Library __allocateObject(4),R4 # Allocation of StringConcat
+MoveField _DV_StringConcat,R4.0 # Move field for DV pointer
+Move R4,sc_StringConcat_18
+# Line 9: 
+Move str1,R5 # assigning string lit to register
+Move R5,s_StringConcat_18
+# Line 10: 
+Move s_StringConcat_18,R6
+Library __println(R6),R7
+# Line 11: 
+Move s_StringConcat_18,R8
+Move sc_StringConcat_18,R10
+Move s_StringConcat_18,R11
+VirtualCall R10.0(s=R11),R10
+Move R10,R8 # (Assignment statement)
+# Line 12: 
+Move s_StringConcat_18,R12
+Library __println(R12),R13
+# Line 13: 
+Move s_StringConcat_18,R14
+Move sc_StringConcat_18,R16
+Move s_StringConcat_18,R17
+VirtualCall R16.0(s=R17),R16
+Move R16,R14 # (Assignment statement)
+# Line 14: 
+Move s_StringConcat_18,R18
+Library __println(R18),R19
+# Line 15: 
+Move s_StringConcat_18,R20
+Move sc_StringConcat_18,R22
+Move s_StringConcat_18,R23
+VirtualCall R22.0(s=R23),R22
+Move R22,R20 # (Assignment statement)
+# Line 16: 
+Move s_StringConcat_18,R24
+Library __println(R24),R25
+Library __exit(0),Rdummy
+# Method main end
+Return 9999

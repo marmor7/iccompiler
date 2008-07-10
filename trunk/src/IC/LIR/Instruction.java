@@ -43,8 +43,9 @@ public abstract class Instruction {
 		return optComment;
 	}
 
-	public void setOptComment(String optComment) {
+	public Instruction setOptComment(String optComment) {
 		this.optComment = new Comment(optComment);
+		return this;
 	}
 
 	/**

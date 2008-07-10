@@ -6,7 +6,7 @@ public class ControlTransferInstruction extends Instruction{
 
 	
 	public ControlTransferInstruction(Op op1P, 
-			ControlTransferInstructionType type) // TBD - why is this two operators - i put the same one twice
+			ControlTransferInstructionType type) 
 	{
 	super(op1P,  type);
 	}
