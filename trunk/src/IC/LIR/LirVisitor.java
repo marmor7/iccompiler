@@ -244,6 +244,9 @@ public class LirVisitor implements Visitor {
 		{
 			Op loc =   (Op)assignment.getVariable().accept(this);
 			Op value = (Op)assignment.getAssignment().accept(this);
+
+			
+
 			
 			if (this.isAssignmentNewClass) 
 			{
@@ -268,7 +271,14 @@ public class LirVisitor implements Visitor {
 										DataTransferInstructionType.Move);
 				ins.setOptComment("(Assignment statement)");
 				list.add(ins);
-				}
+			}
+			String name = value.getName(); // to fix assignment bug - in not 100% this fixes all cases of the bug.
+			//The assignment bug is that if you do x=3; x gets moved to R1 , 3 gets moved to R2 and then R2 gets moved to R3. No one can move R3 back to x 
+			if (assignment.getVariable() instanceof VariableLocation) {
+				 VariableLocation new_name = (VariableLocation) assignment.getVariable();
+				 name = new_name.getName();
+				 list.add(new DataTransferInstruction( value,new Op( varFormatter(name, this.currentVisitedClassName, assignment.enclosingScope().getNumid()) , OpType.Var) ,DataTransferInstructionType.Move).setOptComment("assign fix"));
+			}
 					
 		}catch (Exception e){
 			System.out.println("casting error - need to implement something"); //TMP!
@@ -427,6 +437,11 @@ public class LirVisitor implements Visitor {
 
 		return null;
 	}
+	
+	private String varFormatter(String name,String currClassName ,int scopeId )
+	{
+		return name+"_" + currClassName+"_"+scopeId;
+	}
 
 	public Object visit(LocalVariable localVariable) {
 		
@@ -437,8 +452,7 @@ public class LirVisitor implements Visitor {
 			if (localParams.contains(localVariable.getName()))
 				var = new Op(localVariable.getName() ,OpType.Var);
 			else
-				var = new Op(localVariable.getName()+"_"+ this.currentVisitedClassName+"_"+localVariable.enclosingScope().getNumid() ,OpType.Var);
-			
+				var = new Op(varFormatter( localVariable.getName(),this.currentVisitedClassName,localVariable.enclosingScope().getNumid()) ,OpType.Var);
 			if (this.isAssignmentNewClass) 
 			{
 				this.isAssignmentNewClass = false;
@@ -454,9 +468,10 @@ public class LirVisitor implements Visitor {
 			}
 			
 			return new Op(localVariable.getName(),OpType.Memory);
+	
 		}
-
-		throw new RuntimeException("local variable Bug?");
+		return new Op(localVariable.getName(),OpType.Memory);
+		//throw new RuntimeException("local variable Bug?");
 	}
 
 	public Object visit(VariableLocation location) {
@@ -482,7 +497,7 @@ public class LirVisitor implements Visitor {
 			if (localParams.contains(location.getName()))
 				var = new Op(location.getName() ,OpType.Var);
 			else
-				var = new Op(location.getName()+"_"+ this.currentVisitedClassName+"_"+location.enclosingScope().getNumid() ,OpType.Var);
+				var = new Op(varFormatter(location.getName(),this.currentVisitedClassName,location.enclosingScope().getNumid()) ,OpType.Var);
 			Op reg = new Op(Register.getFreeReg(), OpType.Reg);
 		
 			list.add(new DataTransferInstruction(var, reg, DataTransferInstructionType.Move));
@@ -712,20 +727,22 @@ public class LirVisitor implements Visitor {
 
 		Op one = (Op) binaryOp.getFirstOperand().accept(this);
 		Op two = (Op) binaryOp.getSecondOperand().accept(this);
-
+		Op toRet = one;
 		if (two.getOpType() != OpType.Reg)
 			System.out.println("THROW NEW ERROR"); // TBD Throw error
 		Instruction i;
 		if (isString)
 		{
 			i = new LibraryInstruction(new Op("__stringCat(" + one.getName() +
-					"," + two.getName()	+ ")", OpType.FuncHeader), one);
+					"," + two.getName()	+ ")", OpType.FuncHeader), toRet);
 		}
 		else
-			i = new ArithmeticInstruction(two,one, AIT);
+			{i = new ArithmeticInstruction(two,one, AIT);
+				toRet = one;
+			}
 			
 		list.add(i);
-		return one;
+		return toRet;
 	}
 
 	public Object visit(LogicalBinaryOp binaryOp) {
