@@ -60,22 +60,20 @@ public class DataTransferInstruction extends Instruction{
             else if (dtit.equals(DataTransferInstructionType.Move))
             {
                     ret = "Move " +
-                          this.getOp1() + "," +
+                          this.getOp1() + ", " +
                           this.getOp2();
             }
-            //TBD: All other types
             else if (dtit.equals(DataTransferInstructionType.ArrayLength))
             {
             	   ret = "ArrayLength " +
-                   this.getOp1() + "," +
+                   this.getOp1() + ", " +
                    this.getOp2();
             }
             else if (dtit.equals(DataTransferInstructionType.MoveArray))
             {
-            	   ret = "ArrayLength " +
-                   this.getOp1() + "," +
-                   this.getOp2()+"[" +
-                   this.getOp3()+"]";                   ;
+            	   ret = "MoveArray " +
+                   this.getOp1() + ", " +
+                   this.getOp2();
             }
 
             

@@ -62,13 +62,17 @@ public class LirVisitor implements Visitor {
 	private String latestWhileEndLabel = "";
 	private Op dummyOp = new Op("Rdummy", OpType.Reg);
 	
+	//Global Variables for specific issues
 	private boolean isAssignmentNewClass = false;
 	private boolean isString = false;
+	private String  currentVisitedClassName;
+	private Op      assignmentLocation;
+	private int     assignmentIndex;
 	
 	private HashMap<String, Op> objects = new HashMap<String, Op>();
 	private Program prog;
 	private TypeTable typeTable;
-	private String currentVisitedClassName;
+	
 	private ArrayList<String> localParams = new ArrayList<String>();
 
 	/**
@@ -240,13 +244,13 @@ public class LirVisitor implements Visitor {
 
 	public Object visit(Assignment assignment) {
 
+		assignmentLocation = null;
+		assignmentIndex = -1;
+		
 		try
 		{
 			Op loc =   (Op)assignment.getVariable().accept(this);
 			Op value = (Op)assignment.getAssignment().accept(this);
-
-			
-
 			
 			if (this.isAssignmentNewClass) 
 			{
@@ -272,12 +276,13 @@ public class LirVisitor implements Visitor {
 				ins.setOptComment("(Assignment statement)");
 				list.add(ins);
 			}
-			String name = value.getName(); // to fix assignment bug - in not 100% this fixes all cases of the bug.
-			//The assignment bug is that if you do x=3; x gets moved to R1 , 3 gets moved to R2 and then R2 gets moved to R3. No one can move R3 back to x 
-			if (assignment.getVariable() instanceof VariableLocation) {
-				 VariableLocation new_name = (VariableLocation) assignment.getVariable();
-				 name = new_name.getName();
-				 list.add(new DataTransferInstruction( value,new Op( varFormatter(name, this.currentVisitedClassName, assignment.enclosingScope().getNumid()) , OpType.Var) ,DataTransferInstructionType.Move).setOptComment("assign fix"));
+			
+			if (assignmentLocation != null)
+			{
+				if (assignmentIndex > -1)
+					list.add(new DataTransferInstruction(value, assignmentLocation ,DataTransferInstructionType.MoveArray).setOptComment("assigning val to loc"));
+				else
+					list.add(new DataTransferInstruction(value, assignmentLocation ,DataTransferInstructionType.Move).setOptComment("assigning val to loc"));
 			}
 					
 		}catch (Exception e){
@@ -476,7 +481,7 @@ public class LirVisitor implements Visitor {
 
 	public Object visit(VariableLocation location) {
 
-		TypeClass tc = (TypeClass) location.enclosingScope().getVariable(location.getName()).getType();
+		TypeClass tc = (TypeClass) location.enclosingScope().searchVariable(location.getName()).getType();
 		System.out.println(tc.getId());//TMP
 		if (tc.getId().equals("string"))
 		{
@@ -489,6 +494,8 @@ public class LirVisitor implements Visitor {
 			int pos = dTables.get(location.enclosingScope().getId()).getFieldPos(location.getName());
 			Op reg = new Op(ret.getName() +"."+pos ,OpType.Var);
 
+			assignmentLocation = reg;
+			
 			return reg;
 		}
 		else
@@ -499,6 +506,8 @@ public class LirVisitor implements Visitor {
 			else
 				var = new Op(varFormatter(location.getName(),this.currentVisitedClassName,location.enclosingScope().getNumid()) ,OpType.Var);
 			Op reg = new Op(Register.getFreeReg(), OpType.Reg);
+			
+			assignmentLocation = var;
 		
 			list.add(new DataTransferInstruction(var, reg, DataTransferInstructionType.Move));
 			return reg;
@@ -513,8 +522,11 @@ public class LirVisitor implements Visitor {
 		Op place = (Op)location.getIndex().accept(this);
 		Op reg = new Op(Register.getFreeReg(), OpType.Reg);
 		
-		Instruction i = new DataTransferInstruction(arr,place,reg,DataTransferInstructionType.MoveArray);
-		list.add(i);
+		Op newarr = new Op(arr.getName() + "[" + place.getName() + "]", OpType.Reg);
+		list.add(new DataTransferInstruction(newarr, reg, DataTransferInstructionType.MoveArray));
+		
+		assignmentLocation = newarr;
+		assignmentIndex = 1;
 		
 		return reg;
 		
@@ -693,7 +705,7 @@ public class LirVisitor implements Visitor {
 		list.add(i);
 		
 		Op reg = new Op(Register.getFreeReg(), OpType.Reg);
-		i = new LibraryInstruction(new Op("allocateArray(" + size +")", OpType.FuncHeader), reg); 
+		i = new LibraryInstruction(new Op("__allocateArray(" + size +")", OpType.FuncHeader), reg); 
 		list.add(i);
 		return reg;
 	}
@@ -884,7 +896,7 @@ public class LirVisitor implements Visitor {
 			strOutput = StringLiteral.getindexoflit(strlit);
 			Op reg = new Op(Register.getFreeReg(), OpType.Reg);
 			Op strLitOp = new Op(strOutput, OpType.Var);
-			list.add(new DataTransferInstruction(strLitOp,reg,DataTransferInstructionType.Move).setOptComment("assigning string lit to register"));
+			list.add(new DataTransferInstruction(strLitOp,reg,DataTransferInstructionType.Move).setOptComment("assigning literal to reg"));
 			return (reg);
 		}
 
