@@ -31,8 +31,12 @@ public class Label extends Instruction {
 	*/
 	public String toString()
 	{
-		String ret = "_" + getName() + ":";
-		 
+		String ret = ""; 
+		if (getName().charAt(0) != '_')
+			 ret =  "_"+getName() + ":";
+		else
+			 ret =  getName() + ":";
+		
 		if (this.getOptComment() != null)
 		{
 			ret+="   " + this.getOptComment().toString();
