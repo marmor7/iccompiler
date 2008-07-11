@@ -1,6 +1,6 @@
 
 ######################
-# Program workspace/IC_COMPILER/test/T4/string_concat.ic
+# Program string_concat.ic
 ######################
 
 ######################
@@ -16,50 +16,116 @@ _DV_StringConcat: [_StringConcat_concatHello]
 
 _StringConcat_concatHello:   # Method concatHello:
 # Line 4: 
-Move s,R1
-Move str0,R2 # assigning string lit to register
+Move s, R1
+Move str0, R2 # assigning literal to reg
 Library __stringCat(R1,R2),R1
-Move R1,R3
+Move R1, R3
 Return R3
 Return 9999
 _ic_main:   # Main Method
 # Line 8: 
 Library __allocateObject(4),R4 # Allocation of StringConcat
 MoveField _DV_StringConcat,R4.0 # Move field for DV pointer
-Move R4,sc_StringConcat_18
+Move R4, sc_StringConcat_18
 # Line 9: 
-Move str1,R5 # assigning string lit to register
-Move R5,s_StringConcat_18
+Move str1, R5 # assigning literal to reg
+Move R5, s_StringConcat_18
 # Line 10: 
-Move s_StringConcat_18,R6
+Move s_StringConcat_18, R6
 Library __println(R6),R7
 # Line 11: 
-Move s_StringConcat_18,R8
-Move sc_StringConcat_18,R10
-Move s_StringConcat_18,R11
+Move s_StringConcat_18, R8
+Move sc_StringConcat_18, R10
+Move s_StringConcat_18, R11
 VirtualCall R10.0(s=R11),R10
-Move R10,R8 # (Assignment statement)
+Move R10, R8 # (Assignment statement)
+Move R10, s_StringConcat_18 # assigning val to loc
 # Line 12: 
-Move s_StringConcat_18,R12
+Move s_StringConcat_18, R12
 Library __println(R12),R13
 # Line 13: 
-Move s_StringConcat_18,R14
-Move sc_StringConcat_18,R16
-Move s_StringConcat_18,R17
+Move s_StringConcat_18, R14
+Move sc_StringConcat_18, R16
+Move s_StringConcat_18, R17
 VirtualCall R16.0(s=R17),R16
-Move R16,R14 # (Assignment statement)
+Move R16, R14 # (Assignment statement)
+Move R16, s_StringConcat_18 # assigning val to loc
 # Line 14: 
-Move s_StringConcat_18,R18
+Move s_StringConcat_18, R18
 Library __println(R18),R19
 # Line 15: 
-Move s_StringConcat_18,R20
-Move sc_StringConcat_18,R22
-Move s_StringConcat_18,R23
+Move s_StringConcat_18, R20
+Move sc_StringConcat_18, R22
+Move s_StringConcat_18, R23
 VirtualCall R22.0(s=R23),R22
-Move R22,R20 # (Assignment statement)
+Move R22, R20 # (Assignment statement)
+Move R22, s_StringConcat_18 # assigning val to loc
 # Line 16: 
-Move s_StringConcat_18,R24
+Move s_StringConcat_18, R24
 Library __println(R24),R25
+# Line 18: 
+Move 1, R26
+Move R26, x_StringConcat_18
+# Line 19: 
+Move x_StringConcat_18, R27
+Move x_StringConcat_18, R28
+Move 100, R29
+Mul R29,R28
+Move 23, R30
+Add R30,R28
+Move R28, R27 # (Assignment statement)
+Move R28, x_StringConcat_18 # assigning val to loc
+# Line 20: 
+Move x_StringConcat_18, R31
+Library __printi(R31),R32
+# Line 22: 
+Move 4, R33
+Move 4, R34
+Mul R34,R33
+Library __allocateArray(R33),R35
+Move R35, arr_StringConcat_18
+# Line 23: 
+Move arr_StringConcat_18, R36
+Move 0, R37
+MoveArray R36[R37], R38
+Move 2, R39
+Move 1, R40
+Sub R40,R39
+Move R39, R38 # (Assignment statement)
+MoveArray R39, R36[R37] # assigning val to loc
+# Line 24: 
+Move arr_StringConcat_18, R41
+Move 1, R42
+MoveArray R41[R42], R43
+Move 3, R44
+Move 1, R45
+Sub R45,R44
+Move R44, R43 # (Assignment statement)
+MoveArray R44, R41[R42] # assigning val to loc
+# Line 25: 
+Move arr_StringConcat_18, R46
+Move 2, R47
+MoveArray R46[R47], R48
+Move 1, R49
+Move 2, R50
+Add R50,R49
+Move R49, R48 # (Assignment statement)
+MoveArray R49, R46[R47] # assigning val to loc
+# Line 26: 
+Move arr_StringConcat_18, R51
+Move 0, R52
+MoveArray R51[R52], R53
+Library __printi(R53),R54
+# Line 27: 
+Move arr_StringConcat_18, R55
+Move 1, R56
+MoveArray R55[R56], R57
+Library __printi(R57),R58
+# Line 28: 
+Move arr_StringConcat_18, R59
+Move 2, R60
+MoveArray R59[R60], R61
+Library __printi(R61),R62
 Library __exit(0),Rdummy
 # Method main end
 Return 9999

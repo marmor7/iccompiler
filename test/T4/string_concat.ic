@@ -14,5 +14,17 @@ class StringConcat {
 		Library.println(s);
 		s = sc.concatHello(s);
 		Library.println(s);
+		
+		int x = 1;
+		x = (x * 100) + 23;
+		Library.printi(x);
+		
+		int[] arr = new int[4];
+		arr[0] = 2 - 1;
+		arr[1] = 3 - 1;
+		arr[2] = 1 + 2;
+		Library.printi(arr[0]);
+		Library.printi(arr[1]);
+		Library.printi(arr[2]);
 	}
 }
