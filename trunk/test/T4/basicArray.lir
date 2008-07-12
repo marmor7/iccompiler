@@ -1,0 +1,53 @@
+
+######################
+# Program workspace/IC_COMPILER/test/T4/basicArray.ic
+######################
+
+######################
+# STRING LITERALS
+
+######################
+
+######################
+# DISPATCH VECTORS
+_DV_A: []
+######################
+
+_ic_main:   # Main Method
+# Line 5: 
+Move 2, R1
+Move 4, R2
+Mul R2,R1
+Library __allocateArray(R1),R3
+Move R3, a_A_17
+# Line 6: 
+Move a_A_17, R4
+Move 0, R5
+MoveArray R4[R5], R6
+Move 1, R7
+Move R7, R6 # (Assignment statement)
+MoveArray R7, R4[R5] # assigning val to loc
+# Line 7: 
+Move a_A_17, R8
+Move 1, R9
+MoveArray R8[R9], R10
+Move 2, R11
+Move R11, R10 # (Assignment statement)
+MoveArray R11, R8[R9] # assigning val to loc
+# Line 17: 
+Move a_A_17, R12
+Move 0, R13
+MoveArray R12[R13], R14
+Move a_A_17, R15
+Move 1, R16
+MoveArray R15[R16], R17
+Move R17, R14 # (Assignment statement)
+MoveArray R17, R15[R16] # assigning val to loc
+# Line 19: 
+Move a_A_17, R18
+Move 0, R19
+MoveArray R18[R19], R20
+Library __printi(R20),R21
+Library __exit(0),Rdummy
+# Method main end
+Return 9999
