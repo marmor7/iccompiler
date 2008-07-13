@@ -249,12 +249,12 @@ public class LirVisitor implements Visitor {
 		
 		assignmentLocation = null;
 		assignmentIndex = -1;
-		
+		int assignmentListIndex = -1;
 		
 		try
 		{
 			Op loc =   (Op)assignment.getVariable().accept(this);
-			
+			assignmentListIndex = list.size()-1;
 			//Save location and current index
 			oldAssigmentIndex = assignmentIndex;
 			oldAssignmentLoc = assignmentLocation;
@@ -280,18 +280,18 @@ public class LirVisitor implements Visitor {
 			}
 			else
 			{
-				Instruction ins = new DataTransferInstruction(value, loc,
-										DataTransferInstructionType.Move);
+				list.remove(assignmentListIndex);
+				/*Instruction ins = new DataTransferInstruction(value, loc,DataTransferInstructionType.Move);
 				ins.setOptComment("(Assignment statement)");
-				list.add(ins);
+				list.add(ins);*/
 			}
 			
 			if (oldAssignmentLoc != null)
 			{
 				if (oldAssigmentIndex > -1)
-					list.add(new DataTransferInstruction(value, assignmentLocation ,DataTransferInstructionType.MoveArray).setOptComment("assigning val to loc"));
+					list.add(new DataTransferInstruction(value, oldAssignmentLoc ,DataTransferInstructionType.MoveArray).setOptComment("assigning val to loc"));
 				else
-					list.add(new DataTransferInstruction(value, assignmentLocation ,DataTransferInstructionType.Move).setOptComment("assigning val to loc"));
+					list.add(new DataTransferInstruction(value, oldAssignmentLoc ,DataTransferInstructionType.Move).setOptComment("assigning val to loc"));
 			}
 					
 		}catch (Exception e){
