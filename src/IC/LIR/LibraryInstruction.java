@@ -28,15 +28,15 @@ public class LibraryInstruction extends Instruction {
 		return this.size;
 	}
 
-	     public String toString(){
-             String ret = "Library " + getOp1().getName()+"," + getOp2().getName();
-
-             //Good for all types:
-             if (this.getOptComment() != null)
-             {
-                     ret+= " " + this.getOptComment();
-             }
-             return ret;
-
+	 public String toString(){
+	     String ret = "Library " + getOp1().getName()+"," + getOp2().getName();
+	
+	     //Good for all types:
+	     if (this.getOptComment() != null)
+	     {
+	             ret+= " " + this.getOptComment();
+	         }
+	         return ret;
+	
 	}
 }
