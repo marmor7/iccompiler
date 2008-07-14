@@ -289,6 +289,9 @@ public class LirVisitor implements Visitor {
 					list.add(new DataTransferInstruction(value,
 							oldAssignmentLoc, DataTransferInstructionType.Move)
 							.setOptComment("assigning val to loc"));
+				
+				oldAssigmentIndex = -1;
+				oldAssignmentLoc = null;
 			}
 
 		} catch (Exception e) {
@@ -540,7 +543,6 @@ public class LirVisitor implements Visitor {
 		assignmentIndex = 1;
 
 		return reg;
-
 	}
 
 	public Object visit(StaticCall call) {
