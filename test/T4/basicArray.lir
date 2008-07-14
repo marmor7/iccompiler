@@ -23,19 +23,15 @@ Move R3, a_A_17
 # Line 7: 
 Move a_A_17, R4
 Move 1, R5
-MoveArray R4[R5], R6
 Move 2, R7
-Move R7, R6 # (Assignment statement)
-MoveArray R7, R4[R5] # assigning val to loc AAA
+MoveArray R7, R4[R5] # assigning val to loc
 # Line 8: 
 Move a_A_17, R8
 Move 0, R9
-MoveArray R8[R9], R10
 Move a_A_17, R11
 Move 1, R12
 MoveArray R11[R12], R13
-Move R13, R10 # (Assignment statement)
-MoveArray R13, R11[R12] # assigning val to loc AAA
+MoveArray R13, R8[R9] # assigning val to loc
 # Line 9: 
 Move a_A_17, R14
 Move 0, R15
