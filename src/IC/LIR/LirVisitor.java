@@ -46,6 +46,7 @@ import IC.LIR.ControlTransferInstruction.ControlTransferInstructionType;
 import IC.LIR.DataTransferInstruction.DataTransferInstructionType;
 import IC.LIR.LogicalInstruction.LogicalInstructionType;
 import IC.LIR.Op.OpType;
+import IC.Semantics.MethodSigType;
 import IC.Semantics.TypeClass;
 import IC.Semantics.TypeTable;
 
@@ -68,6 +69,7 @@ public class LirVisitor implements Visitor {
 	private String currentVisitedClassName;
 	private Op assignmentLocation;
 	private int assignmentIndex;
+	private TypeClass curTypeClass;
 
 	private HashMap<String, Op> objects = new HashMap<String, Op>();
 	private Program prog;
@@ -211,7 +213,7 @@ public class LirVisitor implements Visitor {
 		if (method.getName().equals("main")) {
 			list.add(new Label("ic_" + method.getName(), "Main Method"));
 		} else {
-			list.add(new Label(method.getName(), "Method " + method.getName()
+			list.add(new Label( this.currentVisitedClassName + "_" + method.getName(), "Method " + method.getName()
 					+ ":"));
 		}
 
@@ -591,36 +593,22 @@ public class LirVisitor implements Visitor {
 
 	public Object visit(VirtualCall call) {
 		Op methodRegister, firstOp;
-		int methodPos;
+		int methodPos = -1;
 		DataTransferInstruction dti;
 		String params = "";
 		// call.getName() = function name
 
 		methodRegister = new Op(Register.getFreeReg(), OpType.Reg);
-
-		if (call.isExternal()) {
-			methodRegister = (Op) call.getLocation().accept(this); // Adds
-																	// "Move
-																	// a,R4" for
-																	// example
-			firstOp = null;
-		} else {
-			firstOp = new Op("this", OpType.ThisType);
-
-			// Move this,methodRegister
-			dti = new DataTransferInstruction(firstOp, methodRegister,
-					DataTransferInstructionType.Move);
-			list.add(dti);
-		}
-
+		
 		int i;
-
-		Method m = (Method) typeTable.getMethodSig(call.getName(),
-				currentVisitedClassName).getNode();
+		MethodSigType mst = (MethodSigType) call.enclosingScope().searchMethod(call.getName()).getType();
+		
+		Method m = (Method) mst.getNode(); 
+		
+//		Method m = (Method) typeTable.getMethodSig(call.getName(),currentVisitedClassName).getNode();
 		List<Formal> lst = m.getFormals();
 
 		params = "(";
-
 		// Prepare params for instruction
 		for (i = 0; i < call.getArguments().size(); i++) {
 			Op op = (Op) call.getArguments().get(i).accept(this);
@@ -634,8 +622,25 @@ public class LirVisitor implements Visitor {
 
 		params += ")";
 
+		if (call.isExternal()) 
+		{
+			methodRegister = (Op) call.getLocation().accept(this); // Adds // "Move	// a,R4" for // example
+			firstOp = null;
+			DispatchTable dt = dTables.get(call.enclosingScope().getId());
+			methodPos = dt.getMethodPos(call.getName());
+		} 
+		else
+		{
+			firstOp = new Op("this", OpType.ThisType);
+			// Move this,methodRegister
+			dti = new DataTransferInstruction(firstOp, methodRegister,
+					DataTransferInstructionType.Move);
+			list.add(dti);
+			methodPos = curDt.getMethodPos(call.getName());
+		}
+
 		// VirtualCall FreeReg.pos(params), FreeReg
-		methodPos = curDt.getMethodPos(call.getName());
+		
 		CallInstruction ci = new CallInstruction(new Op(methodRegister
 				.getName()
 				+ "." + methodPos + params, OpType.Reg), methodRegister,
