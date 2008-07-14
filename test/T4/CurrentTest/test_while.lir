@@ -1,0 +1,46 @@
+
+######################
+# Program workspace/IC_COMPILER/test/T4/CurrentTest/test_while.ic
+######################
+
+######################
+# STRING LITERALS
+str0: "x="
+str1: ""
+######################
+
+######################
+# DISPATCH VECTORS
+_DV_MyClass: []
+######################
+
+_ic_main:   # Main Method
+# Line 3: 
+Move 42, R1
+Move R1, x_MyClass_17
+# Line 4: 
+_l1:   # While
+Move x_MyClass_17, R2
+Move 0, R3
+Move 0, R4
+Compare R3,R2
+JumpLE _l3
+Move 1, R4
+_l3:
+Compare 0,R4		# While condition check
+JumpLE _l2		# Conditional jump when while statement is false
+# Line 4: 
+Move x_MyClass_18, R6
+Move 1, R7
+Sub R7,R6
+Move R6, x_MyClass_18 # assigning val to loc
+Move str0, R8 # assigning literal to reg
+Library __print(R8),R9
+Move x_MyClass_18, R10
+Library __printi(R10),R11
+Move str1, R12 # assigning literal to reg
+Library __println(R12),R13
+_l2:   # False while condition
+Library __exit(0),Rdummy
+# Method main end
+Return 9999
