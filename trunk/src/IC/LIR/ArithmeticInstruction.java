@@ -1,8 +1,5 @@
 package IC.LIR;
 
-import IC.LIR.Op.OpType;
-
-
 public class ArithmeticInstruction extends Instruction{
 	
 	/**
