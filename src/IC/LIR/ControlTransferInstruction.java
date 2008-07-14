@@ -1,7 +1,5 @@
 package IC.LIR;
 
-import IC.LIR.Op.OpType;
-
 public class ControlTransferInstruction extends Instruction{
 
 	

@@ -89,6 +89,7 @@ public class LirVisitor implements Visitor {
 	public LirVisitor(String progName, TypeTable typetable) {
 		this.progName = progName;
 		typeTable = typetable;
+		curTypeClass.getClass(); //Remove compiler warning
 	}
 
 	public Object visit(Program program) {

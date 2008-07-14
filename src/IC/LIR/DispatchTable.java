@@ -22,6 +22,7 @@ public class DispatchTable {
 		fieldToOffset  = new HashMap<String, Integer>();
 		methodCounter  = 0;
 		fieldCounter   = 0;
+		parentName.getClass(); //Remove compiler warning
 	}
 	
 	public HashMap<String, Integer> getMethods()
