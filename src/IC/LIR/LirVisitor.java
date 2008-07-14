@@ -76,6 +76,11 @@ public class LirVisitor implements Visitor {
 	private TypeTable typeTable;
 
 	private ArrayList<String> localParams = new ArrayList<String>();
+	
+	//Error labels:
+	private String errorLabelNullReference = "_null_reference";
+	private String errorLabelIllegalArrayLocation = "_illegal_arr_loc";
+	private String errorLabelDevByZero = "_dev_by_zero";
 
 	/**
 	 * Constructs a new LIR visitor.
@@ -124,6 +129,16 @@ public class LirVisitor implements Visitor {
 		list.add(0, new StringInstruction());
 		list.add(0, new StringInstruction("######################"));
 		list.add(0, new StringInstruction(StringLiteral.prettyPrint()));
+		
+		list.add(0,new StringInstruction(errorLabelDevByZero.substring(1) + ":" + 
+										 " \"Devision by zero. Program will no exit. \""));
+		
+		list.add(0,new StringInstruction(errorLabelIllegalArrayLocation.substring(1) + ":" + 
+		 " \"Illegal array location. Program will no exit. \""));
+		
+		list.add(0,new StringInstruction(errorLabelNullReference.substring(1) + ":" + 
+		 " \"Null reference. Program will no exit. \""));
+		
 		list.add(0, new StringInstruction("# STRING LITERALS"));
 		list.add(0, new StringInstruction("######################"));
 		list.add(0, new StringInstruction());
@@ -132,7 +147,9 @@ public class LirVisitor implements Visitor {
 		list.add(0, new StringInstruction("# Program " + progName));
 		list.add(0, new StringInstruction("######################"));
 		list.add(0, new StringInstruction());
-
+		
+		addErrorLabelsToList();
+		
 		return list;
 	}
 
@@ -988,5 +1005,32 @@ public class LirVisitor implements Visitor {
 			}
 		}
 		return toRet;
+	}
+	
+	private void addErrorLabelsToList()
+	{
+		list.add(new StringInstruction(""));
+		list.add(new StringInstruction("######################"));
+		list.add(new StringInstruction("# Error Labels"));
+		list.add(new StringInstruction("######################"));
+		list.add(new StringInstruction(""));
+		
+		//Add null reference
+		list.add(new Label(errorLabelNullReference));
+		list.add(new LibraryInstruction(new Op("__println(" + errorLabelNullReference.substring(1) +")", OpType.Label), new Op("Rdummy", OpType.Reg)));
+		list.add(new LibraryInstruction(new Op("__exit(1)", OpType.Label), new Op("Rdummy", OpType.Reg)));
+		list.add(new StringInstruction(""));
+		
+		//Add illegal array position
+		list.add(new Label(errorLabelIllegalArrayLocation));
+		list.add(new LibraryInstruction(new Op("__println(" + errorLabelIllegalArrayLocation.substring(1) +")", OpType.Label), new Op("Rdummy", OpType.Reg)));
+		list.add(new LibraryInstruction(new Op("__exit(1)", OpType.Label), new Op("Rdummy", OpType.Reg)));
+		list.add(new StringInstruction(""));
+		
+		//Add division by zero
+		list.add(new Label(errorLabelDevByZero));
+		list.add(new LibraryInstruction(new Op("__println(" + errorLabelDevByZero.substring(1) +")", OpType.Label), new Op("Rdummy", OpType.Reg)));
+		list.add(new LibraryInstruction(new Op("__exit(1)", OpType.Label), new Op("Rdummy", OpType.Reg)));
+		list.add(new StringInstruction(""));
 	}
 }
