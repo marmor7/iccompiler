@@ -81,6 +81,7 @@ public class LirVisitor implements Visitor {
 	private String errorLabelNullReference = "_null_reference";
 	private String errorLabelIllegalArrayLocation = "_illegal_arr_loc";
 	private String errorLabelDevByZero = "_dev_by_zero";
+	private String errorLabelArrayNegativeAllocationSize = "_arr_neg_alloc_size";
 
 	/**
 	 * Constructs a new LIR visitor.
@@ -89,7 +90,6 @@ public class LirVisitor implements Visitor {
 	public LirVisitor(String progName, TypeTable typetable) {
 		this.progName = progName;
 		typeTable = typetable;
-		curTypeClass.getClass(); //Remove compiler warning
 	}
 
 	public Object visit(Program program) {
@@ -139,6 +139,9 @@ public class LirVisitor implements Visitor {
 		
 		list.add(0,new StringInstruction(errorLabelNullReference.substring(1) + ":" + 
 		 " \"Null reference. Program will no exit. \""));
+		
+		list.add(0,new StringInstruction(errorLabelArrayNegativeAllocationSize.substring(1) + ":" + 
+		 " \"Negative array size allocation. Program will no exit. \""));
 		
 		list.add(0, new StringInstruction("# STRING LITERALS"));
 		list.add(0, new StringInstruction("######################"));
@@ -1031,6 +1034,12 @@ public class LirVisitor implements Visitor {
 		//Add division by zero
 		list.add(new Label(errorLabelDevByZero));
 		list.add(new LibraryInstruction(new Op("__println(" + errorLabelDevByZero.substring(1) +")", OpType.Label), new Op("Rdummy", OpType.Reg)));
+		list.add(new LibraryInstruction(new Op("__exit(1)", OpType.Label), new Op("Rdummy", OpType.Reg)));
+		list.add(new StringInstruction(""));
+		
+		//Add negative array allocation size
+		list.add(new Label(errorLabelArrayNegativeAllocationSize));
+		list.add(new LibraryInstruction(new Op("__println(" + errorLabelArrayNegativeAllocationSize.substring(1) +")", OpType.Label), new Op("Rdummy", OpType.Reg)));
 		list.add(new LibraryInstruction(new Op("__exit(1)", OpType.Label), new Op("Rdummy", OpType.Reg)));
 		list.add(new StringInstruction(""));
 	}
