@@ -31,6 +31,8 @@ public class Op {
 		Disabled,
 		Var,  //var is strliteral or variable
 		DV, //Dispatch table vector
+		Array, //Name is Reg[Reg]
+		Field, //Name Reg.number
 		Other; //TBD: should this be?
 	}
 	
