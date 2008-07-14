@@ -9,6 +9,7 @@ import IC.AST.*;
 public class DispatchTable {
 	
 	private String                   className;
+	private String                   parentName = "";
 	private HashMap<String, Integer> methodToOffset;
 	private int                      methodCounter;
 	private HashMap<String, Integer>  fieldToOffset;
@@ -39,6 +40,8 @@ public class DispatchTable {
 		assert(fieldCounter == 0);
 		assert(methodCounter == 0);
 		
+		parentName = parent.getDvName();
+		
 		//Add parent's fields and methods
 		int    pos;
 		Iterator it = parent.getMethods().entrySet().iterator();
@@ -46,7 +49,8 @@ public class DispatchTable {
 		{
 			Entry<String, Integer> entry = (Entry<String, Integer>) it.next();
 			pos = entry.getValue();
-			methodToOffset.put(entry.getKey(), pos);			
+			methodToOffset.put(entry.getKey(), pos);
+			methodCounter++;
 		}
 		it = parent.getFields().entrySet().iterator();
 		while (it.hasNext())
@@ -54,27 +58,67 @@ public class DispatchTable {
 			Entry<String, Integer> entry = (Entry<String, Integer>) it.next();
 			pos = entry.getValue();
 			fieldToOffset.put(entry.getKey(), pos);
+			fieldCounter++;
 		}
 	}
 	
 	public int addField(Field f){
-		fieldToOffset.put(f.getName(), fieldCounter);
+		
+		Iterator it = this.getFields().entrySet().iterator();
+		while (it.hasNext())
+		{
+			Entry<String, Integer> entry = (Entry<String, Integer>) it.next();
+			if (f.getName().equals(getVarName(entry.getKey()))){
+				this.getFields().put(className + "$" + getVarName(entry.getKey()) ,entry.getValue());
+				this.getFields().remove(entry.getKey());
+				return fieldCounter;
+			}
+		}
+		
+		fieldToOffset.put(className + "$" + f.getName(), fieldCounter);
 		fieldCounter++;
 		return fieldCounter - 1; //returns the counter before the increment
 	}
-	
+
 	public int addMethod(Method m){
-		methodToOffset.put(m.getName(), methodCounter);
+		Iterator it = this.getMethods().entrySet().iterator();
+		while (it.hasNext())
+		{
+			Entry<String, Integer> entry = (Entry<String, Integer>) it.next();
+			if (m.getName().equals(getVarName(entry.getKey()))){
+				this.getMethods().put(className + "$" + getVarName(entry.getKey()) ,entry.getValue());
+				this.getMethods().remove(entry.getKey());
+				return methodCounter;
+			}
+		}
+		
+		methodToOffset.put(className + "$" + m.getName(), methodCounter);
 		methodCounter++;
 		return methodCounter - 1; //returns the counter before the increment
 	}
 	
 	public int getMethodPos(String name){
-		return methodToOffset.get(name);
+		Iterator it = this.getMethods().entrySet().iterator();
+		while (it.hasNext())
+		{
+			Entry<String, Integer> entry = (Entry<String, Integer>) it.next();
+			if (name.equals(getVarName(entry.getKey()))){
+				return entry.getValue();
+			}
+		}
+		return -1;
 	}
 
 	public int getFieldPos(String name){
-		return (fieldToOffset.get(name) + 1 ) ;
+		Iterator it = this.getFields().entrySet().iterator();
+		while (it.hasNext())
+		{
+			Entry<String, Integer> entry = (Entry<String, Integer>) it.next();
+			if (name.equals(getVarName(entry.getKey()))){
+				return entry.getValue();
+			}
+		}
+		return -1;
 	}
 	
 	public String toString(){
@@ -98,7 +142,7 @@ public class DispatchTable {
 			while (it.hasNext()){
 				String method = it.next();
 				if (methodToOffset.get(method) == i){
-					ret += "_" + className + "_" + method + ",";
+					ret += "_" + method.replace('$', '_') + ",";
 					break;
 				}
 			}
@@ -117,8 +161,21 @@ public class DispatchTable {
 		
 	}
 	
+	public String getDvName()
+	{
+		return className;		
+	}
+	
 	
 	public StringInstruction getInstruction(){
 		return new StringInstruction(this.toString());
+	}
+	
+	private Object getClassName(String key) {
+		return key.substring(0, key.indexOf("$"));
+	}
+	
+	private Object getVarName(String key) {
+		return key.substring(key.indexOf("$") + 1, key.length());
 	}
 }
