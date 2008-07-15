@@ -313,6 +313,8 @@ public class LirVisitor implements Visitor {
 			
 			assert(oldAssignmentLoc != null); 
 			
+		//	smartMove(value, oldAssignmentLoc);
+			
 			if (oldAssigmentIndex > -1)
 				list.add(new DataTransferInstruction(value,
 						oldAssignmentLoc,
@@ -1177,5 +1179,76 @@ public class LirVisitor implements Visitor {
 		}
 		
 		list.add(new LogicalInstruction(arr, arraySize, LogicalInstructionType.ArrayLength).setOptComment("Getting array length"));		
+	}
+	
+	private void smartMove(Op source,Op dest)
+	{
+		System.err.println("SmartMove on: " + source + "(" + howSafe(source.getName()) + ")" +
+				", " + dest + "(" + howSafe(dest.getName()) + ")");
+		int sourceSafe  = howSafe(source.getName());
+		int destSafe = howSafe(dest.getName());
+		if (sourceSafe + destSafe <= 1 )
+			safeMove(source,dest); 
+		else
+		{
+			if (sourceSafe > destSafe)
+			{
+				
+			/*	
+				int dot = opName.lastIndexOf(".");
+				int brk = opName.lastIndexOf("[");
+				
+				if ((dot >= 0) || (brk >= 0))
+				{
+					if (dot > brk)
+					{
+						//Op newSource = new Op(g  ,OpType.reg)
+						list.add(new DataTransferInstruction( source,newSource, DataTransferInstructionType.Move));		
+					}
+					}
+					else
+					{
+						return howSafe(opName.substring(0, brk)) + 1;
+					}
+				}*/
+				
+				
+				
+			
+		
+		}
+	}
+	private void safeMove(Op source,Op dest)
+	{
+		DataTransferInstructionType dt = DataTransferInstructionType.Move;
+		if (source.getName().contains(".") || (dest.getName().contains(".")))
+			dt = DataTransferInstructionType.MoveField;
+		if (source.getName().contains("[") || (dest.getName().contains("]")))
+			dt = DataTransferInstructionType.MoveArray;
+		list.add(new DataTransferInstruction(source,dest,dt).setOptComment("brought to you by safe/smartmove"));
+	}
+	
+	
+	private int howSafe(String opName)
+	{
+		int dot = opName.lastIndexOf(".");
+		int brk = opName.lastIndexOf("[");
+		
+		if ((dot >= 0) || (brk >= 0))
+		{
+			if (dot > brk)
+			{
+				
+				return howSafe(opName.substring(0, dot)) + 1;
+			}
+			else
+			{
+				return howSafe(opName.substring(0, brk)) + 1;
+			}
+		}
+		if (opName.indexOf('R') == 0)
+			return 0;
+		
+		return 1;
 	}
 }
