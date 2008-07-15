@@ -24,6 +24,7 @@ public class LogicalInstruction extends Instruction {
 		And,
 		Or,
 		Xor,
-		Compare
+		Compare,
+		ArrayLength
 	}
 }
