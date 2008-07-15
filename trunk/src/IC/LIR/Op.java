@@ -32,6 +32,7 @@ public class Op {
 		DV, //Dispatch table vector
 		Array, //Name is Reg[Reg]
 		Field, //Name Reg.number
+		NULL, //Null object
 		Other; //TBD: should this be?
 	}
 	
