@@ -1,6 +1,6 @@
 
 ######################
-# Program workspace/IC_COMPILER/test/T4/CurrentTest/arrOutOfBound.ic
+# Program workspace/IC_COMPILER/test/T4/CurrentTest/nullRef.ic
 ######################
 
 ######################
@@ -9,7 +9,7 @@ arr_neg_alloc_size: "Negative or zero array size allocation. Program will no exi
 null_reference: "Null reference. Program will no exit. "
 illegal_arr_loc: "Illegal array location. Program will no exit. "
 dev_by_zero: "Devision by zero. Program will no exit. "
-
+str0: ""
 ######################
 
 ######################
@@ -18,26 +18,28 @@ _DV_A: []
 ######################
 
 _ic_main:   # Main Method
-# Line 4: 
-Move 5, R1
-Move 4, R2
-Mul R2,R1
-Compare 0,R1
-JumpLE _arr_neg_alloc_size
-Library __allocateArray(R1),R3
-Move R3, arr_A_17
 # Line 5: 
-Move arr_A_17, R4
-Move 1, R5
-Neg R5
-Move 0, R8
-ArrayLength R4,R7
-Compare R5,R7
-JumpL _illegal_arr_loc
-Compare R5,R8
-JumpG _illegal_arr_loc
-MoveArray R4[R5], R6
-Library __printi(R6),R9
+Library __allocateObject(8),R1 # Allocation of A
+MoveField _DV_A,R1.0 # Move field for DV pointer
+Move R1, a_A_17
+# Line 6: 
+Move 0, R3
+Move R3, a_A_17 # assigning val to loc
+# Line 7: 
+Move 2, R5
+Move a_A_17, R6
+Compare 0,R6
+JumpTrue _null_reference
+MoveField R5,R6.1 # assigning val to loc
+# Line 8: 
+Move a_A_17, R7
+Compare 0,R7
+JumpTrue _null_reference
+MoveField R7.1,R8
+Library __printi(R8),R9
+# Line 9: 
+Move str0, R10 # assigning literal to reg
+Library __println(R10),R11
 Library __exit(0),Rdummy
 # Method main end
 Return 9999
