@@ -559,21 +559,14 @@ public class LirVisitor implements Visitor {
 		//Runtime check from access an array at legal position
 		//Get array size:
 		Op arrSize = new Op(Register.getFreeReg(), OpType.Reg);
-		Op zeroSizeReg = new Op(Register.getFreeReg(), OpType.Reg);
 		
 		list.add(new LogicalInstruction(arr, arrSize, LogicalInstructionType.ArrayLength));
 		list.add(new LogicalInstruction(arrSize, place, LogicalInstructionType.Compare));
 		list.add(new ControlTransferInstruction(new Op(errorLabelIllegalArrayLocation, OpType.Label), 
 				ControlTransferInstructionType.JumpGE));		
-		list.add(new DataTransferInstruction(new Op("0", OpType.Immediate), 
-											 zeroSizeReg, 
-											 DataTransferInstructionType.Move));
-		list.add(new LogicalInstruction(place, zeroSizeReg, LogicalInstructionType.Compare));
+		list.add(new LogicalInstruction(place, new Op("0", OpType.Immediate), LogicalInstructionType.Compare));
 		list.add(new ControlTransferInstruction(new Op(errorLabelIllegalArrayLocation, OpType.Label), 
-												ControlTransferInstructionType.JumpG));
-
-		
-		
+												ControlTransferInstructionType.JumpG));		
 		
 		Op newarr = new Op(arr.getName() + "[" + place.getName() + "]",
 				OpType.Reg);
@@ -760,17 +753,8 @@ public class LirVisitor implements Visitor {
 		list.add(i);
 		
 		//Runtime check for array size
-		//Move zero to new register
-		Op zeroSizeReg = new Op(Register.getFreeReg(), OpType.Reg);
-		DataTransferInstruction dti1 = new DataTransferInstruction(new Op("0", OpType.Immediate),
-																   zeroSizeReg,
-																   DataTransferInstructionType.Move);
-		dti1.setOptComment("Moving zero to new register in order to compare the new array's size");
-		
-		list.add(dti1);
-		
 		//Compare array size with zero
-		list.add(new LogicalInstruction(zeroSizeReg, size, LogicalInstructionType.Compare));
+		list.add(new LogicalInstruction(new Op("0", OpType.Immediate), size, LogicalInstructionType.Compare));
 		
 		//Jump to label if size is smaller then 1
 		list.add(new ControlTransferInstruction(new Op(errorLabelArrayNegativeAllocationSize, OpType.Label), 
@@ -836,16 +820,9 @@ public class LirVisitor implements Visitor {
 		{
 			if(AIT.equals(ArithmeticInstructionType.Div))
 			{
-				//Runtime check - devision by zero
-				Op zeroReg = new Op(Register.getFreeReg(), OpType.Immediate);
-				DataTransferInstruction dti1 = new DataTransferInstruction(new Op("0", OpType.Memory),
-						   zeroReg,
-						   DataTransferInstructionType.Move); //Now register is 0
-				
-				list.add(dti1);
-				
+				//Runtime check - devision by zero				
 				//Compare array size with zero
-				list.add(new LogicalInstruction(zeroReg, two, LogicalInstructionType.Compare));
+				list.add(new LogicalInstruction(new Op("0", OpType.Memory), two, LogicalInstructionType.Compare));
 				
 				//Jump to label if size is smaller then 1
 				list.add(new ControlTransferInstruction(new Op(errorLabelDevByZero, OpType.Label), 
@@ -1100,5 +1077,12 @@ public class LirVisitor implements Visitor {
 		list.add(new LibraryInstruction(new Op("__println(" + errorLabelArrayNegativeAllocationSize.substring(1) +")", OpType.Label), new Op("Rdummy", OpType.Reg)));
 		list.add(new LibraryInstruction(new Op("__exit(1)", OpType.Label), new Op("Rdummy", OpType.Reg)));
 		list.add(new StringInstruction(""));
+	}
+	
+	private void addNullReferenceCheckToList(Op reg)
+	{
+		list.add(new LogicalInstruction(new Op("0", OpType.Immediate), reg, LogicalInstructionType.Compare));
+		list.add(new ControlTransferInstruction(new Op(errorLabelNullReference, OpType.Label), 
+				ControlTransferInstructionType.JumpTrue));
 	}
 }
