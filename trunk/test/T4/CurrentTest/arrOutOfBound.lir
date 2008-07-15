@@ -30,8 +30,14 @@ Move R4, arr_A_17
 # Line 5: 
 Move arr_A_17, R5
 Move 6, R6
+ArrayLength R5,R8
+Compare R8,R6
+JumpGE _illegal_arr_loc
+Move 0, R9
+Compare R6,R9
+JumpG _illegal_arr_loc
 MoveArray R5[R6], R7
-Library __printi(R7),R8
+Library __printi(R7),R10
 Library __exit(0),Rdummy
 # Method main end
 Return 9999
