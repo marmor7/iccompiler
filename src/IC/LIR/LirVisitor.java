@@ -511,8 +511,10 @@ public class LirVisitor implements Visitor {
 		output.append("Block of statements");
 
 		for (Statement statement : statementsBlock.getStatements())
+		{
+			isString = false;
 			output.append(statement.accept(this));
-
+		}
 		return null;
 	}
 
