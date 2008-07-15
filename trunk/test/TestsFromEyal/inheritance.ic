@@ -1,0 +1,65 @@
+class A{
+	
+	int f_a;	
+	
+	void foo(){
+		Library.printi(f_a);
+		Library.println("");
+		Library.println("in foo_classA");
+	}
+	
+	static void main(string[] args){
+		A a = new A();
+		a.f_a = 0;
+		a.foo(); // 0, in foo_classA 
+		B b = new B();
+		b.f_b = -1;
+		b.foo(); // 1, int foo_classB
+		b.bar(a.f_a == 1); //false: false, in bar_classB
+		B d = new D(); 
+		d.f_b = b.f_b + 1; // 9 
+		d.bar(d.f_b >= b.f_b); //true: true, in bar_classB
+	}
+	 
+}
+
+class B extends A{
+
+	int f_b;
+	
+	void foo(){
+		this.f_a = f_a + 1;
+		Library.printi(f_a);
+		Library.println("");
+		Library.println("in foo_classB");
+	}
+	
+	int bar(boolean bool){
+		if(bool){
+			print_place(bool);
+		}
+		else{
+			f_b = 8;
+			print_place(bool);
+		}
+		return f_b;
+	}
+	
+	void print_place(boolean bool){
+		Library.printb(bool);
+		Library.println("");
+		Library.println("in bar_classB");
+	}
+
+}
+
+
+class D extends B{
+
+	 void print_place(boolean bool){
+		Library.printb(bool);
+		Library.println("");
+		Library.println("in bar_classD");
+	}
+ 
+}

@@ -1,0 +1,44 @@
+class A{
+		
+		
+	static void main(string[] args){
+		
+		if(true){
+			Library.println("in if no 1");
+			if(true){
+				Library.println("in if no 2");
+				if(false){
+					Library.println("in if no 3");
+					if (false) {
+						Library.println("in if no 4");
+						if (true) {
+							Library.println("in if no 5");
+							if (false) {
+								Library.println("in if no 6");
+								if (true) {
+									Library.println("in if no 7");
+								} else {
+									Library.println("in else no 7");
+								}
+							} else {
+								Library.println("in else no 6");
+							}
+						} else {
+							Library.println("in else no 5");
+						}
+					} else {
+						Library.println("in else no 4");
+					}
+				} else {
+					Library.println("in else no 3");
+				}
+			} else {
+				Library.println("in else no 2");
+			}
+		} else {
+			Library.println("in else no 1");
+		}
+			
+	}
+
+}

@@ -1,0 +1,27 @@
+class A {
+
+	static void main(string[] args){
+		
+		int i1 = 3;
+		int i2 = 7;
+		int i3 = -4;
+		//int i3 = 100;
+		
+		boolean b1;
+		boolean b2;
+		
+		Library.printi((i3*(i1 - i3) / i2) + i1);    // should print -1
+		Library.println("");
+		
+		if ((i3 - i1) / i2 > 0){
+			b1 = i1 > i2;
+			b2 = !(i2 <= i3);
+		} else {
+			b1 = i2 != i1;
+			b2 = b1 && (i3 == i2);
+		}
+		Library.printb(b1 || b2);  // should print true
+	
+	}
+
+}

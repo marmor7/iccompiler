@@ -1,0 +1,18 @@
+class A{
+	
+	static int method_factorial(int n){
+		if(n>0){
+			return n * A.method_factorial(n-1);
+		}
+		else{
+			return 1;
+		}
+	}
+	
+	static void main(string[] args){
+		int a = 5;
+		Library.printi(A.method_factorial(a));
+	}
+	
+	
+}
