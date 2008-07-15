@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import java_cup.internal_error;
+
 import IC.AST.ArrayLocation;
 import IC.AST.Assignment;
 import IC.AST.Break;
@@ -292,12 +294,13 @@ public class LirVisitor implements Visitor {
 			}
 
 			// Copy value into location:
-			if (loc.getName().contains(".")) {
+		/*	if (loc.getName().contains(".")) {
 				Instruction ins = new DataTransferInstruction(value, loc,
 						DataTransferInstructionType.MoveField);
 				ins.setOptComment("(Assignment statement)");
 				list.add(ins);
-			} //else {
+			} */ 
+			//else {
 			//	list.remove(assignmentListIndex);
 				/*
 				 * Instruction ins = new DataTransferInstruction(value,
@@ -306,28 +309,50 @@ public class LirVisitor implements Visitor {
 				 */
 			//}
 
-			if (oldAssignmentLoc != null) 
+			
+			assert(oldAssignmentLoc != null); 
+			
+			if (oldAssigmentIndex > -1)
+				list.add(new DataTransferInstruction(value,
+						oldAssignmentLoc,
+						DataTransferInstructionType.MoveArray)
+						.setOptComment("assigning val to loc"));
+			else
 			{
-				if (oldAssigmentIndex > -1)
-					list.add(new DataTransferInstruction(value,
-							oldAssignmentLoc,
-							DataTransferInstructionType.MoveArray)
-							.setOptComment("assigning val to loc"));
-				else
+				if(oldAssignmentLoc.getName().contains(".") || value.getName().contains("."))
 				{
-					if(oldAssignmentLoc.getName().contains(".") || value.getName().contains("."))
+					
+					if (value.getName().contains("."))
+					{
 						list.add(new DataTransferInstruction(value,
 								oldAssignmentLoc, DataTransferInstructionType.MoveField)
 								.setOptComment("assigning val to loc"));
+					}
 					else
+					{
+						if (oldAssignmentLoc.getOpType() == OpType.Memory)
+						{ 
+							Op newreg = new Op(Register.getFreeReg(),OpType.Reg);
+							Op varname = new Op(oldAssignmentLoc.getName().substring(0, oldAssignmentLoc.getName().indexOf("."))
+									, OpType.Memory);
+							int varpos = Integer.parseInt(oldAssignmentLoc.getName().substring(oldAssignmentLoc.getName().indexOf(".")+1));
+							list.add(new DataTransferInstruction(varname,newreg,DataTransferInstructionType.Move));
+							
+							oldAssignmentLoc = new Op(newreg.getName() +"."+ varpos , OpType.Memory);
+						}
 						list.add(new DataTransferInstruction(value,
-							oldAssignmentLoc, DataTransferInstructionType.Move)
-							.setOptComment("assigning val to loc"));
+								oldAssignmentLoc, DataTransferInstructionType.MoveField)
+								.setOptComment("assigning val to loc"));
+					}
 				}
-				
-				oldAssigmentIndex = -1;
-				oldAssignmentLoc = null;
+				else
+					list.add(new DataTransferInstruction(value,
+						oldAssignmentLoc, DataTransferInstructionType.Move)
+						.setOptComment("assigning val to loc"));
 			}
+			
+			oldAssigmentIndex = -1;
+			oldAssignmentLoc = null;
 
 		} catch (Exception e) {
 			System.out.println("casting error - need to implement something"); // TMP!
@@ -500,11 +525,11 @@ public class LirVisitor implements Visitor {
 			Op init = (Op) localVariable.getInitValue().accept(this);
 			Op var;
 			if (localParams.contains(localVariable.getName()))
-				var = new Op(localVariable.getName(), OpType.Var);
+				var = new Op(localVariable.getName(), OpType.Memory);
 			else
 				var = new Op(varFormatter(localVariable.getName(),
 						this.currentVisitedClassName, localVariable
-								.enclosingScope().getNumid()), OpType.Var);
+								.enclosingScope().getNumid()), OpType.Memory);
 			if (this.isAssignmentNewClass) {
 				this.isAssignmentNewClass = false;
 				String mangledName = Utils.getObjectsMapName(localVariable
@@ -542,7 +567,7 @@ public class LirVisitor implements Visitor {
 			list.add(dti);
 			DispatchTable dt = dTables.get(location.enclosingScope().searchVariableReturnScope(location.getName()).getId()) ;
 			int pos = dt.getFieldPos(location.getName());
-			Op reg2 = new Op(reg.getName() + "." + pos, OpType.Var);
+			Op reg2 = new Op(reg.getName() + "." + pos, OpType.Memory);
 			Op reg3 = new Op(Register.getFreeReg(), OpType.Reg);
 			dti = new DataTransferInstruction(reg2, reg3,
 					DataTransferInstructionType.MoveField);
@@ -561,7 +586,7 @@ public class LirVisitor implements Visitor {
 			location.enclosingScope().getId();
 			int pos = dTables.get(location.enclosingScope().getId())
 					.getFieldPos(location.getName());
-			Op reg = new Op(ret.getName() + "." + pos, OpType.Var);
+			Op reg = new Op(ret.getName() + "." + pos, OpType.Memory);
 
 			assignmentLocation = reg;
 
@@ -569,11 +594,11 @@ public class LirVisitor implements Visitor {
 		} else {
 			Op var;
 			if (localParams.contains(location.getName()))
-				var = new Op(location.getName(), OpType.Var);
+				var = new Op(location.getName(), OpType.Memory);
 			else
 				var = new Op(varFormatter(location.getName(),
 						this.currentVisitedClassName, location.enclosingScope()
-								.getNumid()), OpType.Var);
+								.getNumid()), OpType.Memory);
 			Op reg = new Op(Register.getFreeReg(), OpType.Reg);
 
 			assignmentLocation = var;
@@ -1036,7 +1061,7 @@ public class LirVisitor implements Visitor {
 			}
 			strOutput = StringLiteral.getindexoflit(strlit);
 			Op reg = new Op(Register.getFreeReg(), OpType.Reg);
-			Op strLitOp = new Op(strOutput, OpType.Var);
+			Op strLitOp = new Op(strOutput, OpType.Memory);
 			list.add(new DataTransferInstruction(strLitOp, reg,
 					DataTransferInstructionType.Move)
 					.setOptComment("assigning literal to reg"));

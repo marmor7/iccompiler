@@ -115,7 +115,7 @@ public class DispatchTable {
 		{
 			Entry<String, Integer> entry = (Entry<String, Integer>) it.next();
 			if (name.equals(getVarName(entry.getKey()))){
-				return entry.getValue();
+				return entry.getValue() + 1;
 			}
 		}
 		return -1;
