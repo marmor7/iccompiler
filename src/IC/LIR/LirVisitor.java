@@ -44,6 +44,7 @@ import IC.LIR.ArithmeticInstruction.ArithmeticInstructionType;
 import IC.LIR.CallInstruction.CallInstructionType;
 import IC.LIR.ControlTransferInstruction.ControlTransferInstructionType;
 import IC.LIR.DataTransferInstruction.DataTransferInstructionType;
+import IC.LIR.LibraryInstruction.LibraryInstructionType;
 import IC.LIR.LogicalInstruction.LogicalInstructionType;
 import IC.LIR.Op.OpType;
 import IC.Semantics.MethodSigType;
@@ -141,7 +142,7 @@ public class LirVisitor implements Visitor {
 		 " \"Null reference. Program will no exit. \""));
 		
 		list.add(0,new StringInstruction(errorLabelArrayNegativeAllocationSize.substring(1) + ":" + 
-		 " \"Negative array size allocation. Program will no exit. \""));
+		 " \"Negative or zero array size allocation. Program will no exit. \""));
 		
 		list.add(0, new StringInstruction("# STRING LITERALS"));
 		list.add(0, new StringInstruction("######################"));
@@ -552,7 +553,7 @@ public class LirVisitor implements Visitor {
 	public Object visit(ArrayLocation location) {
 
 		Op arr = (Op) location.getArray().accept(this);
-		Op place = (Op) location.getIndex().accept(this);
+		Op place = (Op) location.getIndex().accept(this); //Index of array access
 		Op reg = new Op(Register.getFreeReg(), OpType.Reg);
 
 		Op newarr = new Op(arr.getName() + "[" + place.getName() + "]",
@@ -738,6 +739,23 @@ public class LirVisitor implements Visitor {
 		Instruction i = new ArithmeticInstruction(four, size,
 				ArithmeticInstructionType.Mul);
 		list.add(i);
+		
+		//Runtime check for array size
+		//Move zero to new register
+		Op zeroSizeReg = new Op(Register.getFreeReg(), OpType.Reg);
+		DataTransferInstruction dti1 = new DataTransferInstruction(new Op("0", OpType.Memory),
+																   zeroSizeReg,
+																   DataTransferInstructionType.Move);
+		dti1.setOptComment("Moving zero to new register in order to compare the new array's size");
+		
+		list.add(dti1);
+		
+		//Compare array size with zero
+		list.add(new LogicalInstruction(zeroSizeReg, size, LogicalInstructionType.Compare));
+		
+		//Jump to label if size is smaller then 1
+		list.add(new ControlTransferInstruction(new Op(errorLabelArrayNegativeAllocationSize, OpType.Label), 
+												ControlTransferInstructionType.JumpLE));
 
 		Op reg = new Op(Register.getFreeReg(), OpType.Reg);
 		i = new LibraryInstruction(new Op("__allocateArray(" + size + ")",
@@ -794,7 +812,28 @@ public class LirVisitor implements Visitor {
 		if (isString) {
 			i = new LibraryInstruction(new Op("__stringCat(" + one.getName()
 					+ "," + two.getName() + ")", OpType.FuncHeader), toRet);
-		} else {
+		}
+		else 
+		{
+			if(AIT.equals(ArithmeticInstructionType.Div))
+			{
+				//Runtime check - devision by zero
+				Op zeroReg = new Op(Register.getFreeReg(), OpType.Immediate);
+				DataTransferInstruction dti1 = new DataTransferInstruction(new Op("0", OpType.Memory),
+						   zeroReg,
+						   DataTransferInstructionType.Move); //Now register is 0
+				
+				list.add(dti1);
+				
+				//Compare array size with zero
+				list.add(new LogicalInstruction(zeroReg, two, LogicalInstructionType.Compare));
+				
+				//Jump to label if size is smaller then 1
+				list.add(new ControlTransferInstruction(new Op(errorLabelDevByZero, OpType.Label), 
+														ControlTransferInstructionType.JumpTrue));
+							
+			}
+						//New instruction
 			i = new ArithmeticInstruction(two, one, AIT);
 			toRet = one;
 		}

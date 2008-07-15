@@ -4,7 +4,7 @@ public class ControlTransferInstruction extends Instruction{
 
 	
 	public ControlTransferInstruction(Op op1P, 
-			ControlTransferInstructionType type) 
+			InstructionType type) 
 	{
 	super(op1P,  type);
 	}
