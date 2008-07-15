@@ -1,0 +1,525 @@
+
+######################
+# Program workspace/IC_COMPILER/test/T4/CurrentTest/arrays.ic
+######################
+
+######################
+# STRING LITERALS
+arr_neg_alloc_size: "Negative or zero array size allocation. Program will no exit. "
+null_reference: "Null reference. Program will no exit. "
+illegal_arr_loc: "Illegal array location. Program will no exit. "
+dev_by_zero: "Devision by zero. Program will no exit. "
+str0: ""
+######################
+
+######################
+# DISPATCH VECTORS
+_DV_B: [_B_foo]
+_DV_A: [_A_bar]
+######################
+
+_B_foo:   # Method foo:
+# Line 5: 
+Move this, R1
+Move 2, R2
+Move 4, R3
+Mul R3,R2
+Compare 0,R2
+JumpLE _arr_neg_alloc_size
+Library __allocateArray(R2),R4
+Move R1, R5
+Compare 0,R5
+JumpTrue _null_reference
+MoveField R4,R5.1 # assigning val to loc
+# Line 6: 
+Move this, R6
+Move 0, R7
+Move 0, R10
+MoveField R6.1,R11
+ArrayLength R11,R9		# Getting array length
+Compare R7,R9
+JumpL _illegal_arr_loc
+Compare R7,R10
+JumpG _illegal_arr_loc
+MoveArray R6.1[R7], R8
+Move 2, R12
+Move 4, R13
+Mul R13,R12
+Compare 0,R12
+JumpLE _arr_neg_alloc_size
+Library __allocateArray(R12),R14
+MoveArray R14, R6.1[R7] # assigning val to loc
+# Line 7: 
+Move this, R15
+Move 1, R16
+Move 0, R19
+MoveField R15.1,R20
+ArrayLength R20,R18		# Getting array length
+Compare R16,R18
+JumpL _illegal_arr_loc
+Compare R16,R19
+JumpG _illegal_arr_loc
+MoveArray R15.1[R16], R17
+Move 2, R21
+Move 4, R22
+Mul R22,R21
+Compare 0,R21
+JumpLE _arr_neg_alloc_size
+Library __allocateArray(R21),R23
+MoveArray R23, R15.1[R16] # assigning val to loc
+Return 9999
+_A_bar:   # Method bar:
+# Line 17: 
+Move this, R24
+Move 4, R25
+Move 4, R26
+Mul R26,R25
+Compare 0,R25
+JumpLE _arr_neg_alloc_size
+Library __allocateArray(R25),R27
+Move R24, R28
+Compare 0,R28
+JumpTrue _null_reference
+MoveField R27,R28.1 # assigning val to loc
+# Line 18: 
+Library __allocateObject(8),R29 # Allocation of B
+MoveField _DV_B,R29.0 # Move field for DV pointer
+Move R29, b_A_19
+# Line 19: 
+Move b_A_19, R31
+VirtualCall R31.0(),R31
+# Line 20: 
+Move 0, R33
+Move 0, R36
+MoveField b_A_19.1,R37
+ArrayLength R37,R35		# Getting array length
+Compare R33,R35
+JumpL _illegal_arr_loc
+Compare R33,R36
+JumpG _illegal_arr_loc
+MoveArray b_A_19.1[R33], R34
+Move 0, R38
+Move 0, R41
+ArrayLength R34,R40		# Getting array length
+Compare R38,R40
+JumpL _illegal_arr_loc
+Compare R38,R41
+JumpG _illegal_arr_loc
+MoveArray R34[R38], R39
+Move 0, R42
+MoveArray R42, R34[R38] # assigning val to loc
+# Line 21: 
+Move 0, R44
+Move 0, R47
+MoveField b_A_19.1,R48
+ArrayLength R48,R46		# Getting array length
+Compare R44,R46
+JumpL _illegal_arr_loc
+Compare R44,R47
+JumpG _illegal_arr_loc
+MoveArray b_A_19.1[R44], R45
+Move 1, R49
+Move 0, R52
+ArrayLength R45,R51		# Getting array length
+Compare R49,R51
+JumpL _illegal_arr_loc
+Compare R49,R52
+JumpG _illegal_arr_loc
+MoveArray R45[R49], R50
+Move 1, R53
+MoveArray R53, R45[R49] # assigning val to loc
+# Line 22: 
+Move 1, R55
+Move 0, R58
+MoveField b_A_19.1,R59
+ArrayLength R59,R57		# Getting array length
+Compare R55,R57
+JumpL _illegal_arr_loc
+Compare R55,R58
+JumpG _illegal_arr_loc
+MoveArray b_A_19.1[R55], R56
+Move 0, R60
+Move 0, R63
+ArrayLength R56,R62		# Getting array length
+Compare R60,R62
+JumpL _illegal_arr_loc
+Compare R60,R63
+JumpG _illegal_arr_loc
+MoveArray R56[R60], R61
+Move 2, R64
+MoveArray R64, R56[R60] # assigning val to loc
+# Line 23: 
+Move 1, R66
+Move 0, R69
+MoveField b_A_19.1,R70
+ArrayLength R70,R68		# Getting array length
+Compare R66,R68
+JumpL _illegal_arr_loc
+Compare R66,R69
+JumpG _illegal_arr_loc
+MoveArray b_A_19.1[R66], R67
+Move 1, R71
+Move 0, R74
+ArrayLength R67,R73		# Getting array length
+Compare R71,R73
+JumpL _illegal_arr_loc
+Compare R71,R74
+JumpG _illegal_arr_loc
+MoveArray R67[R71], R72
+Move 3, R75
+MoveArray R75, R67[R71] # assigning val to loc
+# Line 24: 
+Move this, R76
+Compare 0,R76
+JumpTrue _null_reference
+MoveField R76.1,R77
+Move 0, R78
+Move 0, R81
+ArrayLength R77,R80		# Getting array length
+Compare R78,R80
+JumpL _illegal_arr_loc
+Compare R78,R81
+JumpG _illegal_arr_loc
+MoveArray R77[R78], R79
+Move b_A_19, R82
+Move 0, R83
+Move 0, R86
+MoveField R82.1,R87
+ArrayLength R87,R85		# Getting array length
+Compare R83,R85
+JumpL _illegal_arr_loc
+Compare R83,R86
+JumpG _illegal_arr_loc
+MoveArray R82.1[R83], R84
+Move 0, R88
+Move 0, R91
+ArrayLength R84,R90		# Getting array length
+Compare R88,R90
+JumpL _illegal_arr_loc
+Compare R88,R91
+JumpG _illegal_arr_loc
+MoveArray R84[R88], R89
+MoveArray R89, R77[R78] # assigning val to loc
+# Line 25: 
+Move this, R92
+Compare 0,R92
+JumpTrue _null_reference
+MoveField R92.1,R93
+Move 1, R94
+Move 0, R97
+ArrayLength R93,R96		# Getting array length
+Compare R94,R96
+JumpL _illegal_arr_loc
+Compare R94,R97
+JumpG _illegal_arr_loc
+MoveArray R93[R94], R95
+Move b_A_19, R98
+Move 0, R99
+Move 0, R102
+MoveField R98.1,R103
+ArrayLength R103,R101		# Getting array length
+Compare R99,R101
+JumpL _illegal_arr_loc
+Compare R99,R102
+JumpG _illegal_arr_loc
+MoveArray R98.1[R99], R100
+Move 1, R104
+Move 0, R107
+ArrayLength R100,R106		# Getting array length
+Compare R104,R106
+JumpL _illegal_arr_loc
+Compare R104,R107
+JumpG _illegal_arr_loc
+MoveArray R100[R104], R105
+MoveArray R105, R93[R94] # assigning val to loc
+# Line 26: 
+Move this, R108
+Compare 0,R108
+JumpTrue _null_reference
+MoveField R108.1,R109
+Move 2, R110
+Move 0, R113
+ArrayLength R109,R112		# Getting array length
+Compare R110,R112
+JumpL _illegal_arr_loc
+Compare R110,R113
+JumpG _illegal_arr_loc
+MoveArray R109[R110], R111
+Move b_A_19, R114
+Move 1, R115
+Move 0, R118
+MoveField R114.1,R119
+ArrayLength R119,R117		# Getting array length
+Compare R115,R117
+JumpL _illegal_arr_loc
+Compare R115,R118
+JumpG _illegal_arr_loc
+MoveArray R114.1[R115], R116
+Move 0, R120
+Move 0, R123
+ArrayLength R116,R122		# Getting array length
+Compare R120,R122
+JumpL _illegal_arr_loc
+Compare R120,R123
+JumpG _illegal_arr_loc
+MoveArray R116[R120], R121
+MoveArray R121, R109[R110] # assigning val to loc
+# Line 27: 
+Move this, R124
+Compare 0,R124
+JumpTrue _null_reference
+MoveField R124.1,R125
+Move 3, R126
+Move 0, R129
+ArrayLength R125,R128		# Getting array length
+Compare R126,R128
+JumpL _illegal_arr_loc
+Compare R126,R129
+JumpG _illegal_arr_loc
+MoveArray R125[R126], R127
+Move b_A_19, R130
+Move 1, R131
+Move 0, R134
+MoveField R130.1,R135
+ArrayLength R135,R133		# Getting array length
+Compare R131,R133
+JumpL _illegal_arr_loc
+Compare R131,R134
+JumpG _illegal_arr_loc
+MoveArray R130.1[R131], R132
+Move 1, R136
+Move 0, R139
+ArrayLength R132,R138		# Getting array length
+Compare R136,R138
+JumpL _illegal_arr_loc
+Compare R136,R139
+JumpG _illegal_arr_loc
+MoveArray R132[R136], R137
+MoveArray R137, R125[R126] # assigning val to loc
+# Line 28: 
+Move this, R140
+Compare 0,R140
+JumpTrue _null_reference
+MoveField R140.1,R141
+Move 0, R142
+Move 0, R145
+ArrayLength R141,R144		# Getting array length
+Compare R142,R144
+JumpL _illegal_arr_loc
+Compare R142,R145
+JumpG _illegal_arr_loc
+MoveArray R141[R142], R143
+Library __printi(R143),R146
+# Line 29: 
+Move str0, R147 # assigning literal to reg
+Library __println(R147),R148
+# Line 30: 
+Move this, R149
+Compare 0,R149
+JumpTrue _null_reference
+MoveField R149.1,R150
+Move 1, R151
+Move 0, R154
+ArrayLength R150,R153		# Getting array length
+Compare R151,R153
+JumpL _illegal_arr_loc
+Compare R151,R154
+JumpG _illegal_arr_loc
+MoveArray R150[R151], R152
+Library __printi(R152),R155
+# Line 31: 
+Move str0, R156 # assigning literal to reg
+Library __println(R156),R157
+# Line 32: 
+Move this, R158
+Compare 0,R158
+JumpTrue _null_reference
+MoveField R158.1,R159
+Move 2, R160
+Move 0, R163
+ArrayLength R159,R162		# Getting array length
+Compare R160,R162
+JumpL _illegal_arr_loc
+Compare R160,R163
+JumpG _illegal_arr_loc
+MoveArray R159[R160], R161
+Library __printi(R161),R164
+# Line 33: 
+Move str0, R165 # assigning literal to reg
+Library __println(R165),R166
+# Line 34: 
+Move this, R167
+Compare 0,R167
+JumpTrue _null_reference
+MoveField R167.1,R168
+Move 3, R169
+Move 0, R172
+ArrayLength R168,R171		# Getting array length
+Compare R169,R171
+JumpL _illegal_arr_loc
+Compare R169,R172
+JumpG _illegal_arr_loc
+MoveArray R168[R169], R170
+Library __printi(R170),R173
+# Line 35: 
+Move str0, R174 # assigning literal to reg
+Library __println(R174),R175
+# Line 36: 
+Move b_A_19, R176
+ArrayLength R176.1, R177
+Library __printi(R177),R178
+# Line 37: 
+Move str0, R179 # assigning literal to reg
+Library __println(R179),R180
+# Line 38: 
+Move this, R181
+Compare 0,R181
+JumpTrue _null_reference
+MoveField R181.1,R182
+ArrayLength R182, R183
+Library __printi(R183),R184
+# Line 39: 
+Move str0, R185 # assigning literal to reg
+Library __println(R185),R186
+# Line 40: 
+Move b_A_19, R187
+Move 0, R188
+Move 0, R191
+MoveField R187.1,R192
+ArrayLength R192,R190		# Getting array length
+Compare R188,R190
+JumpL _illegal_arr_loc
+Compare R188,R191
+JumpG _illegal_arr_loc
+MoveArray R187.1[R188], R189
+ArrayLength R189, R193
+Library __printi(R193),R194
+# Line 41: 
+Move str0, R195 # assigning literal to reg
+Library __println(R195),R196
+# Line 42: 
+Move b_A_19, R197
+Move 1, R198
+Move 0, R201
+MoveField R197.1,R202
+ArrayLength R202,R200		# Getting array length
+Compare R198,R200
+JumpL _illegal_arr_loc
+Compare R198,R201
+JumpG _illegal_arr_loc
+MoveArray R197.1[R198], R199
+ArrayLength R199, R203
+Library __printi(R203),R204
+Return 9999
+_ic_main:   # Main Method
+# Line 46: 
+Library __allocateObject(8),R205 # Allocation of A
+MoveField _DV_A,R205.0 # Move field for DV pointer
+Move R205, a_A_20
+# Line 50: 
+Move 0, R206
+Move R206, g_A_20
+# Line 51: 
+Move g_A_20, R208
+Move a_A_20, R209
+VirtualCall R209.0(y=R208),R209
+# Line 52: 
+Move 3, R210
+Move 4, R211
+Mul R211,R210
+Compare 0,R210
+JumpLE _arr_neg_alloc_size
+Library __allocateArray(R210),R212
+Move R212, a_array_A_20
+# Line 53: 
+Move 0, R214
+Move 0, R217
+ArrayLength a_array_A_20,R216		# Getting array length
+Compare R214,R216
+JumpL _illegal_arr_loc
+Compare R214,R217
+JumpG _illegal_arr_loc
+MoveArray a_array_A_20[R214], R215
+Library __allocateObject(8),R218 # Allocation of A
+MoveField _DV_A,R218.0 # Move field for DV pointer
+MoveArray R218, a_array_A_20[R214] # assigning val to loc
+# Line 54: 
+Move 1, R220
+Move 0, R223
+ArrayLength a_array_A_20,R222		# Getting array length
+Compare R220,R222
+JumpL _illegal_arr_loc
+Compare R220,R223
+JumpG _illegal_arr_loc
+MoveArray a_array_A_20[R220], R221
+Library __allocateObject(8),R224 # Allocation of A
+MoveField _DV_A,R224.0 # Move field for DV pointer
+MoveArray R224, a_array_A_20[R220] # assigning val to loc
+# Line 55: 
+Move 2, R226
+Move 0, R229
+ArrayLength a_array_A_20,R228		# Getting array length
+Compare R226,R228
+JumpL _illegal_arr_loc
+Compare R226,R229
+JumpG _illegal_arr_loc
+MoveArray a_array_A_20[R226], R227
+Library __allocateObject(8),R230 # Allocation of A
+MoveField _DV_A,R230.0 # Move field for DV pointer
+MoveArray R230, a_array_A_20[R226] # assigning val to loc
+# Line 56: 
+Move 0, R231
+Move R231, i_A_20
+# Line 57: 
+_l1:   # While
+Move i_A_20, R232
+Move 3, R233
+Move 0, R234
+Compare R233,R232
+JumpGE _l3
+Move 1, R234
+_l3:
+Compare 0,R234		# While condition check
+JumpTrue _l2		# Conditional jump when while statement is false
+# Line 57: 
+Move g_A_20, R236
+Move a_array_A_20, R237
+Move i_A_20, R238
+Move 0, R241
+ArrayLength R237,R240		# Getting array length
+Compare R238,R240
+JumpL _illegal_arr_loc
+Compare R238,R241
+JumpG _illegal_arr_loc
+MoveArray R237[R238], R239
+VirtualCall R239.0(y=R236),R239
+Move i_A_20, R243
+Move 1, R244
+Add R244,R243
+Move R243, i_A_20 # assigning val to loc
+Jump _l1
+_l2:   # False while condition
+Library __exit(0),Rdummy
+# Method main end
+Return 9999
+
+######################
+# Error Labels
+######################
+
+_null_reference:
+Library __println(null_reference),Rdummy
+Library __exit(1),Rdummy
+
+_illegal_arr_loc:
+Library __println(illegal_arr_loc),Rdummy
+Library __exit(1),Rdummy
+
+_dev_by_zero:
+Library __println(dev_by_zero),Rdummy
+Library __exit(1),Rdummy
+
+_arr_neg_alloc_size:
+Library __println(arr_neg_alloc_size),Rdummy
+Library __exit(1),Rdummy
+

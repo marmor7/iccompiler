@@ -1,0 +1,68 @@
+class A{
+	int y;
+
+	static void printNumbers(int x, int y){
+		Library.println("hi");
+		Library.printi(y);
+	}
+	
+	void virtualMeth(int y){
+		int x=-32;
+		Library.printi(x);
+		Library.println("");
+		A a1 = new A();
+		boolean[] b1 = new boolean[2];
+		A r = null;
+		if (3>2) {int y=34*45-12/6;}
+		boolean a = true || false;
+		boolean b= !false;
+		a = b;
+		x = 10;
+		int y1=23;
+		Library.printb(a);
+		Library.println("");
+		Library.printi(y1);
+		int i=1;
+		int result = 1;
+		while (i<24){
+			i = i + 1;
+			if (i >4) continue;
+			result = result*i;
+		
+		
+		}
+		int[] k = new int[4];
+		
+		k[0]=0;
+		int a2 = 4;
+		k[1]=1;
+		k[2]=2;
+		k[3]=3;
+		int j = k[y1%4];
+		Library.printi(j);
+		Library.println("");
+		Library.printi(result);
+		return;
+	}
+	
+	void virtual2(string str){
+		Library.println(str);
+	}
+
+	static void main(string[] args){
+		Library.printi(7);
+		A.printNumbers(6, 8);
+		A a = new A();
+		a.virtual2("Eyal");
+		a.virtualMeth(212+4);
+		A x = null;
+		if (x == null){
+			Library.println("Go home!");
+		} else {
+			Library.println("Anyway go home!");
+		}
+		Library.printi(90);
+		
+	}
+
+}
