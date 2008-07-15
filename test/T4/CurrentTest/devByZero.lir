@@ -27,8 +27,7 @@ Move R2, y_A_17
 # Line 7: 
 Move x_A_17, R4
 Move y_A_17, R5
-Move 0, R6
-Compare R6,R5
+Compare 0,R5
 JumpTrue _dev_by_zero
 Div R5,R4
 Move R4, x_A_17 # assigning val to loc

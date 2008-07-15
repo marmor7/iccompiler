@@ -5,6 +5,10 @@
 
 ######################
 # STRING LITERALS
+arr_neg_alloc_size: "Negative or zero array size allocation. Program will no exit. "
+null_reference: "Null reference. Program will no exit. "
+illegal_arr_loc: "Illegal array location. Program will no exit. "
+dev_by_zero: "Devision by zero. Program will no exit. "
 str0: "In Foo_rise"
 str1: "In Foo_shine"
 str2: "In Bar_rise"
@@ -101,3 +105,24 @@ Move 4, R42
 Move R42, R43
 Return R43
 Return 9999
+
+######################
+# Error Labels
+######################
+
+_null_reference:
+Library __println(null_reference),Rdummy
+Library __exit(1),Rdummy
+
+_illegal_arr_loc:
+Library __println(illegal_arr_loc),Rdummy
+Library __exit(1),Rdummy
+
+_dev_by_zero:
+Library __println(dev_by_zero),Rdummy
+Library __exit(1),Rdummy
+
+_arr_neg_alloc_size:
+Library __println(arr_neg_alloc_size),Rdummy
+Library __exit(1),Rdummy
+

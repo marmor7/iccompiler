@@ -1,0 +1,170 @@
+
+######################
+# Program workspace/IC_COMPILER/test/T4/CurrentTest/boolean.ic
+######################
+
+######################
+# STRING LITERALS
+arr_neg_alloc_size: "Negative or zero array size allocation. Program will no exit. "
+null_reference: "Null reference. Program will no exit. "
+illegal_arr_loc: "Illegal array location. Program will no exit. "
+dev_by_zero: "Devision by zero. Program will no exit. "
+str0: "y="
+str1: ""
+str2: "x<y"
+str3: "x>y"
+str4: "x<=y"
+str5: "x>=y"
+str6: "x==y"
+str7: "x!=y"
+######################
+
+######################
+# DISPATCH VECTORS
+_DV_BooleanTest: []
+######################
+
+_ic_main:   # Main Method
+# Line 4: 
+Move 1, R1
+Move R1, x_BooleanTest_17
+# Line 5: 
+Move x_BooleanTest_17, R2
+Move 1, R3
+Add R3,R2
+Move R2, y_BooleanTest_17
+# Line 7: 
+Move str0, R4 # assigning literal to reg
+Library __print(R4),R5
+# Line 8: 
+Move y_BooleanTest_17, R6
+Library __printi(R6),R7
+# Line 9: 
+Move str1, R8 # assigning literal to reg
+Library __println(R8),R9
+# Line 11: 
+Move x_BooleanTest_17, R10
+Move y_BooleanTest_17, R11
+Move 0, R12
+Compare R11,R10
+JumpGE _l4
+Move 1, R12
+_l4:
+Compare 0,R12		# If's condition check
+JumpTrue _l2		# Conditional jump when If's outcome is true
+_l1:   # If's then label
+# Line 11: 
+Move str2, R13 # assigning literal to reg
+Library __println(R13),R14
+Jump _l3		# Jump to end label(end of then part)
+_l2:   # If's else label
+_l3:   # End of If statement
+# Line 14: 
+Move x_BooleanTest_17, R15
+Move y_BooleanTest_17, R16
+Move 0, R17
+Compare R16,R15
+JumpLE _l8
+Move 1, R17
+_l8:
+Compare 0,R17		# If's condition check
+JumpTrue _l6		# Conditional jump when If's outcome is true
+_l5:   # If's then label
+# Line 14: 
+Move str3, R18 # assigning literal to reg
+Library __println(R18),R19
+Jump _l7		# Jump to end label(end of then part)
+_l6:   # If's else label
+_l7:   # End of If statement
+# Line 17: 
+Move x_BooleanTest_17, R20
+Move y_BooleanTest_17, R21
+Move 0, R22
+Compare R21,R20
+JumpG _l12
+Move 1, R22
+_l12:
+Compare 0,R22		# If's condition check
+JumpTrue _l10		# Conditional jump when If's outcome is true
+_l9:   # If's then label
+# Line 17: 
+Move str4, R23 # assigning literal to reg
+Library __println(R23),R24
+Jump _l11		# Jump to end label(end of then part)
+_l10:   # If's else label
+_l11:   # End of If statement
+# Line 20: 
+Move x_BooleanTest_17, R25
+Move y_BooleanTest_17, R26
+Move 0, R27
+Compare R26,R25
+JumpL _l16
+Move 1, R27
+_l16:
+Compare 0,R27		# If's condition check
+JumpTrue _l14		# Conditional jump when If's outcome is true
+_l13:   # If's then label
+# Line 20: 
+Move str5, R28 # assigning literal to reg
+Library __println(R28),R29
+Jump _l15		# Jump to end label(end of then part)
+_l14:   # If's else label
+_l15:   # End of If statement
+# Line 23: 
+Move x_BooleanTest_17, R30
+Move y_BooleanTest_17, R31
+Move 0, R32
+Compare R30,R31
+JumpFalse _l20
+Move 1, R32
+_l20:
+Compare 0,R32		# If's condition check
+JumpTrue _l18		# Conditional jump when If's outcome is true
+_l17:   # If's then label
+# Line 23: 
+Move str6, R33 # assigning literal to reg
+Library __println(R33),R34
+Jump _l19		# Jump to end label(end of then part)
+_l18:   # If's else label
+_l19:   # End of If statement
+# Line 26: 
+Move x_BooleanTest_17, R35
+Move y_BooleanTest_17, R36
+Move 0, R37
+Compare R35,R36
+JumpTrue _l24
+Move 1, R37
+_l24:
+Compare 0,R37		# If's condition check
+JumpTrue _l22		# Conditional jump when If's outcome is true
+_l21:   # If's then label
+# Line 26: 
+Move str7, R38 # assigning literal to reg
+Library __println(R38),R39
+Jump _l23		# Jump to end label(end of then part)
+_l22:   # If's else label
+_l23:   # End of If statement
+Library __exit(0),Rdummy
+# Method main end
+Return 9999
+
+######################
+# Error Labels
+######################
+
+_null_reference:
+Library __println(null_reference),Rdummy
+Library __exit(1),Rdummy
+
+_illegal_arr_loc:
+Library __println(illegal_arr_loc),Rdummy
+Library __exit(1),Rdummy
+
+_dev_by_zero:
+Library __println(dev_by_zero),Rdummy
+Library __exit(1),Rdummy
+
+_arr_neg_alloc_size:
+Library __println(arr_neg_alloc_size),Rdummy
+Library __exit(1),Rdummy
+
