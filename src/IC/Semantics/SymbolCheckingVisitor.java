@@ -301,10 +301,10 @@ public class SymbolCheckingVisitor implements Visitor {
 	public Object visit(ArrayLocation location) {
 		location.setScope(curScope);
 		
-		location.getArray().accept(this);
+		SymbolClass class1 = (SymbolClass) location.getArray().accept(this);
 		location.getIndex().accept(this);
 
-		return null;
+		return class1;
 	}
 
 	public Object visit(StaticCall call) {
