@@ -86,6 +86,15 @@ public class SymbolTable {
 		return s;
 	}
 	
+	public SymbolTable searchVariableReturnScope(String id) {
+		SymbolClass s = varEntries.get(id);
+		SymbolTable s2 = this;
+		if ((s == null) && (this.getParent() != null))
+			 s2 =	this.getParent().searchVariableReturnScope(id);
+		
+		return s2;
+	}
+	
 	public SymbolClass searchMethod(String id) {
 		SymbolClass s = methodEntries.get(id);
 		

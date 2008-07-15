@@ -50,6 +50,7 @@ import IC.LIR.Op.OpType;
 import IC.Semantics.MethodSigType;
 import IC.Semantics.TypeClass;
 import IC.Semantics.TypeTable;
+import IC.Semantics.SymbolClass.SymbolKind;
 
 /**
  * Visitor which translates the AST tree to LIR functions
@@ -83,6 +84,7 @@ public class LirVisitor implements Visitor {
 	private String errorLabelIllegalArrayLocation = "_illegal_arr_loc";
 	private String errorLabelDevByZero = "_dev_by_zero";
 	private String errorLabelArrayNegativeAllocationSize = "_arr_neg_alloc_size";
+	private boolean lval;
 
 	/**
 	 * Constructs a new LIR visitor.
@@ -265,12 +267,15 @@ public class LirVisitor implements Visitor {
 		int oldAssigmentIndex;
 		Op oldAssignmentLoc;
 
+		
 		assignmentLocation = null;
 		assignmentIndex = -1;
 		int assignmentListIndex = -1;
 
 		try {
+			lval = true;
 			Op loc = (Op) assignment.getVariable().accept(this);
+			lval = false;
 			assignmentListIndex = list.size() - 1;
 			// Save location and current index
 			oldAssigmentIndex = assignmentIndex;
@@ -292,25 +297,33 @@ public class LirVisitor implements Visitor {
 						DataTransferInstructionType.MoveField);
 				ins.setOptComment("(Assignment statement)");
 				list.add(ins);
-			} else {
-				list.remove(assignmentListIndex);
+			} //else {
+			//	list.remove(assignmentListIndex);
 				/*
 				 * Instruction ins = new DataTransferInstruction(value,
 				 * loc,DataTransferInstructionType.Move);
 				 * ins.setOptComment("(Assignment statement)"); list.add(ins);
 				 */
-			}
+			//}
 
-			if (oldAssignmentLoc != null) {
+			if (oldAssignmentLoc != null) 
+			{
 				if (oldAssigmentIndex > -1)
 					list.add(new DataTransferInstruction(value,
 							oldAssignmentLoc,
 							DataTransferInstructionType.MoveArray)
 							.setOptComment("assigning val to loc"));
 				else
-					list.add(new DataTransferInstruction(value,
+				{
+					if(oldAssignmentLoc.getName().contains(".") || value.getName().contains("."))
+						list.add(new DataTransferInstruction(value,
+								oldAssignmentLoc, DataTransferInstructionType.MoveField)
+								.setOptComment("assigning val to loc"));
+					else
+						list.add(new DataTransferInstruction(value,
 							oldAssignmentLoc, DataTransferInstructionType.Move)
 							.setOptComment("assigning val to loc"));
+				}
 				
 				oldAssigmentIndex = -1;
 				oldAssignmentLoc = null;
@@ -516,6 +529,28 @@ public class LirVisitor implements Visitor {
 
 		TypeClass tc = (TypeClass) location.enclosingScope().searchVariable(
 				location.getName()).getType();
+		
+		//taking care of fields
+		if ((location.enclosingScope().searchVariable(location.getName()).getKind() == SymbolKind.FIELD) && (!location.isExternal()) )  
+		{
+			
+			Op firstOp = new Op("this", OpType.ThisType);
+			Op reg = new Op(Register.getFreeReg(), OpType.Reg);
+			// Move this,methodRegister
+			DataTransferInstruction dti = new DataTransferInstruction(firstOp, reg,
+					DataTransferInstructionType.Move);
+			list.add(dti);
+			DispatchTable dt = dTables.get(location.enclosingScope().searchVariableReturnScope(location.getName()).getId()) ;
+			int pos = dt.getFieldPos(location.getName());
+			Op reg2 = new Op(reg.getName() + "." + pos, OpType.Var);
+			Op reg3 = new Op(Register.getFreeReg(), OpType.Reg);
+			dti = new DataTransferInstruction(reg2, reg3,
+					DataTransferInstructionType.MoveField);
+			list.add(dti);
+			assignmentLocation = reg2;
+			return reg3;
+			
+		}
 		System.out.println(tc.getId());// TMP
 		if (tc.getId().equals("string")) {
 			isString = true;
@@ -543,9 +578,13 @@ public class LirVisitor implements Visitor {
 
 			assignmentLocation = var;
 
+			if (!lval)
+			{
 			list.add(new DataTransferInstruction(var, reg,
 					DataTransferInstructionType.Move));
 			return reg;
+			}
+			else return var;
 		}
 
 	}
