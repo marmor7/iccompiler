@@ -3,6 +3,7 @@ class A
 	static void main(string[] args) 
 	{
 		int x = 1;
-		x = x / 0; //Error
+		int y = 0;
+		x = x / y; //Error
 	}
 }
