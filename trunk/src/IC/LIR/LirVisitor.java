@@ -633,7 +633,7 @@ public class LirVisitor implements Visitor {
 				ControlTransferInstructionType.JumpL));		
 		list.add(new LogicalInstruction(place, zeroReg, LogicalInstructionType.Compare));
 		list.add(new ControlTransferInstruction(new Op(errorLabelIllegalArrayLocation, OpType.Label), 
-												ControlTransferInstructionType.JumpL));		
+												ControlTransferInstructionType.JumpG));		
 		
 		Op newarr = new Op(arr.getName() + "[" + place.getName() + "]",
 				OpType.Reg);
