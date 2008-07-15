@@ -1,0 +1,58 @@
+
+######################
+# Program workspace/IC_COMPILER/test/T4/CurrentTest/devByZero.ic
+######################
+
+######################
+# STRING LITERALS
+arr_neg_alloc_size: "Negative or zero array size allocation. Program will no exit. "
+null_reference: "Null reference. Program will no exit. "
+illegal_arr_loc: "Illegal array location. Program will no exit. "
+dev_by_zero: "Devision by zero. Program will no exit. "
+
+######################
+
+######################
+# DISPATCH VECTORS
+_DV_A: []
+######################
+
+_ic_main:   # Main Method
+# Line 5: 
+Move 1, R1
+Move R1, x_A_17
+# Line 6: 
+Move 0, R2
+Move R2, y_A_17
+# Line 7: 
+Move x_A_17, R4
+Move y_A_17, R5
+Move 0, R6
+Compare R6,R5
+JumpTrue _dev_by_zero
+Div R5,R4
+Move R4, x_A_17 # assigning val to loc
+Library __exit(0),Rdummy
+# Method main end
+Return 9999
+
+######################
+# Error Labels
+######################
+
+_null_reference:
+Library __println(null_reference),Rdummy
+Library __exit(1),Rdummy
+
+_illegal_arr_loc:
+Library __println(illegal_arr_loc),Rdummy
+Library __exit(1),Rdummy
+
+_dev_by_zero:
+Library __println(dev_by_zero),Rdummy
+Library __exit(1),Rdummy
+
+_arr_neg_alloc_size:
+Library __println(arr_neg_alloc_size),Rdummy
+Library __exit(1),Rdummy
+
