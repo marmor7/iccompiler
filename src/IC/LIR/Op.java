@@ -29,7 +29,6 @@ public class Op {
 		ThisType,
 		Param, //Param is to mark that op will be returned by his function.
 		Disabled,
-		Var,  //var is strliteral or variable
 		DV, //Dispatch table vector
 		Array, //Name is Reg[Reg]
 		Field, //Name Reg.number
