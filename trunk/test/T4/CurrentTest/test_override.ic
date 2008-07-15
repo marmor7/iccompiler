@@ -1,0 +1,21 @@
+class A {
+	string foo() {
+		return "A";
+	}
+}
+
+class B extends A{
+	string foo() {
+		return "B";
+	}
+	
+	static void main(string[] args) {
+		A a = new A();
+		B b = new B();
+		A o = new B();
+		
+		Library.println("a is "+a.foo());
+		Library.println("b is "+b.foo());
+		Library.println("o is "+o.foo());
+	}
+}

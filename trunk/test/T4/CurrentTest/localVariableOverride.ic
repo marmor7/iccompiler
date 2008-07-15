@@ -1,0 +1,15 @@
+class A {
+  static void foo() {
+  
+    int x = 1;
+    {
+      int x = 2;
+      Library.printi(x);
+    }
+    Library.printi(x);
+  }
+  
+  static void main(string[] args) {
+  	A.foo();
+  }
+}

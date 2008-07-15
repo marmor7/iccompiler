@@ -5,6 +5,7 @@
 
 ######################
 # STRING LITERALS
+arr_neg_alloc_size: "Negative or zero array size allocation. Program will no exit. "
 null_reference: "Null reference. Program will no exit. "
 illegal_arr_loc: "Illegal array location. Program will no exit. "
 dev_by_zero: "Devision by zero. Program will no exit. "
@@ -45,5 +46,9 @@ Library __exit(1),Rdummy
 
 _dev_by_zero:
 Library __println(dev_by_zero),Rdummy
+Library __exit(1),Rdummy
+
+_arr_neg_alloc_size:
+Library __println(arr_neg_alloc_size),Rdummy
 Library __exit(1),Rdummy
 

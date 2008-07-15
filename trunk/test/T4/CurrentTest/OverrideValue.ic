@@ -1,0 +1,10 @@
+class A {
+	static void main(string[] args) {
+		int x = 5;
+		{
+			int x = 6;
+			Library.printi(x);
+		}
+		Library.printi(x);
+	}
+} 
