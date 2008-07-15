@@ -247,7 +247,14 @@ public class SymbolTable {
 		BLOCK;
 	}
 
-	public int getNumid() {
+	public int getNumid(String var) {
+		return searchVariableReturnScope(var).getNumid();
+		
+	}
+
+	private int getNumid() {
 		return numid;
 	}
 }
+
+
