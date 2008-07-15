@@ -324,6 +324,7 @@ public class LirVisitor implements Visitor {
 				{
 					if (value.getName().contains("."))
 					{
+						addNullReferenceCheckToList(value);
 						list.add(new DataTransferInstruction(value,
 								oldAssignmentLoc, DataTransferInstructionType.MoveField)
 								.setOptComment("assigning val to loc"));
@@ -340,6 +341,7 @@ public class LirVisitor implements Visitor {
 							
 							oldAssignmentLoc = new Op(newreg.getName() +"."+ varpos , OpType.Memory);
 						}
+						addNullReferenceCheckToList(oldAssignmentLoc);
 						list.add(new DataTransferInstruction(value,
 								oldAssignmentLoc, DataTransferInstructionType.MoveField)
 								.setOptComment("assigning val to loc"));
@@ -572,6 +574,7 @@ public class LirVisitor implements Visitor {
 			int pos = dt.getFieldPos(location.getName());
 			Op reg2 = new Op(reg.getName() + "." + pos, OpType.Memory);
 			Op reg3 = new Op(Register.getFreeReg(), OpType.Reg);
+			addNullReferenceCheckToList(reg2);
 			dti = new DataTransferInstruction(reg2, reg3,
 					DataTransferInstructionType.MoveField);
 			list.add(dti);
@@ -659,6 +662,7 @@ public class LirVisitor implements Visitor {
 				Op op = (Op) call.getArguments().get(i).accept(this);
 				if (op.getName().contains(".")) {
 					reg = new Op(Register.getFreeReg(), OpType.Reg);
+					addNullReferenceCheckToList(op);
 					list.add(new DataTransferInstruction(op, reg,
 							DataTransferInstructionType.MoveField));
 					op = reg;
@@ -1157,7 +1161,16 @@ public class LirVisitor implements Visitor {
 	
 	private void addNullReferenceCheckToList(Op reg)
 	{
-		list.add(new LogicalInstruction(new Op("0", OpType.Immediate), reg, LogicalInstructionType.Compare));
+		if(reg.getName().contains("."))
+		{
+			String regName = reg.getName().substring(0, reg.getName().indexOf("."));
+			list.add(new LogicalInstruction(new Op("0", OpType.Immediate), new Op(regName, OpType.Reg), LogicalInstructionType.Compare));
+		}
+		else
+		{
+			list.add(new LogicalInstruction(new Op("0", OpType.Immediate), reg, LogicalInstructionType.Compare));			
+		}
+		
 		list.add(new ControlTransferInstruction(new Op(errorLabelNullReference, OpType.Label), 
 				ControlTransferInstructionType.JumpTrue));
 	}
