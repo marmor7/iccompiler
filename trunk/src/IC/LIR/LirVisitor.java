@@ -456,14 +456,15 @@ public class LirVisitor implements Visitor {
 
 		// Add to list the JumpLe instruction
 		ControlTransferInstruction ct = new ControlTransferInstruction(new Op(
-				falseWhileLabel, OpType.Label),
-				ControlTransferInstructionType.JumpLE);
+				latestWhileEndLabel, OpType.Label),
+				ControlTransferInstructionType.JumpTrue);
 		ct.setOptComment("Conditional jump when while statement is false");
 		list.add(ct);
 
 		// If while condition is true, this code will be executed
 		whileStatement.getOperation().accept(this);
 
+		list.add(new ControlTransferInstruction( new Op(latestWhileStartLabel,OpType.Label) ,ControlTransferInstructionType.Jump));
 		// Add new while false condition label
 		list.add(new Label(falseWhileLabel, "False while condition"));
 
@@ -529,7 +530,7 @@ public class LirVisitor implements Visitor {
 			else
 				var = new Op(varFormatter(localVariable.getName(),
 						this.currentVisitedClassName, localVariable
-								.enclosingScope().getNumid()), OpType.Memory);
+								.enclosingScope().getNumid(localVariable.getName())), OpType.Memory);
 			if (this.isAssignmentNewClass) {
 				this.isAssignmentNewClass = false;
 				String mangledName = Utils.getObjectsMapName(localVariable
@@ -598,7 +599,7 @@ public class LirVisitor implements Visitor {
 			else
 				var = new Op(varFormatter(location.getName(),
 						this.currentVisitedClassName, location.enclosingScope()
-								.getNumid()), OpType.Memory);
+								.getNumid(location.getName())), OpType.Memory);
 			Op reg = new Op(Register.getFreeReg(), OpType.Reg);
 
 			assignmentLocation = var;
@@ -628,9 +629,9 @@ public class LirVisitor implements Visitor {
 		list.add(new LogicalInstruction(arrSize, place, LogicalInstructionType.Compare));
 		list.add(new ControlTransferInstruction(new Op(errorLabelIllegalArrayLocation, OpType.Label), 
 				ControlTransferInstructionType.JumpGE));		
-		list.add(new LogicalInstruction(place, new Op("0", OpType.Immediate), LogicalInstructionType.Compare));
+		list.add(new LogicalInstruction( new Op("0", OpType.Immediate),place, LogicalInstructionType.Compare));
 		list.add(new ControlTransferInstruction(new Op(errorLabelIllegalArrayLocation, OpType.Label), 
-												ControlTransferInstructionType.JumpG));		
+												ControlTransferInstructionType.JumpL));		
 		
 		Op newarr = new Op(arr.getName() + "[" + place.getName() + "]",
 				OpType.Reg);
