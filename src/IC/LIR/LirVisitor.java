@@ -7,6 +7,7 @@ import java.util.List;
 
 import java_cup.internal_error;
 
+import IC.LiteralTypes;
 import IC.AST.ArrayLocation;
 import IC.AST.Assignment;
 import IC.AST.Break;
@@ -321,7 +322,6 @@ public class LirVisitor implements Visitor {
 			{
 				if(oldAssignmentLoc.getName().contains(".") || value.getName().contains("."))
 				{
-					
 					if (value.getName().contains("."))
 					{
 						list.add(new DataTransferInstruction(value,
@@ -355,7 +355,7 @@ public class LirVisitor implements Visitor {
 			oldAssignmentLoc = null;
 
 		} catch (Exception e) {
-			System.out.println("casting error - need to implement something"); // TMP!
+			System.out.println("casting error - need to implement something: " + e.getMessage()); // TMP!
 		}
 
 		return null;
@@ -624,12 +624,14 @@ public class LirVisitor implements Visitor {
 		//Runtime check from access an array at legal position
 		//Get array size:
 		Op arrSize = new Op(Register.getFreeReg(), OpType.Reg);
+		Op zeroReg = new Op(Register.getFreeReg(), OpType.Reg);
+		list.add(new DataTransferInstruction(new Op("0", OpType.Immediate), zeroReg, DataTransferInstructionType.Move));
 		
 		list.add(new LogicalInstruction(arr, arrSize, LogicalInstructionType.ArrayLength));
-		list.add(new LogicalInstruction(arrSize, place, LogicalInstructionType.Compare));
+		list.add(new LogicalInstruction(place, arrSize, LogicalInstructionType.Compare));
 		list.add(new ControlTransferInstruction(new Op(errorLabelIllegalArrayLocation, OpType.Label), 
-				ControlTransferInstructionType.JumpGE));		
-		list.add(new LogicalInstruction( new Op("0", OpType.Immediate),place, LogicalInstructionType.Compare));
+				ControlTransferInstructionType.JumpL));		
+		list.add(new LogicalInstruction(place, zeroReg, LogicalInstructionType.Compare));
 		list.add(new ControlTransferInstruction(new Op(errorLabelIllegalArrayLocation, OpType.Label), 
 												ControlTransferInstructionType.JumpL));		
 		
@@ -1067,6 +1069,13 @@ public class LirVisitor implements Visitor {
 					DataTransferInstructionType.Move)
 					.setOptComment("assigning literal to reg"));
 			return (reg);
+		}
+		
+		if(literal.getType() == IC.LiteralTypes.NULL)
+		{
+			Op reg = new Op(Register.getFreeReg(), OpType.Immediate);
+			list.add(new DataTransferInstruction(new Op("0", OpType.Immediate), reg, DataTransferInstructionType.Move));
+			return reg;
 		}
 
 		throw new RuntimeException("Lit Exception");
