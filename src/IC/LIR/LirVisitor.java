@@ -632,7 +632,7 @@ public class LirVisitor implements Visitor {
 		Op zeroReg = new Op(Register.getFreeReg(), OpType.Reg);
 		list.add(new DataTransferInstruction(new Op("0", OpType.Immediate), zeroReg, DataTransferInstructionType.Move));
 		
-		list.add(new LogicalInstruction(arr, arrSize, LogicalInstructionType.ArrayLength));
+		addArrayLengthToReg(arr, arrSize);
 		list.add(new LogicalInstruction(place, arrSize, LogicalInstructionType.Compare));
 		list.add(new ControlTransferInstruction(new Op(errorLabelIllegalArrayLocation, OpType.Label), 
 				ControlTransferInstructionType.JumpL));		
@@ -847,19 +847,7 @@ public class LirVisitor implements Visitor {
 		DataTransferInstructionType AIT;
 
 		AIT = DataTransferInstructionType.ArrayLength;
-		Instruction i = new DataTransferInstruction(one, reg, AIT); // TBD - how
-																	// do we
-																	// handle
-																	// arithmetic
-																	// instructions
-																	// that have
-																	// only one
-																	// paramater-
-																	// currently
-																	// im
-																	// passing
-																	// the same
-																	// op twice
+		Instruction i = new DataTransferInstruction(one, reg, AIT); 
 		list.add(i);
 
 		return (reg);
@@ -1173,5 +1161,21 @@ public class LirVisitor implements Visitor {
 		
 		list.add(new ControlTransferInstruction(new Op(errorLabelNullReference, OpType.Label), 
 				ControlTransferInstructionType.JumpTrue));
+	}
+	
+	private void addArrayLengthToReg(Op arrayObject, Op arraySize)
+	{
+		Op arr = arrayObject;  
+		if(arrayObject.getName().contains("."))
+		{
+			arr = new Op(Register.getFreeReg(), OpType.Reg);
+			list.add(new DataTransferInstruction(arrayObject, arr, DataTransferInstructionType.MoveField));
+		}
+		else
+		{
+						
+		}
+		
+		list.add(new LogicalInstruction(arr, arraySize, LogicalInstructionType.ArrayLength).setOptComment("Getting array length"));		
 	}
 }
