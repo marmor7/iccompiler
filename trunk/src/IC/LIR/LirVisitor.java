@@ -555,7 +555,26 @@ public class LirVisitor implements Visitor {
 		Op arr = (Op) location.getArray().accept(this);
 		Op place = (Op) location.getIndex().accept(this); //Index of array access
 		Op reg = new Op(Register.getFreeReg(), OpType.Reg);
+		
+		//Runtime check from access an array at legal position
+		//Get array size:
+		Op arrSize = new Op(Register.getFreeReg(), OpType.Reg);
+		Op zeroSizeReg = new Op(Register.getFreeReg(), OpType.Reg);
+		
+		list.add(new LogicalInstruction(arr, arrSize, LogicalInstructionType.ArrayLength));
+		list.add(new LogicalInstruction(arrSize, place, LogicalInstructionType.Compare));
+		list.add(new ControlTransferInstruction(new Op(errorLabelIllegalArrayLocation, OpType.Label), 
+				ControlTransferInstructionType.JumpGE));		
+		list.add(new DataTransferInstruction(new Op("0", OpType.Immediate), 
+											 zeroSizeReg, 
+											 DataTransferInstructionType.Move));
+		list.add(new LogicalInstruction(place, zeroSizeReg, LogicalInstructionType.Compare));
+		list.add(new ControlTransferInstruction(new Op(errorLabelIllegalArrayLocation, OpType.Label), 
+												ControlTransferInstructionType.JumpG));
 
+		
+		
+		
 		Op newarr = new Op(arr.getName() + "[" + place.getName() + "]",
 				OpType.Reg);
 		list.add(new DataTransferInstruction(newarr, reg,
@@ -743,7 +762,7 @@ public class LirVisitor implements Visitor {
 		//Runtime check for array size
 		//Move zero to new register
 		Op zeroSizeReg = new Op(Register.getFreeReg(), OpType.Reg);
-		DataTransferInstruction dti1 = new DataTransferInstruction(new Op("0", OpType.Memory),
+		DataTransferInstruction dti1 = new DataTransferInstruction(new Op("0", OpType.Immediate),
 																   zeroSizeReg,
 																   DataTransferInstructionType.Move);
 		dti1.setOptComment("Moving zero to new register in order to compare the new array's size");
