@@ -1,10 +1,14 @@
 
 ######################
-# Program workspace/IC_COMPILER/test/T4/string_concat.ic
+# Program string_concat.ic
 ######################
 
 ######################
 # STRING LITERALS
+arr_neg_alloc_size: "Negative or zero array size allocation. Program will no exit. "
+null_reference: "Null reference. Program will no exit. "
+illegal_arr_loc: "Illegal array location. Program will no exit. "
+dev_by_zero: "Devision by zero. Program will no exit. "
 str0: "Hello"
 str1: "abc"
 ######################
@@ -34,32 +38,26 @@ Move R5, s_StringConcat_18
 Move s_StringConcat_18, R6
 Library __println(R6),R7
 # Line 11: 
-Move s_StringConcat_18, R8
-Move sc_StringConcat_18, R10
-Move s_StringConcat_18, R11
-VirtualCall R10.0(s=R11),R10
-Move R10, R8 # (Assignment statement)
-Move R10, s_StringConcat_18 # assigning val to loc
+Move s_StringConcat_18, R10
+Move sc_StringConcat_18, R11
+VirtualCall R11.0(s=R10),R11
+Move R11, s_StringConcat_18 # assigning val to loc
 # Line 12: 
 Move s_StringConcat_18, R12
 Library __println(R12),R13
 # Line 13: 
-Move s_StringConcat_18, R14
-Move sc_StringConcat_18, R16
-Move s_StringConcat_18, R17
-VirtualCall R16.0(s=R17),R16
-Move R16, R14 # (Assignment statement)
-Move R16, s_StringConcat_18 # assigning val to loc
+Move s_StringConcat_18, R16
+Move sc_StringConcat_18, R17
+VirtualCall R17.0(s=R16),R17
+Move R17, s_StringConcat_18 # assigning val to loc
 # Line 14: 
 Move s_StringConcat_18, R18
 Library __println(R18),R19
 # Line 15: 
-Move s_StringConcat_18, R20
-Move sc_StringConcat_18, R22
-Move s_StringConcat_18, R23
-VirtualCall R22.0(s=R23),R22
-Move R22, R20 # (Assignment statement)
-Move R22, s_StringConcat_18 # assigning val to loc
+Move s_StringConcat_18, R22
+Move sc_StringConcat_18, R23
+VirtualCall R23.0(s=R22),R23
+Move R23, s_StringConcat_18 # assigning val to loc
 # Line 16: 
 Move s_StringConcat_18, R24
 Library __println(R24),R25
@@ -67,13 +65,11 @@ Library __println(R24),R25
 Move 1, R26
 Move R26, x_StringConcat_18
 # Line 19: 
-Move x_StringConcat_18, R27
 Move x_StringConcat_18, R28
 Move 100, R29
 Mul R29,R28
 Move 23, R30
 Add R30,R28
-Move R28, R27 # (Assignment statement)
 Move R28, x_StringConcat_18 # assigning val to loc
 # Line 20: 
 Move x_StringConcat_18, R31
@@ -82,50 +78,106 @@ Library __printi(R31),R32
 Move 4, R33
 Move 4, R34
 Mul R34,R33
+Compare 0,R33
+JumpLE _arr_neg_alloc_size
 Library __allocateArray(R33),R35
 Move R35, arr_StringConcat_18
 # Line 23: 
-Move arr_StringConcat_18, R36
 Move 0, R37
-MoveArray R36[R37], R38
-Move 2, R39
-Move 1, R40
-Sub R40,R39
-Move R39, R38 # (Assignment statement)
-MoveArray R39, R36[R37] # assigning val to loc
-# Line 24: 
-Move arr_StringConcat_18, R41
+Move 0, R40
+ArrayLength arr_StringConcat_18,R39		# Getting array length
+Compare R37,R39
+JumpL _illegal_arr_loc
+Compare R37,R40
+JumpG _illegal_arr_loc
+MoveArray arr_StringConcat_18[R37], R38
+Move 2, R41
 Move 1, R42
-MoveArray R41[R42], R43
-Move 3, R44
+Sub R42,R41
+MoveArray arr_StringConcat_18], R43 # SMART MOVED BITCH - Array Style
+MoveArray R41, arr_StringConcat_18[R37] # assigning val to loc
+# Line 24: 
 Move 1, R45
-Sub R45,R44
-Move R44, R43 # (Assignment statement)
-MoveArray R44, R41[R42] # assigning val to loc
+Move 0, R48
+ArrayLength arr_StringConcat_18,R47		# Getting array length
+Compare R45,R47
+JumpL _illegal_arr_loc
+Compare R45,R48
+JumpG _illegal_arr_loc
+MoveArray arr_StringConcat_18[R45], R46
+Move 3, R49
+Move 1, R50
+Sub R50,R49
+MoveArray arr_StringConcat_18], R51 # SMART MOVED BITCH - Array Style
+MoveArray R49, arr_StringConcat_18[R45] # assigning val to loc
 # Line 25: 
-Move arr_StringConcat_18, R46
-Move 2, R47
-MoveArray R46[R47], R48
-Move 1, R49
-Move 2, R50
-Add R50,R49
-Move R49, R48 # (Assignment statement)
-MoveArray R49, R46[R47] # assigning val to loc
+Move 2, R53
+Move 0, R56
+ArrayLength arr_StringConcat_18,R55		# Getting array length
+Compare R53,R55
+JumpL _illegal_arr_loc
+Compare R53,R56
+JumpG _illegal_arr_loc
+MoveArray arr_StringConcat_18[R53], R54
+Move 1, R57
+Move 2, R58
+Add R58,R57
+MoveArray arr_StringConcat_18], R59 # SMART MOVED BITCH - Array Style
+MoveArray R57, arr_StringConcat_18[R53] # assigning val to loc
 # Line 26: 
-Move arr_StringConcat_18, R51
-Move 0, R52
-MoveArray R51[R52], R53
-Library __printi(R53),R54
+Move arr_StringConcat_18, R60
+Move 0, R61
+Move 0, R64
+ArrayLength R60,R63		# Getting array length
+Compare R61,R63
+JumpL _illegal_arr_loc
+Compare R61,R64
+JumpG _illegal_arr_loc
+MoveArray R60[R61], R62
+Library __printi(R62),R65
 # Line 27: 
-Move arr_StringConcat_18, R55
-Move 1, R56
-MoveArray R55[R56], R57
-Library __printi(R57),R58
+Move arr_StringConcat_18, R66
+Move 1, R67
+Move 0, R70
+ArrayLength R66,R69		# Getting array length
+Compare R67,R69
+JumpL _illegal_arr_loc
+Compare R67,R70
+JumpG _illegal_arr_loc
+MoveArray R66[R67], R68
+Library __printi(R68),R71
 # Line 28: 
-Move arr_StringConcat_18, R59
-Move 2, R60
-MoveArray R59[R60], R61
-Library __printi(R61),R62
+Move arr_StringConcat_18, R72
+Move 2, R73
+Move 0, R76
+ArrayLength R72,R75		# Getting array length
+Compare R73,R75
+JumpL _illegal_arr_loc
+Compare R73,R76
+JumpG _illegal_arr_loc
+MoveArray R72[R73], R74
+Library __printi(R74),R77
 Library __exit(0),Rdummy
 # Method main end
 Return 9999
+
+######################
+# Error Labels
+######################
+
+_null_reference:
+Library __println(null_reference),Rdummy
+Library __exit(1),Rdummy
+
+_illegal_arr_loc:
+Library __println(illegal_arr_loc),Rdummy
+Library __exit(1),Rdummy
+
+_dev_by_zero:
+Library __println(dev_by_zero),Rdummy
+Library __exit(1),Rdummy
+
+_arr_neg_alloc_size:
+Library __println(arr_neg_alloc_size),Rdummy
+Library __exit(1),Rdummy
+
