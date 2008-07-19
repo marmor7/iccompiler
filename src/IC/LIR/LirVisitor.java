@@ -1,5 +1,6 @@
 package IC.LIR;
 
+import java.sql.Savepoint;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -313,7 +314,8 @@ public class LirVisitor implements Visitor {
 			
 			assert(oldAssignmentLoc != null); 
 			
-		//	smartMove(value, oldAssignmentLoc);
+			smartMove(value, true);
+			smartMove(oldAssignmentLoc, true);
 			
 			if (oldAssigmentIndex > -1)
 				list.add(new DataTransferInstruction(value,
@@ -1180,7 +1182,7 @@ public class LirVisitor implements Visitor {
 		
 		list.add(new LogicalInstruction(arr, arraySize, LogicalInstructionType.ArrayLength).setOptComment("Getting array length"));		
 	}
-	
+	/*
 	private void smartMove(Op source,Op dest)
 	{
 		System.err.println("SmartMove on: " + source + "(" + howSafe(source.getName()) + ")" +
@@ -1191,33 +1193,72 @@ public class LirVisitor implements Visitor {
 			safeMove(source,dest); 
 		else
 		{
+			if ((source.getOpType() == dest.getOpType()) && (source.getOpType() == OpType.Memory))
+			{
+				Op tempReg = new Op(Register.getFreeReg(),OpType.Reg);
+				safeMove(source, tempReg);
+				safeMove(tempReg, dest);
+				safeMove(tempReg ,source );
+				return;
+				
+			}	
+			String toCutS;
+			Op toCutO;
 			if (sourceSafe > destSafe)
 			{
-				
-			/*	
-				int dot = opName.lastIndexOf(".");
-				int brk = opName.lastIndexOf("[");
-				
-				if ((dot >= 0) || (brk >= 0))
+				toCutS = source.getName() ;
+				toCutO = source;
+			}
+			else
+			{
+				toCutS = dest.getName() ;
+				toCutO = dest;
+			}
+			
+			  
+			int dot = toCutS.lastIndexOf(".");
+			int brk = toCutS.lastIndexOf("[");
+			
+			if ((dot >= 0) || (brk >= 0))
+			{
+				if (dot > brk)
 				{
-					if (dot > brk)
-					{
-						//Op newSource = new Op(g  ,OpType.reg)
-						list.add(new DataTransferInstruction( source,newSource, DataTransferInstructionType.Move));		
-					}
-					}
-					else
-					{
-						return howSafe(opName.substring(0, brk)) + 1;
-					}
-				}*/
+					Op newSource = new Op(Register.getFreeReg()  , OpType.Reg);
+					list.add(new DataTransferInstruction( toCutO ,newSource, DataTransferInstructionType.MoveField));
+					safeMove(new Op(source.getName().substring(0, dot),OpType.Reg), dest);
+				}
 				
-				
-				
+				else
+				{
+					return howSafe(opName.substring(0, brk)) + 1;
+				}
+			}
 			
 		
 		}
 	}
+	*/
+	private void smartMove(Op op,boolean var)
+	{
+		peel(op);
+		list.add(new DataTransferInstruction(peel(op),op,DataTransferInstructionType.Move));
+		
+	}
+	private Op peel(Op op)
+	{
+		if (op.getName().contains("."))
+			return peelDot(op);
+		return op;
+	}
+	private Op peelDot(Op op)
+	{	
+		Op onePeel = new Op( op.getName().substring(0, op.getName().lastIndexOf("."))  ,OpType.Reg );
+		Op toRet = new Op( Register.getFreeReg()  ,OpType.Reg );
+		Op peeled = peel(onePeel);
+		list.add(new DataTransferInstruction(new Op( peeled.getName()+op.getName().substring( op.getName().lastIndexOf(".")+1) ,OpType.Reg ) ,toRet,DataTransferInstructionType.MoveField));
+		return toRet;
+	}
+	
 	private void safeMove(Op source,Op dest)
 	{
 		DataTransferInstructionType dt = DataTransferInstructionType.Move;
