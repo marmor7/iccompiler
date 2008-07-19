@@ -314,8 +314,8 @@ public class LirVisitor implements Visitor {
 			
 			assert(oldAssignmentLoc != null); 
 			
-			smartMove(value, true);
-			smartMove(oldAssignmentLoc, true);
+			smartMove(value, false);
+			smartMove(oldAssignmentLoc, false);
 			
 			if (oldAssigmentIndex > -1)
 				list.add(new DataTransferInstruction(value,
@@ -1240,14 +1240,19 @@ public class LirVisitor implements Visitor {
 	*/
 	private void smartMove(Op op,boolean var)
 	{
-		peel(op);
-		list.add(new DataTransferInstruction(peel(op),op,DataTransferInstructionType.Move));
+		if (!var)
+			peel(op);
+		else
+			list.add(new DataTransferInstruction(peel(op),op,DataTransferInstructionType.Move).setOptComment("Final Smart MOVE on " + op.getName()));
 		
 	}
 	private Op peel(Op op)
 	{
-		if (op.getName().contains("."))
+		
+		if (op.getName().lastIndexOf(".")  > op.getName().lastIndexOf("["))
 			return peelDot(op);
+		if (op.getName().lastIndexOf(".")  < op.getName().lastIndexOf("["))
+			return peelBrack(op);
 		return op;
 	}
 	private Op peelDot(Op op)
@@ -1255,9 +1260,19 @@ public class LirVisitor implements Visitor {
 		Op onePeel = new Op( op.getName().substring(0, op.getName().lastIndexOf("."))  ,OpType.Reg );
 		Op toRet = new Op( Register.getFreeReg()  ,OpType.Reg );
 		Op peeled = peel(onePeel);
-		list.add(new DataTransferInstruction(new Op( peeled.getName()+op.getName().substring( op.getName().lastIndexOf(".")+1) ,OpType.Reg ) ,toRet,DataTransferInstructionType.MoveField));
+		list.add(new DataTransferInstruction(new Op( peeled.getName()+op.getName().substring( op.getName().lastIndexOf(".")) ,OpType.Reg ) ,toRet,DataTransferInstructionType.MoveField).setOptComment("SMART MOVED BITCH - field style"));
 		return toRet;
 	}
+	
+	private Op peelBrack(Op op)
+	{	
+		Op onePeel = new Op( op.getName().substring(0, op.getName().lastIndexOf("["))  ,OpType.Reg );
+		Op toRet = new Op( Register.getFreeReg()  ,OpType.Reg );
+		Op peeled = peel(onePeel);
+		list.add(new DataTransferInstruction(new Op( peeled.getName()+op.getName().substring( op.getName().lastIndexOf("[")) ,OpType.Reg ) ,toRet,DataTransferInstructionType.MoveArray).setOptComment("SMART MOVED BITCH - Array Style"));
+		return toRet;
+	}
+	
 	
 	private void safeMove(Op source,Op dest)
 	{
