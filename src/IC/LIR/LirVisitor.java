@@ -139,16 +139,16 @@ public class LirVisitor implements Visitor {
 		list.add(0, new StringInstruction(StringLiteral.prettyPrint()));
 		
 		list.add(0,new StringInstruction(errorLabelDevByZero.substring(1) + ":" + 
-										 " \"Devision by zero. Program will no exit. \""));
+										 " \"Devision by zero. Program will now exit. \""));
 		
 		list.add(0,new StringInstruction(errorLabelIllegalArrayLocation.substring(1) + ":" + 
-		 " \"Illegal array location. Program will no exit. \""));
+		 " \"Illegal array location. Program will now exit. \""));
 		
 		list.add(0,new StringInstruction(errorLabelNullReference.substring(1) + ":" + 
-		 " \"Null reference. Program will no exit. \""));
+		 " \"Null reference. Program will now exit. \""));
 		
 		list.add(0,new StringInstruction(errorLabelArrayNegativeAllocationSize.substring(1) + ":" + 
-		 " \"Negative or zero array size allocation. Program will no exit. \""));
+		 " \"Negative or zero array size allocation. Program will now exit. \""));
 		
 		list.add(0, new StringInstruction("# STRING LITERALS"));
 		list.add(0, new StringInstruction("######################"));
@@ -649,17 +649,7 @@ public Object visit(VariableLocation location) {
 		
 		//Runtime check from access an array at legal position
 		//Get array size:
-		Op arrSize = new Op(Register.getFreeReg(), OpType.Reg);
-		Op zeroReg = new Op(Register.getFreeReg(), OpType.Reg);
-		//list.add(new DataTransferInstruction(new Op("0", OpType.Immediate), zeroReg, DataTransferInstructionType.Move));
-		smartMove(new Op("0", OpType.Immediate), zeroReg);
-		addArrayLengthToReg(arr, arrSize);
-		list.add(new LogicalInstruction(place, arrSize, LogicalInstructionType.Compare));
-		list.add(new ControlTransferInstruction(new Op(errorLabelIllegalArrayLocation, OpType.Label), 
-				ControlTransferInstructionType.JumpL));		
-		list.add(new LogicalInstruction(place, zeroReg, LogicalInstructionType.Compare));
-		list.add(new ControlTransferInstruction(new Op(errorLabelIllegalArrayLocation, OpType.Label), 
-												ControlTransferInstructionType.JumpG));		
+		testArrayLength(arr, place);	
 		
 		Op newarr = new Op(arr.getName() + "[" + place.getName() + "]",
 				OpType.Reg);
@@ -1191,6 +1181,11 @@ public Object visit(VariableLocation location) {
 	
 	private void addNullReferenceCheckToList(Op reg)
 	{
+		addNullReferenceCheckToList(reg, list);
+	}
+	
+	private void addNullReferenceCheckToList(Op reg, ArrayList<Instruction> list)
+	{
 		if(reg.getName().contains("."))
 		{
 			String regName = reg.getName().substring(0, reg.getName().indexOf("."));
@@ -1205,28 +1200,31 @@ public Object visit(VariableLocation location) {
 				ControlTransferInstructionType.JumpTrue));
 	}
 	
-	private void addArrayLengthToReg(Op arrayObject, Op arraySize)
+	private void testArrayLength(Op arrayObject, Op place)
 	{
+		testArrayLength(arrayObject, place, list);
+	}
+	
+	private void testArrayLength(Op arrayObject, Op place, ArrayList<Instruction> tlist)
+	{
+		Op arrSize = new Op(Register.getFreeReg(), OpType.Reg);
+		Op zeroReg = new Op(Register.getFreeReg(), OpType.Reg);
+		//list.add(new DataTransferInstruction(new Op("0", OpType.Immediate), zeroReg, DataTransferInstructionType.Move));
+		smartMove(new Op("0", OpType.Immediate), zeroReg);
+		
 		Op arr = new Op(Register.getFreeReg(), OpType.Reg);
-		list.add(new Comment("TMP 4"));
+		tlist.add(new Comment("TMP 4"));
 		smartMove(arrayObject, arr);
 		
-		list.add(new LogicalInstruction(arr, arraySize, 
+		tlist.add(new LogicalInstruction(arr, arrSize, 
 				LogicalInstructionType.ArrayLength).setOptComment("Getting array length"));
-		
-		/*if(arrayObject.getName().contains("."))
-		{
-			arr = new Op(Register.getFreeReg(), OpType.Reg);
-			
-			list.add(new DataTransferInstruction(arrayObject, arr, DataTransferInstructionType.MoveField).setOptComment("### 3"));
-		}
-		else
-		{
-						
-		}
-		
-		list.add(new LogicalInstruction(arr, arraySize, LogicalInstructionType.ArrayLength).setOptComment("Getting array length"));
-		*/		
+
+		tlist.add(new LogicalInstruction(place, arrSize, LogicalInstructionType.Compare));
+		tlist.add(new ControlTransferInstruction(new Op(errorLabelIllegalArrayLocation, OpType.Label), 
+				ControlTransferInstructionType.JumpL));		
+		tlist.add(new LogicalInstruction(place, zeroReg, LogicalInstructionType.Compare));
+		tlist.add(new ControlTransferInstruction(new Op(errorLabelIllegalArrayLocation, OpType.Label), 
+												ControlTransferInstructionType.JumpG));	
 	}
 	
 	private void smartMove(Op src, Op dst)
@@ -1245,11 +1243,8 @@ public Object visit(VariableLocation location) {
 		else
 		{
 			Op peeledDst = peel(dst,templist, true);
-//			if (howSafe(dst.getName()) <= 1)
-	//			safeMove(peeledDst, dst,templist);
-	
+
 			dstOp = peeledDst;
-			//list.add(new DataTransferInstruction(peel(dst),dst,DataTransferInstructionType.Move).setOptComment("Final Smart MOVE on " + dst.getName()));
 		}
 		
 		safeMove(srcOp, dstOp,templist);
@@ -1266,18 +1261,7 @@ public Object visit(VariableLocation location) {
 				list.add(new DataTransferInstruction(templist.get(i).getOp2(), templist.get(i).getOp1(), (DataTransferInstructionType) templist.get(i).getInstructionType()).setOptComment("reversed"));
 			}
 		}
-			
-		//list.add(new DataTransferInstruction(srcOp,dstOp,DataTransferInstructionType.Move).setOptComment("REALLY Final Smart MOVE on " + dstOp.getName()));		
 	}
-	
-	/*private void smartMove(Op op,boolean var)
-	{
-		if (!var)
-			peel(op);
-		else
-			list.add(new DataTransferInstruction(peel(op),op,DataTransferInstructionType.Move)
-				.setOptComment("Final Smart MOVE on " + op.getName()));
-	}*/
 	
 	
 	private Op peel(Op op, ArrayList<Instruction> list, boolean dst)
@@ -1295,35 +1279,57 @@ public Object visit(VariableLocation location) {
 		
 		return op;
 	}
-	private Op peelDot(Op op, ArrayList<Instruction> list, boolean dst)
+	private Op peelDot(Op op, ArrayList<Instruction> tlist, boolean dst)
 	{	
 		Op onePeel = new Op( op.getName().substring(0, op.getName().lastIndexOf("."))  ,OpType.Reg );
 		Op toRet = new Op( Register.getFreeReg()  ,OpType.Reg );
-		Op peeled = peel(onePeel,list,false);
-		list.add(new DataTransferInstruction(new Op( peeled.getName()+op.getName().substring(op.getName().lastIndexOf(".")), OpType.Reg ), 
+		Op peeled = peel(onePeel,tlist,false);
+		addNullReferenceCheckToList(peeled, tlist);
+		tlist.add(new DataTransferInstruction(new Op( peeled.getName()+op.getName().substring(op.getName().lastIndexOf(".")), OpType.Reg ), 
 					toRet,DataTransferInstructionType.MoveField)
 					.setOptComment("SMART MOVED BITCH - field style"));
 		return toRet;
 	}
 	
-	private Op peelBrack(Op op, ArrayList<Instruction> list, boolean dst)
+	private Op peelBrack(Op op, ArrayList<Instruction> tlist, boolean dst)
 	{	
 		Op onePeel = new Op( op.getName().substring(0, op.getName().lastIndexOf("["))  ,OpType.Reg );
 		Op toRet = new Op( Register.getFreeReg()  ,OpType.Reg );
-		Op peeled = peel(onePeel,list,false);
-		list.add(new DataTransferInstruction(new Op( peeled.getName()+op.getName().substring( op.getName().lastIndexOf("[")) ,OpType.Reg ) ,toRet,DataTransferInstructionType.MoveArray).setOptComment("SMART MOVED BITCH - Array Style"));
+		Op peeled = peel(onePeel,tlist,false);
+		tlist.add(new DataTransferInstruction(new Op( peeled.getName()+op.getName().substring( op.getName().lastIndexOf("[")) ,OpType.Reg ) ,toRet,DataTransferInstructionType.MoveArray).setOptComment("SMART MOVED BITCH - Array Style"));
 		return toRet;
 	}
 	
 	
-	private void safeMove(Op source,Op dest, ArrayList<Instruction> list)
+	private void safeMove(Op source,Op dest, ArrayList<Instruction> tlist)
 	{
 		DataTransferInstructionType dt = DataTransferInstructionType.Move;
 		if (source.getName().contains(".") || (dest.getName().contains(".")))
+		{
 			dt = DataTransferInstructionType.MoveField;
+			if (source.getName().contains("."))
+				addNullReferenceCheckToList(source, tlist);
+			else
+				addNullReferenceCheckToList(dest, tlist);
+		}
 		if (source.getName().contains("[") || (dest.getName().contains("]")))
+		{
 			dt = DataTransferInstructionType.MoveArray;
-		list.add(new DataTransferInstruction(source,dest,dt).setOptComment("brought to you by safe/smartmove"));
+			if (source.getName().contains("["))
+			{
+				Op arr = new Op(source.getName().substring(0, source.getName().lastIndexOf("[")), OpType.Other);
+				Op index = new Op(source.getName().substring(source.getName().lastIndexOf("]")+1), OpType.Other);
+				testArrayLength(arr, index);
+			}
+			else
+			{
+				Op dst = new Op(dest.getName().substring(0, dest.getName().lastIndexOf("[")), OpType.Other);
+				Op index = new Op(dest.getName().substring(dest.getName().lastIndexOf("]")+1), OpType.Other);
+				testArrayLength(dst, index);
+			}
+		}
+		
+		tlist.add(new DataTransferInstruction(source,dest,dt).setOptComment("brought to you by safe/smartmove"));
 	}
 	
 	
