@@ -1,0 +1,390 @@
+
+######################
+# Program test_loops.ic
+######################
+
+######################
+# STRING LITERALS
+arr_neg_alloc_size: "Negative or zero array size allocation. Program will now exit. "
+null_reference: "Null reference. Program will now exit. "
+illegal_arr_loc: "Illegal array location. Program will now exit. "
+dev_by_zero: "Devision by zero. Program will now exit. "
+str0: "test1 OK"
+str1: "test2 OK"
+str2: "test3 OK"
+######################
+
+######################
+# DISPATCH VECTORS
+_DV_Test_while: []
+######################
+
+_ic_main:   # Main Method
+# Line 4: 
+# Line 5: 
+# Line 6: 
+Move 0, R2
+# TMP 1
+# new smartMove on: R2, i_Test_while_17
+Move R2, i_Test_while_17 # brought to you by safe/smartmove
+# Line 7: 
+Move 0, R2
+# TMP 1
+# new smartMove on: R2, j_Test_while_17
+Move R2, j_Test_while_17 # brought to you by safe/smartmove
+# Line 9: 
+_l1:   # While
+# new smartMove on: i_Test_while_17, R1
+Move i_Test_while_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, i_Test_while_17 # reversed
+Move 10, R3
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+# new smartMove on: 0, R6
+Move 0, R7 # brought to you by safe/smartmove
+Move R7, R6 # brought to you by safe/smartmove
+Compare R5,R4
+JumpGE _l3
+# new smartMove on: 1, R6
+Move 1, R8 # brought to you by safe/smartmove
+Move R8, R6 # brought to you by safe/smartmove
+_l3:
+Compare 0,R6		# While condition check
+JumpTrue _l2		# Conditional jump when while statement is false
+# Line 10: 
+# new smartMove on: j_Test_while_17, R10
+Move j_Test_while_17, R11 # brought to you by safe/smartmove
+Move R11, R10 # brought to you by safe/smartmove
+Move R11, j_Test_while_17 # reversed
+Move 1, R12
+# new smartMove on: R10, R13
+Move R10, R13 # brought to you by safe/smartmove
+# new smartMove on: R12, R14
+Move R12, R14 # brought to you by safe/smartmove
+Add R14,R13
+# TMP 1
+# new smartMove on: R13, j_Test_while_17
+Move R13, j_Test_while_17 # brought to you by safe/smartmove
+# new smartMove on: i_Test_while_17, R2
+Move i_Test_while_17, R3 # brought to you by safe/smartmove
+Move R3, R2 # brought to you by safe/smartmove
+Move R3, i_Test_while_17 # reversed
+Move 1, R4
+# new smartMove on: R2, R5
+Move R2, R5 # brought to you by safe/smartmove
+# new smartMove on: R4, R6
+Move R4, R6 # brought to you by safe/smartmove
+Add R6,R5
+# TMP 1
+# new smartMove on: R5, i_Test_while_17
+Move R5, i_Test_while_17 # brought to you by safe/smartmove
+Jump _l1
+_l2:   # False while condition
+# Line 15: 
+# new smartMove on: j_Test_while_17, R1
+Move j_Test_while_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, j_Test_while_17 # reversed
+Move 10, R3
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+# new smartMove on: 0, R6
+Move 0, R7 # brought to you by safe/smartmove
+Move R7, R6 # brought to you by safe/smartmove
+Compare R4,R5
+JumpFalse _l7
+# new smartMove on: 1, R6
+Move 1, R8 # brought to you by safe/smartmove
+Move R8, R6 # brought to you by safe/smartmove
+_l7:
+Compare 0,R6		# If's condition check
+JumpTrue _l5		# Conditional jump when If's outcome is true
+_l4:   # If's then label
+Move str0, R9 # assigning literal to reg
+Library __println(R9),R10
+Jump _l6		# Jump to end label(end of then part)
+_l5:   # If's else label
+_l6:   # End of If statement
+# Line 18: 
+Move 0, R2
+# TMP 1
+# new smartMove on: R2, i_Test_while_17
+Move R2, i_Test_while_17 # brought to you by safe/smartmove
+# Line 19: 
+Move 0, R2
+# TMP 1
+# new smartMove on: R2, j_Test_while_17
+Move R2, j_Test_while_17 # brought to you by safe/smartmove
+# Line 20: 
+_l8:   # While
+# new smartMove on: i_Test_while_17, R1
+Move i_Test_while_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, i_Test_while_17 # reversed
+Move 10, R3
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+# new smartMove on: 0, R6
+Move 0, R7 # brought to you by safe/smartmove
+Move R7, R6 # brought to you by safe/smartmove
+Compare R5,R4
+JumpGE _l10
+# new smartMove on: 1, R6
+Move 1, R8 # brought to you by safe/smartmove
+Move R8, R6 # brought to you by safe/smartmove
+_l10:
+Compare 0,R6		# While condition check
+JumpTrue _l9		# Conditional jump when while statement is false
+# Line 20: 
+# new smartMove on: i_Test_while_17, R10
+Move i_Test_while_17, R11 # brought to you by safe/smartmove
+Move R11, R10 # brought to you by safe/smartmove
+Move R11, i_Test_while_17 # reversed
+Move 1, R12
+# new smartMove on: R10, R13
+Move R10, R13 # brought to you by safe/smartmove
+# new smartMove on: R12, R14
+Move R12, R14 # brought to you by safe/smartmove
+Add R14,R13
+# TMP 1
+# new smartMove on: R13, i_Test_while_17
+Move R13, i_Test_while_17 # brought to you by safe/smartmove
+# new smartMove on: j_Test_while_17, R2
+Move j_Test_while_17, R3 # brought to you by safe/smartmove
+Move R3, R2 # brought to you by safe/smartmove
+Move R3, j_Test_while_17 # reversed
+Move 1, R4
+# new smartMove on: R2, R5
+Move R2, R5 # brought to you by safe/smartmove
+# new smartMove on: R4, R6
+Move R4, R6 # brought to you by safe/smartmove
+Add R6,R5
+# TMP 1
+# new smartMove on: R5, j_Test_while_17
+Move R5, j_Test_while_17 # brought to you by safe/smartmove
+# new smartMove on: i_Test_while_17, R1
+Move i_Test_while_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, i_Test_while_17 # reversed
+Move 5, R3
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+# new smartMove on: 0, R6
+Move 0, R7 # brought to you by safe/smartmove
+Move R7, R6 # brought to you by safe/smartmove
+Compare R4,R5
+JumpFalse _l14
+# new smartMove on: 1, R6
+Move 1, R8 # brought to you by safe/smartmove
+Move R8, R6 # brought to you by safe/smartmove
+_l14:
+Compare 0,R6		# If's condition check
+JumpTrue _l12		# Conditional jump when If's outcome is true
+_l11:   # If's then label
+Jump _l9		# Break statement. Jump to end of while statement label: _l9
+Jump _l13		# Jump to end label(end of then part)
+_l12:   # If's else label
+_l13:   # End of If statement
+Jump _l8
+_l9:   # False while condition
+# Line 27: 
+# new smartMove on: j_Test_while_17, R1
+Move j_Test_while_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, j_Test_while_17 # reversed
+Move 5, R3
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+# new smartMove on: 0, R6
+Move 0, R7 # brought to you by safe/smartmove
+Move R7, R6 # brought to you by safe/smartmove
+Compare R4,R5
+JumpFalse _l18
+# new smartMove on: 1, R6
+Move 1, R8 # brought to you by safe/smartmove
+Move R8, R6 # brought to you by safe/smartmove
+_l18:
+Compare 0,R6		# If's condition check
+JumpTrue _l16		# Conditional jump when If's outcome is true
+_l15:   # If's then label
+Move str1, R9 # assigning literal to reg
+Library __println(R9),R10
+Jump _l17		# Jump to end label(end of then part)
+_l16:   # If's else label
+_l17:   # End of If statement
+# Line 30: 
+Move 0, R2
+# TMP 1
+# new smartMove on: R2, i_Test_while_17
+Move R2, i_Test_while_17 # brought to you by safe/smartmove
+# Line 31: 
+Move 0, R2
+# TMP 1
+# new smartMove on: R2, j_Test_while_17
+Move R2, j_Test_while_17 # brought to you by safe/smartmove
+# Line 33: 
+_l19:   # While
+# new smartMove on: i_Test_while_17, R1
+Move i_Test_while_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, i_Test_while_17 # reversed
+Move 10, R3
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+# new smartMove on: 0, R6
+Move 0, R7 # brought to you by safe/smartmove
+Move R7, R6 # brought to you by safe/smartmove
+Compare R5,R4
+JumpGE _l21
+# new smartMove on: 1, R6
+Move 1, R8 # brought to you by safe/smartmove
+Move R8, R6 # brought to you by safe/smartmove
+_l21:
+Compare 0,R6		# While condition check
+JumpTrue _l20		# Conditional jump when while statement is false
+# Line 33: 
+# new smartMove on: i_Test_while_17, R10
+Move i_Test_while_17, R11 # brought to you by safe/smartmove
+Move R11, R10 # brought to you by safe/smartmove
+Move R11, i_Test_while_17 # reversed
+Move 1, R12
+# new smartMove on: R10, R13
+Move R10, R13 # brought to you by safe/smartmove
+# new smartMove on: R12, R14
+Move R12, R14 # brought to you by safe/smartmove
+Add R14,R13
+# TMP 1
+# new smartMove on: R13, i_Test_while_17
+Move R13, i_Test_while_17 # brought to you by safe/smartmove
+# new smartMove on: j_Test_while_17, R2
+Move j_Test_while_17, R3 # brought to you by safe/smartmove
+Move R3, R2 # brought to you by safe/smartmove
+Move R3, j_Test_while_17 # reversed
+Move 1, R4
+# new smartMove on: R2, R5
+Move R2, R5 # brought to you by safe/smartmove
+# new smartMove on: R4, R6
+Move R4, R6 # brought to you by safe/smartmove
+Add R6,R5
+# TMP 1
+# new smartMove on: R5, j_Test_while_17
+Move R5, j_Test_while_17 # brought to you by safe/smartmove
+# new smartMove on: i_Test_while_17, R1
+Move i_Test_while_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, i_Test_while_17 # reversed
+Move 5, R3
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+# new smartMove on: 0, R6
+Move 0, R7 # brought to you by safe/smartmove
+Move R7, R6 # brought to you by safe/smartmove
+Compare R4,R5
+JumpFalse _l25
+# new smartMove on: 1, R6
+Move 1, R8 # brought to you by safe/smartmove
+Move R8, R6 # brought to you by safe/smartmove
+_l25:
+Compare 0,R6		# If's condition check
+JumpTrue _l23		# Conditional jump when If's outcome is true
+_l22:   # If's then label
+Jump _l19		# Continue statement. Jump to the start of while statement label: _l19
+Jump _l24		# Jump to end label(end of then part)
+_l23:   # If's else label
+_l24:   # End of If statement
+# new smartMove on: i_Test_while_17, R1
+Move i_Test_while_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, i_Test_while_17 # reversed
+Move 5, R3
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+# new smartMove on: 0, R6
+Move 0, R7 # brought to you by safe/smartmove
+Move R7, R6 # brought to you by safe/smartmove
+Compare R4,R5
+JumpFalse _l29
+# new smartMove on: 1, R6
+Move 1, R8 # brought to you by safe/smartmove
+Move R8, R6 # brought to you by safe/smartmove
+_l29:
+Compare 0,R6		# If's condition check
+JumpTrue _l27		# Conditional jump when If's outcome is true
+_l26:   # If's then label
+Move 20, R10
+# TMP 1
+# new smartMove on: R10, j_Test_while_17
+Move R10, j_Test_while_17 # brought to you by safe/smartmove
+Jump _l28		# Jump to end label(end of then part)
+_l27:   # If's else label
+_l28:   # End of If statement
+Jump _l19
+_l20:   # False while condition
+# Line 40: 
+# new smartMove on: j_Test_while_17, R1
+Move j_Test_while_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, j_Test_while_17 # reversed
+Move 10, R3
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+# new smartMove on: 0, R6
+Move 0, R7 # brought to you by safe/smartmove
+Move R7, R6 # brought to you by safe/smartmove
+Compare R4,R5
+JumpFalse _l33
+# new smartMove on: 1, R6
+Move 1, R8 # brought to you by safe/smartmove
+Move R8, R6 # brought to you by safe/smartmove
+_l33:
+Compare 0,R6		# If's condition check
+JumpTrue _l31		# Conditional jump when If's outcome is true
+_l30:   # If's then label
+Move str2, R9 # assigning literal to reg
+Library __println(R9),R10
+Jump _l32		# Jump to end label(end of then part)
+_l31:   # If's else label
+_l32:   # End of If statement
+Library __exit(0),Rdummy
+# Method main end
+Return 9999
+
+######################
+# Error Labels
+######################
+
+_null_reference:
+Library __println(null_reference),Rdummy
+Library __exit(1),Rdummy
+
+_illegal_arr_loc:
+Library __println(illegal_arr_loc),Rdummy
+Library __exit(1),Rdummy
+
+_dev_by_zero:
+Library __println(dev_by_zero),Rdummy
+Library __exit(1),Rdummy
+
+_arr_neg_alloc_size:
+Library __println(arr_neg_alloc_size),Rdummy
+Library __exit(1),Rdummy
+

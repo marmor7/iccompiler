@@ -1,0 +1,566 @@
+
+######################
+# Program test_Arrays.ic
+######################
+
+######################
+# STRING LITERALS
+arr_neg_alloc_size: "Negative or zero array size allocation. Program will now exit. "
+null_reference: "Null reference. Program will now exit. "
+illegal_arr_loc: "Illegal array location. Program will now exit. "
+dev_by_zero: "Devision by zero. Program will now exit. "
+str0: ""
+str1: "OK"
+######################
+
+######################
+# DISPATCH VECTORS
+_DV_Test: [_Test_check]
+_DV_ArrayType: [_ArrayType_bar]
+######################
+
+_ArrayType_bar:   # Method bar:
+# Line 6: 
+Move this, R1
+Move 2, R2
+# new smartMove on: 4, R3
+Move 4, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Mul R3,R2
+Compare 0,R2
+JumpLE _arr_neg_alloc_size
+Library __allocateArray(R2),R5
+# TMP 1
+# new smartMove on: R5, R1.1
+Compare 0,R1
+JumpTrue _null_reference
+MoveField R1.1,R6 # SMART MOVED BITCH - field style
+Move R5, R6 # brought to you by safe/smartmove
+MoveField R6,R1.1 # reversed
+# Line 7: 
+Move this, R1
+Move 0, R2
+# new smartMove on: 0, R5
+Move 0, R6 # brought to you by safe/smartmove
+Move R6, R5 # brought to you by safe/smartmove
+# TMP 4
+# new smartMove on: R1.1, R7
+Compare 0,R1
+JumpTrue _null_reference
+MoveField R1.1,R8 # SMART MOVED BITCH - field style
+Move R8, R7 # brought to you by safe/smartmove
+MoveField R8,R1.1 # reversed
+ArrayLength R7,R4		# Getting array length
+Compare R2,R4
+JumpL _illegal_arr_loc
+Compare R2,R5
+JumpG _illegal_arr_loc
+# TMP 2
+# new smartMove on: R1.1[R2], R3
+Compare 0,R1
+JumpTrue _null_reference
+MoveField R1.1,R10 # SMART MOVED BITCH - field style
+MoveArray R10[R2], R9 # SMART MOVED BITCH - Array Style
+Move R9, R3 # brought to you by safe/smartmove
+MoveArray R9, R10[R2] # reversed
+MoveField R10,R1.1 # reversed
+Move 5, R11
+# TMP 1
+# new smartMove on: R11, R1.1[R2]
+Compare 0,R1
+JumpTrue _null_reference
+MoveField R1.1,R13 # SMART MOVED BITCH - field style
+MoveArray R13[R2], R12 # SMART MOVED BITCH - Array Style
+Move R11, R12 # brought to you by safe/smartmove
+MoveArray R12, R13[R2] # reversed
+MoveField R13,R1.1 # reversed
+# Line 8: 
+Move this, R1
+Move 1, R2
+# new smartMove on: 0, R5
+Move 0, R6 # brought to you by safe/smartmove
+Move R6, R5 # brought to you by safe/smartmove
+# TMP 4
+# new smartMove on: R1.1, R7
+Compare 0,R1
+JumpTrue _null_reference
+MoveField R1.1,R8 # SMART MOVED BITCH - field style
+Move R8, R7 # brought to you by safe/smartmove
+MoveField R8,R1.1 # reversed
+ArrayLength R7,R4		# Getting array length
+Compare R2,R4
+JumpL _illegal_arr_loc
+Compare R2,R5
+JumpG _illegal_arr_loc
+# TMP 2
+# new smartMove on: R1.1[R2], R3
+Compare 0,R1
+JumpTrue _null_reference
+MoveField R1.1,R10 # SMART MOVED BITCH - field style
+MoveArray R10[R2], R9 # SMART MOVED BITCH - Array Style
+Move R9, R3 # brought to you by safe/smartmove
+MoveArray R9, R10[R2] # reversed
+MoveField R10,R1.1 # reversed
+Move 6, R11
+# TMP 1
+# new smartMove on: R11, R1.1[R2]
+Compare 0,R1
+JumpTrue _null_reference
+MoveField R1.1,R13 # SMART MOVED BITCH - field style
+MoveArray R13[R2], R12 # SMART MOVED BITCH - Array Style
+Move R11, R12 # brought to you by safe/smartmove
+MoveArray R12, R13[R2] # reversed
+MoveField R13,R1.1 # reversed
+Return 9999
+_ic_main:   # Main Method
+# Line 15: 
+Library __allocateObject(12),R1 # Allocation of ArrayType
+MoveField _DV_ArrayType,R1.0 # Move field for DV pointer
+# new smartMove on: R1, a_Test_19
+Move R1, a_Test_19 # brought to you by safe/smartmove
+# Line 16: 
+Move 0, R2
+# TMP 1
+# new smartMove on: R2, a_Test_19.2
+Move a_Test_19, R4 # brought to you by safe/smartmove
+Compare 0,R4
+JumpTrue _null_reference
+MoveField R4.2,R3 # SMART MOVED BITCH - field style
+Move R2, R3 # brought to you by safe/smartmove
+MoveField R3,R4.2 # reversed
+# Line 17: 
+# new smartMove on: a_Test_19, R2
+Move a_Test_19, R3 # brought to you by safe/smartmove
+Move R3, R2 # brought to you by safe/smartmove
+Move R3, a_Test_19 # reversed
+VirtualCall R2.0(),R2
+# Line 18: 
+Move 0, R1
+# new smartMove on: R1, i_Test_19
+Move R1, i_Test_19 # brought to you by safe/smartmove
+# Line 19: 
+Move 10, R1
+# new smartMove on: 4, R2
+Move 4, R3 # brought to you by safe/smartmove
+Move R3, R2 # brought to you by safe/smartmove
+Mul R2,R1
+Compare 0,R1
+JumpLE _arr_neg_alloc_size
+Library __allocateArray(R1),R4
+# new smartMove on: R4, arr_Test_19
+Move R4, arr_Test_19 # brought to you by safe/smartmove
+# Line 21: 
+_l1:   # While
+# new smartMove on: i_Test_19, R1
+Move i_Test_19, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, i_Test_19 # reversed
+Move 10, R3
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+# new smartMove on: 0, R6
+Move 0, R7 # brought to you by safe/smartmove
+Move R7, R6 # brought to you by safe/smartmove
+Compare R5,R4
+JumpGE _l3
+# new smartMove on: 1, R6
+Move 1, R8 # brought to you by safe/smartmove
+Move R8, R6 # brought to you by safe/smartmove
+_l3:
+Compare 0,R6		# While condition check
+JumpTrue _l2		# Conditional jump when while statement is false
+# Line 21: 
+# new smartMove on: 0, R13
+Move 0, R14 # brought to you by safe/smartmove
+Move R14, R13 # brought to you by safe/smartmove
+# TMP 4
+# new smartMove on: arr_Test_19, R15
+Move arr_Test_19, R16 # brought to you by safe/smartmove
+Move R16, R15 # brought to you by safe/smartmove
+Move R16, arr_Test_19 # reversed
+ArrayLength R15,R12		# Getting array length
+Compare i_Test_19,R12
+JumpL _illegal_arr_loc
+Compare i_Test_19,R13
+JumpG _illegal_arr_loc
+# TMP 2
+# new smartMove on: arr_Test_19[i_Test_19], R11
+Move arr_Test_19, R18 # brought to you by safe/smartmove
+MoveArray R18[i_Test_19], R17 # SMART MOVED BITCH - Array Style
+Move R17, R11 # brought to you by safe/smartmove
+MoveArray R17, R18[i_Test_19] # reversed
+Move R18, arr_Test_19 # reversed
+Library __allocateObject(12),R19 # Allocation of ArrayType
+MoveField _DV_ArrayType,R19.0 # Move field for DV pointer
+# TMP 1
+# new smartMove on: R19, arr_Test_19[i_Test_19]
+Move arr_Test_19, R21 # brought to you by safe/smartmove
+MoveArray R21[i_Test_19], R20 # SMART MOVED BITCH - Array Style
+Move R19, R20 # brought to you by safe/smartmove
+MoveArray R20, R21[i_Test_19] # reversed
+Move R21, arr_Test_19 # reversed
+# new smartMove on: arr_Test_19, R2
+Move arr_Test_19, R3 # brought to you by safe/smartmove
+Move R3, R2 # brought to you by safe/smartmove
+Move R3, arr_Test_19 # reversed
+# new smartMove on: i_Test_19, R4
+Move i_Test_19, R5 # brought to you by safe/smartmove
+Move R5, R4 # brought to you by safe/smartmove
+Move R5, i_Test_19 # reversed
+# new smartMove on: 0, R8
+Move 0, R9 # brought to you by safe/smartmove
+Move R9, R8 # brought to you by safe/smartmove
+# TMP 4
+# new smartMove on: R2, R10
+Move R2, R10 # brought to you by safe/smartmove
+ArrayLength R10,R7		# Getting array length
+Compare R4,R7
+JumpL _illegal_arr_loc
+Compare R4,R8
+JumpG _illegal_arr_loc
+# TMP 2
+# new smartMove on: R2[R4], R6
+MoveArray R2[R4], R11 # SMART MOVED BITCH - Array Style
+Move R11, R6 # brought to you by safe/smartmove
+MoveArray R11, R2[R4] # reversed
+VirtualCall R6.0(),R6
+# new smartMove on: i_Test_19, R2
+Move i_Test_19, R3 # brought to you by safe/smartmove
+Move R3, R2 # brought to you by safe/smartmove
+Move R3, i_Test_19 # reversed
+Move 1, R4
+# new smartMove on: R2, R5
+Move R2, R5 # brought to you by safe/smartmove
+# new smartMove on: R4, R6
+Move R4, R6 # brought to you by safe/smartmove
+Add R6,R5
+# TMP 1
+# new smartMove on: R5, i_Test_19
+Move R5, i_Test_19 # brought to you by safe/smartmove
+Jump _l1
+_l2:   # False while condition
+# Line 27: 
+Move 3, R2
+# new smartMove on: 0, R5
+Move 0, R6 # brought to you by safe/smartmove
+Move R6, R5 # brought to you by safe/smartmove
+# TMP 4
+# new smartMove on: arr_Test_19, R7
+Move arr_Test_19, R8 # brought to you by safe/smartmove
+Move R8, R7 # brought to you by safe/smartmove
+Move R8, arr_Test_19 # reversed
+ArrayLength R7,R4		# Getting array length
+Compare R2,R4
+JumpL _illegal_arr_loc
+Compare R2,R5
+JumpG _illegal_arr_loc
+# TMP 2
+# new smartMove on: arr_Test_19[R2], R3
+Move arr_Test_19, R10 # brought to you by safe/smartmove
+MoveArray R10[R2], R9 # SMART MOVED BITCH - Array Style
+Move R9, R3 # brought to you by safe/smartmove
+MoveArray R9, R10[R2] # reversed
+Move R10, arr_Test_19 # reversed
+Move 1, R11
+# new smartMove on: 4, R12
+Move 4, R13 # brought to you by safe/smartmove
+Move R13, R12 # brought to you by safe/smartmove
+Mul R12,R11
+Compare 0,R11
+JumpLE _arr_neg_alloc_size
+Library __allocateArray(R11),R14
+# TMP 1
+# new smartMove on: R14, R3.2
+Compare 0,R3
+JumpTrue _null_reference
+MoveField R3.2,R15 # SMART MOVED BITCH - field style
+Move R14, R15 # brought to you by safe/smartmove
+MoveField R15,R3.2 # reversed
+# Line 28: 
+Move 3, R2
+# new smartMove on: 0, R5
+Move 0, R6 # brought to you by safe/smartmove
+Move R6, R5 # brought to you by safe/smartmove
+# TMP 4
+# new smartMove on: arr_Test_19, R7
+Move arr_Test_19, R8 # brought to you by safe/smartmove
+Move R8, R7 # brought to you by safe/smartmove
+Move R8, arr_Test_19 # reversed
+ArrayLength R7,R4		# Getting array length
+Compare R2,R4
+JumpL _illegal_arr_loc
+Compare R2,R5
+JumpG _illegal_arr_loc
+# TMP 2
+# new smartMove on: arr_Test_19[R2], R3
+Move arr_Test_19, R10 # brought to you by safe/smartmove
+MoveArray R10[R2], R9 # SMART MOVED BITCH - Array Style
+Move R9, R3 # brought to you by safe/smartmove
+MoveArray R9, R10[R2] # reversed
+Move R10, arr_Test_19 # reversed
+Move 0, R11
+# new smartMove on: 0, R14
+Move 0, R15 # brought to you by safe/smartmove
+Move R15, R14 # brought to you by safe/smartmove
+# TMP 4
+# new smartMove on: R3.2, R16
+Compare 0,R3
+JumpTrue _null_reference
+MoveField R3.2,R17 # SMART MOVED BITCH - field style
+Move R17, R16 # brought to you by safe/smartmove
+MoveField R17,R3.2 # reversed
+ArrayLength R16,R13		# Getting array length
+Compare R11,R13
+JumpL _illegal_arr_loc
+Compare R11,R14
+JumpG _illegal_arr_loc
+# TMP 2
+# new smartMove on: R3.2[R11], R12
+Compare 0,R3
+JumpTrue _null_reference
+MoveField R3.2,R19 # SMART MOVED BITCH - field style
+MoveArray R19[R11], R18 # SMART MOVED BITCH - Array Style
+Move R18, R12 # brought to you by safe/smartmove
+MoveArray R18, R19[R11] # reversed
+MoveField R19,R3.2 # reversed
+Move 1, R20
+# new smartMove on: 4, R21
+Move 4, R22 # brought to you by safe/smartmove
+Move R22, R21 # brought to you by safe/smartmove
+Mul R21,R20
+Compare 0,R20
+JumpLE _arr_neg_alloc_size
+Library __allocateArray(R20),R23
+# TMP 1
+# new smartMove on: R23, R3.2[R11]
+Compare 0,R3
+JumpTrue _null_reference
+MoveField R3.2,R25 # SMART MOVED BITCH - field style
+MoveArray R25[R11], R24 # SMART MOVED BITCH - Array Style
+Move R23, R24 # brought to you by safe/smartmove
+MoveArray R24, R25[R11] # reversed
+MoveField R25,R3.2 # reversed
+# Line 29: 
+Move 3, R2
+# new smartMove on: 0, R5
+Move 0, R6 # brought to you by safe/smartmove
+Move R6, R5 # brought to you by safe/smartmove
+# TMP 4
+# new smartMove on: arr_Test_19, R7
+Move arr_Test_19, R8 # brought to you by safe/smartmove
+Move R8, R7 # brought to you by safe/smartmove
+Move R8, arr_Test_19 # reversed
+ArrayLength R7,R4		# Getting array length
+Compare R2,R4
+JumpL _illegal_arr_loc
+Compare R2,R5
+JumpG _illegal_arr_loc
+# TMP 2
+# new smartMove on: arr_Test_19[R2], R3
+Move arr_Test_19, R10 # brought to you by safe/smartmove
+MoveArray R10[R2], R9 # SMART MOVED BITCH - Array Style
+Move R9, R3 # brought to you by safe/smartmove
+MoveArray R9, R10[R2] # reversed
+Move R10, arr_Test_19 # reversed
+Move 0, R11
+# new smartMove on: 0, R14
+Move 0, R15 # brought to you by safe/smartmove
+Move R15, R14 # brought to you by safe/smartmove
+# TMP 4
+# new smartMove on: R3.2, R16
+Compare 0,R3
+JumpTrue _null_reference
+MoveField R3.2,R17 # SMART MOVED BITCH - field style
+Move R17, R16 # brought to you by safe/smartmove
+MoveField R17,R3.2 # reversed
+ArrayLength R16,R13		# Getting array length
+Compare R11,R13
+JumpL _illegal_arr_loc
+Compare R11,R14
+JumpG _illegal_arr_loc
+# TMP 2
+# new smartMove on: R3.2[R11], R12
+Compare 0,R3
+JumpTrue _null_reference
+MoveField R3.2,R19 # SMART MOVED BITCH - field style
+MoveArray R19[R11], R18 # SMART MOVED BITCH - Array Style
+Move R18, R12 # brought to you by safe/smartmove
+MoveArray R18, R19[R11] # reversed
+MoveField R19,R3.2 # reversed
+Move 0, R20
+# new smartMove on: 0, R23
+Move 0, R24 # brought to you by safe/smartmove
+Move R24, R23 # brought to you by safe/smartmove
+# TMP 4
+# new smartMove on: R12, R25
+Move R12, R25 # brought to you by safe/smartmove
+ArrayLength R25,R22		# Getting array length
+Compare R20,R22
+JumpL _illegal_arr_loc
+Compare R20,R23
+JumpG _illegal_arr_loc
+# TMP 2
+# new smartMove on: R12[R20], R21
+MoveArray R12[R20], R26 # SMART MOVED BITCH - Array Style
+Move R26, R21 # brought to you by safe/smartmove
+MoveArray R26, R12[R20] # reversed
+Move 8, R27
+# TMP 1
+# new smartMove on: R27, R12[R20]
+MoveArray R12[R20], R28 # SMART MOVED BITCH - Array Style
+Move R27, R28 # brought to you by safe/smartmove
+MoveArray R28, R12[R20] # reversed
+# Line 30: 
+# new smartMove on: arr_Test_19, R1
+Move arr_Test_19, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, arr_Test_19 # reversed
+Move 3, R3
+# new smartMove on: 0, R6
+Move 0, R7 # brought to you by safe/smartmove
+Move R7, R6 # brought to you by safe/smartmove
+# TMP 4
+# new smartMove on: R1, R8
+Move R1, R8 # brought to you by safe/smartmove
+ArrayLength R8,R5		# Getting array length
+Compare R3,R5
+JumpL _illegal_arr_loc
+Compare R3,R6
+JumpG _illegal_arr_loc
+# TMP 2
+# new smartMove on: R1[R3], R4
+MoveArray R1[R3], R9 # SMART MOVED BITCH - Array Style
+Move R9, R4 # brought to you by safe/smartmove
+MoveArray R9, R1[R3] # reversed
+# new smartMove on: R4.2, param_Test_19
+Compare 0,R4
+JumpTrue _null_reference
+MoveField R4.2,R10 # SMART MOVED BITCH - field style
+Move R10, param_Test_19 # brought to you by safe/smartmove
+MoveField R10,R4.2 # reversed
+# Line 31: 
+# new smartMove on: param_Test_19, R1
+Move param_Test_19, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, param_Test_19 # reversed
+StaticCall _Test_check(y=R1),R3
+Library __exit(0),Rdummy
+# Method main end
+Return 9999
+_Test_check:   # Method check:
+# Line 35: 
+# new smartMove on: y, R1
+Move y, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, y # reversed
+Move 0, R3
+# new smartMove on: 0, R6
+Move 0, R7 # brought to you by safe/smartmove
+Move R7, R6 # brought to you by safe/smartmove
+# TMP 4
+# new smartMove on: R1, R8
+Move R1, R8 # brought to you by safe/smartmove
+ArrayLength R8,R5		# Getting array length
+Compare R3,R5
+JumpL _illegal_arr_loc
+Compare R3,R6
+JumpG _illegal_arr_loc
+# TMP 2
+# new smartMove on: R1[R3], R4
+MoveArray R1[R3], R9 # SMART MOVED BITCH - Array Style
+Move R9, R4 # brought to you by safe/smartmove
+MoveArray R9, R1[R3] # reversed
+# TMP 3
+# new smartMove on: R4, R10
+Move R4, R10 # brought to you by safe/smartmove
+ArrayLength R10, R10
+Library __printi(R10),R11
+# Line 36: 
+Move str0, R1 # assigning literal to reg
+Library __println(R1),R2
+# Line 37: 
+# new smartMove on: y, R1
+Move y, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, y # reversed
+Move 0, R3
+# new smartMove on: 0, R6
+Move 0, R7 # brought to you by safe/smartmove
+Move R7, R6 # brought to you by safe/smartmove
+# TMP 4
+# new smartMove on: R1, R8
+Move R1, R8 # brought to you by safe/smartmove
+ArrayLength R8,R5		# Getting array length
+Compare R3,R5
+JumpL _illegal_arr_loc
+Compare R3,R6
+JumpG _illegal_arr_loc
+# TMP 2
+# new smartMove on: R1[R3], R4
+MoveArray R1[R3], R9 # SMART MOVED BITCH - Array Style
+Move R9, R4 # brought to you by safe/smartmove
+MoveArray R9, R1[R3] # reversed
+Move 0, R10
+# new smartMove on: 0, R13
+Move 0, R14 # brought to you by safe/smartmove
+Move R14, R13 # brought to you by safe/smartmove
+# TMP 4
+# new smartMove on: R4, R15
+Move R4, R15 # brought to you by safe/smartmove
+ArrayLength R15,R12		# Getting array length
+Compare R10,R12
+JumpL _illegal_arr_loc
+Compare R10,R13
+JumpG _illegal_arr_loc
+# TMP 2
+# new smartMove on: R4[R10], R11
+MoveArray R4[R10], R16 # SMART MOVED BITCH - Array Style
+Move R16, R11 # brought to you by safe/smartmove
+MoveArray R16, R4[R10] # reversed
+Move 8, R17
+# new smartMove on: R11, R18
+Move R11, R18 # brought to you by safe/smartmove
+# new smartMove on: R17, R19
+Move R17, R19 # brought to you by safe/smartmove
+# new smartMove on: 0, R20
+Move 0, R21 # brought to you by safe/smartmove
+Move R21, R20 # brought to you by safe/smartmove
+Compare R18,R19
+JumpFalse _l7
+# new smartMove on: 1, R20
+Move 1, R22 # brought to you by safe/smartmove
+Move R22, R20 # brought to you by safe/smartmove
+_l7:
+Compare 0,R20		# If's condition check
+JumpTrue _l5		# Conditional jump when If's outcome is true
+_l4:   # If's then label
+Move str1, R23 # assigning literal to reg
+Library __print(R23),R24
+Jump _l6		# Jump to end label(end of then part)
+_l5:   # If's else label
+_l6:   # End of If statement
+# Method check end
+Return 9999
+
+######################
+# Error Labels
+######################
+
+_null_reference:
+Library __println(null_reference),Rdummy
+Library __exit(1),Rdummy
+
+_illegal_arr_loc:
+Library __println(illegal_arr_loc),Rdummy
+Library __exit(1),Rdummy
+
+_dev_by_zero:
+Library __println(dev_by_zero),Rdummy
+Library __exit(1),Rdummy
+
+_arr_neg_alloc_size:
+Library __println(arr_neg_alloc_size),Rdummy
+Library __exit(1),Rdummy
+

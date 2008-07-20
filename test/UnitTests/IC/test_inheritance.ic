@@ -1,0 +1,81 @@
+class Test_Inheritance {
+static void main(string[] args) {
+
+C test_1= new C();
+test_1.field_a=5;
+test_1.field_b=7;
+D test_2= new D();
+test_2.field_a=5;
+
+
+
+Library.println("should print printed from c");
+test_1.dinamic_print("TEST!!"); 
+
+Library.println("should print printed from a");
+test_1.special_print("TEST!!"); 
+
+Library.println("should print printed from c");
+C. static_print("TEST!!"); 
+
+Library.println("should print printed from d");
+test_2.dinamic_print("TEST!!"); 
+
+if ((test_1.field_a)==(5))
+Library.println("another test OK");
+
+
+
+}
+}
+
+class A {
+int field_a;
+
+static void static_print(string text) {
+
+Library.println(text+"printed from a");
+
+}
+void dinamic_print (string text) {
+Library.println(text+"printed from a");
+}
+void special_print (string text) {
+Library.println(text+"printed from a");
+
+}
+
+
+}
+
+class B extends A{
+int field_b;
+
+static void static_print (string text) {
+Library.println(text+"printed from b");
+}
+void dinamic_print (string text) {
+Library.println(text+"printed from b");
+}
+}
+
+class C extends B{
+static void static_print (string text) {
+Library.println(text+"printed from c");
+}
+void dinamic_print (string text) {
+Library.println(text+"printed from c");
+}
+}
+
+
+class D extends A{
+static void static_print (string text) {
+Library.println(text+"printed from d");
+}
+void dinamic_print (string text) {
+Library.println(text+"printed from d");
+}
+
+}
+

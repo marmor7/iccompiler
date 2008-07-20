@@ -1,0 +1,246 @@
+##################################
+# String Literals
+zero_division_error_str: "Runtime Error: Illegal division by zero!"
+array_index_out_of_bounds_str: "Runtime Error: Array index out of bounds!"
+array_size_negative_str: "Runtime Error: Array allocation with negative array size!"
+null_pointer_dereference_str: "Runtime Error: Null pointer dereference!"
+str4: "in foo: x = "
+str5: ""
+str6: "x - local: "
+str7: "First Test - OK"
+str8: "First Test - NOT OK"
+str9: "In Main: x = "
+str10: "Second Test - OK"
+str11: "Second Test - NOT OK"
+str12: "a in first block: "
+str13: "a in second block: "
+str14: "a in third block: "
+str15: "If a == num of block in every block, then "
+str16: "Third test - OK!"
+##################################
+
+##################################
+# Dispatch Vectors
+
+# 'NestedScopingA' field offsets: 1:x 
+_DV_NestedScopingA : [_NestedScopingA_foo]
+
+# 'NestedScopingB' field offsets: 1:a 2:b 3:c 
+_DV_NestedScopingB : [_NestedScopingB_bar]
+##################################
+
+_zero_division_error_handler:
+Library __println(zero_division_error_str),Rdummy
+Library __exit(1),Rdummy
+
+_negative_array_size_handler:
+Library __println(array_size_negative_str),Rdummy
+Library __exit(1),Rdummy
+
+_null_ptr_dereference_handler:
+Library __println(null_pointer_dereference_str),Rdummy
+Library __exit(1),Rdummy
+
+_array_index_out_of_bounds_handler:
+Library __println(array_index_out_of_bounds_str),Rdummy
+Library __exit(1),Rdummy
+
+################# NestedScopingA.foo #################
+_NestedScopingA_foo:
+# x = 0
+Move 0,R1
+Move this,R2
+MoveField R1,R2.1
+Move str4,R1
+Library __print(R1),Rdummy
+Move this,R2
+MoveField R2.1,R1
+Library __printi(R1),Rdummy
+Move str5,R1
+Library __println(R1),Rdummy
+Move 2,R1
+Move R1,v0x
+Move str6,R1
+Library __print(R1),Rdummy
+Move v0x,R1
+Library __printi(R1),Rdummy
+Move str5,R1
+Library __println(R1),Rdummy
+_test2:
+Move 1,R1
+Compare 0,R1
+JumpTrue _end3
+Move this,R3
+Compare 0,R3
+JumpTrue _null_ptr_dereference_handler
+MoveField R3.1,R2
+Move R2,v4x
+Move v4x,R2
+Move this,R3
+Compare 0,R3
+JumpTrue _null_ptr_dereference_handler
+MoveField R3.1,R1
+Compare R1,R2
+JumpTrue _true_label6
+Move 0,R1
+Jump _end_lbl5
+_true_label6:
+Move 1,R1
+_end_lbl5:
+Compare 0,R1
+JumpTrue _else8
+Move str7,R2
+Library __println(R2),Rdummy
+Jump _end9
+_else8:
+Move str8,R1
+Library __println(R1),Rdummy
+_end9:
+Jump _end3
+Jump _test2
+_end3:
+Return Rdummy
+##################################
+
+################# NestedScopingB.bar #################
+_NestedScopingB_bar:
+# a = var
+Move var,R1
+Move this,R2
+Compare 0,R2
+JumpTrue _null_ptr_dereference_handler
+MoveField R1,R2.1
+# b = a
+Move this,R2
+MoveField R2.1,R1
+Move this,R2
+Compare 0,R2
+JumpTrue _null_ptr_dereference_handler
+MoveField R1,R2.2
+# c = IC.AST.ExpressionBlock@1bf52a5
+Move this,R3
+MoveField R3.1,R2
+Move this,R3
+MoveField R3.2,R1
+Compare R1,R2
+JumpTrue _true_label25
+Move 0,R1
+Jump _end_lbl24
+_true_label25:
+Move 1,R1
+_end_lbl24:
+Move this,R2
+Compare 0,R2
+JumpTrue _null_ptr_dereference_handler
+MoveField R1,R2.3
+Move this,R2
+MoveField R2.3,R1
+Return R1
+##################################
+
+################# NestedScopingB.func #################
+_NestedScopingB_func:
+Move 1,R1
+Move R1,v26a
+Move str12,R1
+Library __print(R1),Rdummy
+Move v26a,R1
+Library __printi(R1),Rdummy
+Move str5,R1
+Library __println(R1),Rdummy
+Move 2,R1
+Move R1,v28a
+Move str13,R1
+Library __print(R1),Rdummy
+Move v28a,R1
+Library __printi(R1),Rdummy
+Move str5,R1
+Library __println(R1),Rdummy
+Move 1,R2
+Move 2,R1
+Compare R1,R2
+JumpG _true_label31
+Move 0,R1
+Jump _end_lbl30
+_true_label31:
+Move 1,R1
+_end_lbl30:
+Compare 0,R1
+JumpTrue _else32
+Move 3,R2
+Move R2,v33a
+Move str14,R1
+Library __print(R1),Rdummy
+Move v33a,R1
+Library __printi(R1),Rdummy
+Move str5,R1
+Library __println(R1),Rdummy
+_else32:
+Move str12,R1
+Library __print(R1),Rdummy
+Move v26a,R1
+Library __printi(R1),Rdummy
+Move str5,R1
+Library __println(R1),Rdummy
+Move str15,R1
+Library __print(R1),Rdummy
+Move str16,R1
+Library __print(R1),Rdummy
+Return Rdummy
+##################################
+
+################# ic.main #################
+_ic_main:
+Move 1,R1
+Move R1,v10x
+Move str9,R1
+Library __print(R1),Rdummy
+Move v10x,R1
+Library __printi(R1),Rdummy
+Move str5,R1
+Library __println(R1),Rdummy
+Library __allocateObject(8),R1
+MoveField _DV_NestedScopingA,R1.0
+Move R1,v12nsa
+Move v12nsa,R1
+Compare 0,R1
+JumpTrue _null_ptr_dereference_handler
+VirtualCall R1.0(),Rdummy
+# x = 100
+Move 100,R1
+Move v12nsa,R2
+Compare 0,R2
+JumpTrue _null_ptr_dereference_handler
+MoveField R1,R2.1
+Move v12nsa,R3
+Compare 0,R3
+JumpTrue _null_ptr_dereference_handler
+MoveField R3.1,R2
+Move v10x,R1
+Compare R1,R2
+JumpFalse _true_label16
+Move 0,R1
+Jump _end_lbl15
+_true_label16:
+Move 1,R1
+_end_lbl15:
+Compare 0,R1
+JumpTrue _else19
+Move str10,R2
+Library __println(R2),Rdummy
+Jump _end20
+_else19:
+Move str11,R1
+Library __println(R1),Rdummy
+_end20:
+Library __allocateObject(16),R1
+MoveField _DV_NestedScopingB,R1.0
+Move R1,v21nsb
+Move v21nsb,R1
+Compare 0,R1
+JumpTrue _null_ptr_dereference_handler
+Move v10x,R2
+VirtualCall R1.0(var=R2),Rdummy
+StaticCall _NestedScopingB_func(),Rdummy
+##################################
+

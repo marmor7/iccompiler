@@ -1,0 +1,11 @@
+class A {
+
+	static void main(string[] args) {
+		int a = 1; 
+		int z = a + 1;
+		z = z + 2;
+		z = z - 3;
+		z = z * 4;
+		z = z + 5 + 6;
+	}
+}

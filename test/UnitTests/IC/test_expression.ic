@@ -1,0 +1,38 @@
+class Test_Inheritance {
+static void main(string[] args) {
+B temp1= new B();
+A temp2= new A();
+temp1.k=8;
+temp2.j=10;
+
+if ((temp2.j)==(10))
+Library.println("test1 OK");
+if((temp1.k)==(8))
+Library.println("test2 OK");
+if((temp2.func3(temp1).func2(temp2).j)==(10))
+Library.println("stest3 OK");
+
+
+
+
+}
+}
+
+class A {
+int j;
+static B func1(B temp){
+return temp;
+}
+B func3(B temp){
+return temp;
+}
+
+}
+
+
+class B {
+int k;
+A func2(A temp){
+return temp;
+}
+}

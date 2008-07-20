@@ -1,0 +1,40 @@
+class ArrayType{
+	int[] a1;
+	int[][] a2;
+	
+	void bar(){
+		this.a1 = new int[2];
+		this.a1[0] = 5;
+		this.a1[1] = 6;
+	}
+}
+
+class Test{
+
+	static void main(string[] args){
+		ArrayType a = new ArrayType();
+		a.a2 = null;
+		a.bar();
+		int i = 0;
+		ArrayType[] arr = new ArrayType[10];
+			
+		while (i<10){
+			arr[i] = new ArrayType();
+			arr[i].bar();
+			i=i+1;
+		}
+		
+		arr[3].a2 = new int[][1];
+		arr[3].a2[0] = new int[1];
+		arr[3].a2[0][0] =  8;
+		int[][] param = arr[3].a2;
+		Test.check(param);
+	}
+
+	static void check(int[][] y){
+		Library.printi(y[0].length);
+		Library.println("");
+		if (y[0][0] == 8)
+			Library.print("OK");		
+	}
+}

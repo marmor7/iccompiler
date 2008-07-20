@@ -1,0 +1,300 @@
+##################################
+# String Literals
+zero_division_error_str: "Runtime Error: Illegal division by zero!"
+array_index_out_of_bounds_str: "Runtime Error: Array index out of bounds!"
+array_size_negative_str: "Runtime Error: Array allocation with negative array size!"
+null_pointer_dereference_str: "Runtime Error: Null pointer dereference!"
+str4: ""
+str5: "OK"
+##################################
+
+##################################
+# Dispatch Vectors
+
+# 'ArrayType' field offsets: 1:a1 2:a2 
+_DV_ArrayType : [_ArrayType_bar]
+
+# 'Test' field offsets: 
+_DV_Test : []
+##################################
+
+_zero_division_error_handler:
+Library __println(zero_division_error_str),Rdummy
+Library __exit(1),Rdummy
+
+_negative_array_size_handler:
+Library __println(array_size_negative_str),Rdummy
+Library __exit(1),Rdummy
+
+_null_ptr_dereference_handler:
+Library __println(null_pointer_dereference_str),Rdummy
+Library __exit(1),Rdummy
+
+_array_index_out_of_bounds_handler:
+Library __println(array_index_out_of_bounds_str),Rdummy
+Library __exit(1),Rdummy
+
+################# ArrayType.bar #################
+_ArrayType_bar:
+# a1 = new IC.AST.PrimitiveType@f81843[2]
+Move 2,R1
+Compare 0,R1
+JumpL _negative_array_size_handler
+Mul 4,R1
+Library __allocateArray(R1),R1
+Move this,R2
+Compare 0,R2
+JumpTrue _null_ptr_dereference_handler
+MoveField R1,R2.1
+# a1[0] = 5
+Move 5,R1
+Move this,R3
+Compare 0,R3
+JumpTrue _null_ptr_dereference_handler
+MoveField R3.1,R2
+Compare 0,R2
+JumpTrue _null_ptr_dereference_handler
+Move 0,R3
+ArrayLength R2,R4
+Compare R4,R3
+JumpGE _array_index_out_of_bounds_handler
+Compare 0,R3
+JumpL _array_index_out_of_bounds_handler
+MoveArray R1,R2[R3]
+# a1[1] = 6
+Move 6,R1
+Move this,R3
+Compare 0,R3
+JumpTrue _null_ptr_dereference_handler
+MoveField R3.1,R2
+Compare 0,R2
+JumpTrue _null_ptr_dereference_handler
+Move 1,R3
+ArrayLength R2,R4
+Compare R4,R3
+JumpGE _array_index_out_of_bounds_handler
+Compare 0,R3
+JumpL _array_index_out_of_bounds_handler
+MoveArray R1,R2[R3]
+Return Rdummy
+##################################
+
+################# Test.check #################
+_Test_check:
+Move y,R2
+Compare 0,R2
+JumpTrue _null_ptr_dereference_handler
+Move 0,R1
+ArrayLength R2,R3
+Compare R3,R1
+JumpGE _array_index_out_of_bounds_handler
+Compare 0,R1
+JumpL _array_index_out_of_bounds_handler
+MoveArray R2[R1],R1
+Compare 0,R1
+JumpTrue _null_ptr_dereference_handler
+ArrayLength R1,R1
+Library __printi(R1),Rdummy
+Move str4,R1
+Library __println(R1),Rdummy
+Move y,R4
+Compare 0,R4
+JumpTrue _null_ptr_dereference_handler
+Move 0,R3
+ArrayLength R4,R5
+Compare R5,R3
+JumpGE _array_index_out_of_bounds_handler
+Compare 0,R3
+JumpL _array_index_out_of_bounds_handler
+MoveArray R4[R3],R3
+Compare 0,R3
+JumpTrue _null_ptr_dereference_handler
+Move 0,R2
+ArrayLength R3,R4
+Compare R4,R2
+JumpGE _array_index_out_of_bounds_handler
+Compare 0,R2
+JumpL _array_index_out_of_bounds_handler
+MoveArray R3[R2],R2
+Move 8,R1
+Compare R1,R2
+JumpTrue _true_label23
+Move 0,R1
+Jump _end_lbl22
+_true_label23:
+Move 1,R1
+_end_lbl22:
+Compare 0,R1
+JumpTrue _else24
+Move str5,R2
+Library __print(R2),Rdummy
+_else24:
+Return Rdummy
+##################################
+
+################# ic.main #################
+_ic_main:
+Library __allocateObject(12),R1
+MoveField _DV_ArrayType,R1.0
+Move R1,v0a
+# a2 = null
+Move 0,R1
+Move v0a,R2
+Compare 0,R2
+JumpTrue _null_ptr_dereference_handler
+MoveField R1,R2.2
+Move v0a,R1
+Compare 0,R1
+JumpTrue _null_ptr_dereference_handler
+VirtualCall R1.0(),Rdummy
+Move 0,R1
+Move R1,v3i
+Move 10,R1
+Compare 0,R1
+JumpL _negative_array_size_handler
+Mul 4,R1
+Library __allocateArray(R1),R1
+Move R1,v4arr
+_test5:
+Move v3i,R2
+Move 10,R1
+Compare R1,R2
+JumpL _true_label8
+Move 0,R1
+Jump _end_lbl7
+_true_label8:
+Move 1,R1
+_end_lbl7:
+Compare 0,R1
+JumpTrue _end6
+# arr[i] = new ArrayType()
+Library __allocateObject(12),R2
+MoveField _DV_ArrayType,R2.0
+Move v4arr,R3
+Compare 0,R3
+JumpTrue _null_ptr_dereference_handler
+Move v3i,R4
+ArrayLength R3,R5
+Compare R5,R4
+JumpGE _array_index_out_of_bounds_handler
+Compare 0,R4
+JumpL _array_index_out_of_bounds_handler
+MoveArray R2,R3[R4]
+Move v4arr,R2
+Compare 0,R2
+JumpTrue _null_ptr_dereference_handler
+Move v3i,R1
+ArrayLength R2,R3
+Compare R3,R1
+JumpGE _array_index_out_of_bounds_handler
+Compare 0,R1
+JumpL _array_index_out_of_bounds_handler
+MoveArray R2[R1],R1
+Compare 0,R1
+JumpTrue _null_ptr_dereference_handler
+VirtualCall R1.0(),Rdummy
+# i = i PLUS 1
+Move v3i,R1
+Move 1,R2
+Add R2,R1
+Move R1,v3i
+Jump _test5
+_end6:
+# a2 = new IC.AST.PrimitiveType@128e20a[1]
+Move 1,R1
+Compare 0,R1
+JumpL _negative_array_size_handler
+Mul 4,R1
+Library __allocateArray(R1),R1
+Move v4arr,R3
+Compare 0,R3
+JumpTrue _null_ptr_dereference_handler
+Move 3,R2
+ArrayLength R3,R4
+Compare R4,R2
+JumpGE _array_index_out_of_bounds_handler
+Compare 0,R2
+JumpL _array_index_out_of_bounds_handler
+MoveArray R3[R2],R2
+Compare 0,R2
+JumpTrue _null_ptr_dereference_handler
+MoveField R1,R2.2
+# a2[0] = new IC.AST.PrimitiveType@1100d7a[1]
+Move 1,R1
+Compare 0,R1
+JumpL _negative_array_size_handler
+Mul 4,R1
+Library __allocateArray(R1),R1
+Move v4arr,R4
+Compare 0,R4
+JumpTrue _null_ptr_dereference_handler
+Move 3,R3
+ArrayLength R4,R5
+Compare R5,R3
+JumpGE _array_index_out_of_bounds_handler
+Compare 0,R3
+JumpL _array_index_out_of_bounds_handler
+MoveArray R4[R3],R3
+Compare 0,R3
+JumpTrue _null_ptr_dereference_handler
+MoveField R3.2,R2
+Compare 0,R2
+JumpTrue _null_ptr_dereference_handler
+Move 0,R3
+ArrayLength R2,R4
+Compare R4,R3
+JumpGE _array_index_out_of_bounds_handler
+Compare 0,R3
+JumpL _array_index_out_of_bounds_handler
+MoveArray R1,R2[R3]
+# a2[0][0] = 8
+Move 8,R1
+Move v4arr,R5
+Compare 0,R5
+JumpTrue _null_ptr_dereference_handler
+Move 3,R4
+ArrayLength R5,R6
+Compare R6,R4
+JumpGE _array_index_out_of_bounds_handler
+Compare 0,R4
+JumpL _array_index_out_of_bounds_handler
+MoveArray R5[R4],R4
+Compare 0,R4
+JumpTrue _null_ptr_dereference_handler
+MoveField R4.2,R3
+Compare 0,R3
+JumpTrue _null_ptr_dereference_handler
+Move 0,R2
+ArrayLength R3,R4
+Compare R4,R2
+JumpGE _array_index_out_of_bounds_handler
+Compare 0,R2
+JumpL _array_index_out_of_bounds_handler
+MoveArray R3[R2],R2
+Compare 0,R2
+JumpTrue _null_ptr_dereference_handler
+Move 0,R3
+ArrayLength R2,R4
+Compare R4,R3
+JumpGE _array_index_out_of_bounds_handler
+Compare 0,R3
+JumpL _array_index_out_of_bounds_handler
+MoveArray R1,R2[R3]
+Move v4arr,R3
+Compare 0,R3
+JumpTrue _null_ptr_dereference_handler
+Move 3,R2
+ArrayLength R3,R4
+Compare R4,R2
+JumpGE _array_index_out_of_bounds_handler
+Compare 0,R2
+JumpL _array_index_out_of_bounds_handler
+MoveArray R3[R2],R2
+Compare 0,R2
+JumpTrue _null_ptr_dereference_handler
+MoveField R2.2,R1
+Move R1,v20param
+Move v20param,R1
+StaticCall _Test_check(y=R1),Rdummy
+##################################
+

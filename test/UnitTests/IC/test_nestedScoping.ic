@@ -1,0 +1,96 @@
+class NestedScopingA{
+
+	int x;
+	
+	void foo() {
+	
+		x = 0;
+		Library.print("in foo: x = ");
+		Library.printi(x);
+		Library.println("");
+		
+		{
+			int x = 2;
+			Library.print("x - local: ");
+			Library.printi(x);
+			Library.println("");
+		}
+		
+		while(true)
+		{
+			int x = this.x;
+			if (x == this.x)
+				Library.println("First Test - OK");
+			else
+				Library.println("First Test - NOT OK");
+			
+			break;
+		}
+	}
+	
+	static void main(string[] args){
+		
+		int x = 1;
+		
+		Library.print("In Main: x = ");
+		Library.printi(x);
+		Library.println("");
+		
+		NestedScopingA nsa = new NestedScopingA();
+		
+		nsa.foo();
+		
+		nsa.x = 100;
+		if (nsa.x != x)
+			Library.println("Second Test - OK");
+		else 
+			Library.println("Second Test - NOT OK");
+		
+		NestedScopingB nsb = new NestedScopingB();
+		nsb.bar(x);
+		NestedScopingB.func();
+	}
+}
+
+class NestedScopingB
+{
+	int a;
+	int b;
+	boolean c;
+	
+	boolean bar(int var) {
+		this.a = var;
+		this.b = a;
+		this.c = (a == b);
+		
+		return c;
+	}
+	
+	static void func() {
+		int a = 1;
+		Library.print("a in first block: ");
+		Library.printi(a);
+		Library.println("");
+		{
+			int a = 2;
+			Library.print("a in second block: ");
+			Library.printi(a);
+			Library.println("");
+			{
+				if (1>2)
+				{
+					int a = 3;
+					Library.print("a in third block: ");
+					Library.printi(a);
+					Library.println("");
+				}
+			}
+		}
+		Library.print("a in first block: ");
+		Library.printi(a);
+		Library.println("");
+		
+		Library.print("If a == num of block in every block, then ");
+		Library.print("Third test - OK!");
+	}
+}

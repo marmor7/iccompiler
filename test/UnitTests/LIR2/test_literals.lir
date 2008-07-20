@@ -1,0 +1,133 @@
+
+######################
+# Program test_literals.ic
+######################
+
+######################
+# STRING LITERALS
+arr_neg_alloc_size: "Negative or zero array size allocation. Program will now exit. "
+null_reference: "Null reference. Program will now exit. "
+illegal_arr_loc: "Illegal array location. Program will now exit. "
+dev_by_zero: "Devision by zero. Program will now exit. "
+str0: "test 1 pass"
+str1: "test 2 pass"
+str2: "test 3 pass"
+######################
+
+######################
+# DISPATCH VECTORS
+_DV_Test_Literals: []
+######################
+
+_ic_main:   # Main Method
+# Line 5: 
+Move 5, R1
+# new smartMove on: R1, i_Test_Literals_17
+Move R1, i_Test_Literals_17 # brought to you by safe/smartmove
+# Line 6: 
+Move str0, R1 # assigning literal to reg
+# new smartMove on: R1, str1_Test_Literals_17
+Move R1, str1_Test_Literals_17 # brought to you by safe/smartmove
+# Line 7: 
+Move str1, R1 # assigning literal to reg
+# new smartMove on: R1, str2_Test_Literals_17
+Move R1, str2_Test_Literals_17 # brought to you by safe/smartmove
+# Line 8: 
+Move str2, R1 # assigning literal to reg
+# new smartMove on: R1, str3_Test_Literals_17
+Move R1, str3_Test_Literals_17 # brought to you by safe/smartmove
+# Line 9: 
+Move 1, R1
+# new smartMove on: R1, t_Test_Literals_17
+Move R1, t_Test_Literals_17 # brought to you by safe/smartmove
+# Line 10: 
+Move 0, R1
+# new smartMove on: R1, f_Test_Literals_17
+Move R1, f_Test_Literals_17 # brought to you by safe/smartmove
+# Line 12: 
+# new smartMove on: t_Test_Literals_17, R1
+Move t_Test_Literals_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, t_Test_Literals_17 # reversed
+Compare 0,R1		# If's condition check
+JumpTrue _l2		# Conditional jump when If's outcome is true
+_l1:   # If's then label
+# new smartMove on: str1_Test_Literals_17, R3
+Move str1_Test_Literals_17, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Move R4, str1_Test_Literals_17 # reversed
+Library __println(R3),R5
+Jump _l3		# Jump to end label(end of then part)
+_l2:   # If's else label
+_l3:   # End of If statement
+# Line 13: 
+# new smartMove on: f_Test_Literals_17, R1
+Move f_Test_Literals_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, f_Test_Literals_17 # reversed
+Xor 1,R1
+Compare 0,R1		# If's condition check
+JumpTrue _l5		# Conditional jump when If's outcome is true
+_l4:   # If's then label
+# new smartMove on: str2_Test_Literals_17, R3
+Move str2_Test_Literals_17, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Move R4, str2_Test_Literals_17 # reversed
+Library __println(R3),R5
+Jump _l6		# Jump to end label(end of then part)
+_l5:   # If's else label
+_l6:   # End of If statement
+# Line 14: 
+# new smartMove on: i_Test_Literals_17, R1
+Move i_Test_Literals_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, i_Test_Literals_17 # reversed
+Move 5, R3
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+# new smartMove on: 0, R6
+Move 0, R7 # brought to you by safe/smartmove
+Move R7, R6 # brought to you by safe/smartmove
+Compare R4,R5
+JumpFalse _l10
+# new smartMove on: 1, R6
+Move 1, R8 # brought to you by safe/smartmove
+Move R8, R6 # brought to you by safe/smartmove
+_l10:
+Compare 0,R6		# If's condition check
+JumpTrue _l8		# Conditional jump when If's outcome is true
+_l7:   # If's then label
+# new smartMove on: str3_Test_Literals_17, R9
+Move str3_Test_Literals_17, R10 # brought to you by safe/smartmove
+Move R10, R9 # brought to you by safe/smartmove
+Move R10, str3_Test_Literals_17 # reversed
+Library __println(R9),R11
+Jump _l9		# Jump to end label(end of then part)
+_l8:   # If's else label
+_l9:   # End of If statement
+Library __exit(0),Rdummy
+# Method main end
+Return 9999
+
+######################
+# Error Labels
+######################
+
+_null_reference:
+Library __println(null_reference),Rdummy
+Library __exit(1),Rdummy
+
+_illegal_arr_loc:
+Library __println(illegal_arr_loc),Rdummy
+Library __exit(1),Rdummy
+
+_dev_by_zero:
+Library __println(dev_by_zero),Rdummy
+Library __exit(1),Rdummy
+
+_arr_neg_alloc_size:
+Library __println(arr_neg_alloc_size),Rdummy
+Library __exit(1),Rdummy
+

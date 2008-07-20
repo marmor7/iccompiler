@@ -1,0 +1,223 @@
+
+######################
+# Program example1.ic
+######################
+
+######################
+# STRING LITERALS
+arr_neg_alloc_size: "Negative or zero array size allocation. Program will now exit. "
+null_reference: "Null reference. Program will now exit. "
+illegal_arr_loc: "Illegal array location. Program will now exit. "
+dev_by_zero: "Devision by zero. Program will now exit. "
+str0: "hello"
+######################
+
+######################
+# DISPATCH VECTORS
+_DV_C: []
+_DV_B: [_A_sfunc,_B_vfunc]
+_DV_A: [_A_sfunc,_A_vfunc]
+######################
+
+_A_sfunc:   # Method sfunc:
+# Line 6: 
+# new smartMove on: b, R1
+Move b, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, b # reversed
+Compare 0,R1		# If's condition check
+JumpTrue _l2		# Conditional jump when If's outcome is true
+_l1:   # If's then label
+# Line 6: 
+# Line 7: 
+Move 5, R3
+# new smartMove on: R3, k_A_21
+Move R3, k_A_21 # brought to you by safe/smartmove
+Move 1, R1
+# new smartMove on: R1, R2
+Move R1, R2 # brought to you by safe/smartmove
+Return R2
+Jump _l3		# Jump to end label(end of then part)
+_l2:   # If's else label
+# Line 12: 
+Library __allocateObject(12),R1 # Allocation of A
+MoveField _DV_A,R1.0 # Move field for DV pointer
+# new smartMove on: R1, x_A_22
+Move R1, x_A_22 # brought to you by safe/smartmove
+Move 9, R2
+# TMP 1
+# new smartMove on: R2, x_A_22.2
+Move x_A_22, R4 # brought to you by safe/smartmove
+Compare 0,R4
+JumpTrue _null_reference
+MoveField R4.2,R3 # SMART MOVED BITCH - field style
+Move R2, R3 # brought to you by safe/smartmove
+MoveField R3,R4.2 # reversed
+Move R4, x_A_22 # reversed
+Move str0, R2 # assigning literal to reg
+# TMP 1
+# new smartMove on: R2, x_A_22.1
+Move x_A_22, R4 # brought to you by safe/smartmove
+Compare 0,R4
+JumpTrue _null_reference
+MoveField R4.1,R3 # SMART MOVED BITCH - field style
+Move R2, R3 # brought to you by safe/smartmove
+MoveField R3,R4.1 # reversed
+Move R4, x_A_22 # reversed
+Move 0, R1
+# new smartMove on: R1, R2
+Move R1, R2 # brought to you by safe/smartmove
+Return R2
+_l3:   # End of If statement
+# Method sfunc end
+Return 9999
+_A_vfunc:   # Method vfunc:
+# Line 21: 
+# new smartMove on: max, R1
+Move max, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, max # reversed
+# new smartMove on: 4, R3
+Move 4, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Mul R3,R1
+Compare 0,R1
+JumpLE _arr_neg_alloc_size
+Library __allocateArray(R1),R5
+# new smartMove on: R5, arr_A_23
+Move R5, arr_A_23 # brought to you by safe/smartmove
+# Line 22: 
+Move 0, R1
+# new smartMove on: R1, i_A_23
+Move R1, i_A_23 # brought to you by safe/smartmove
+# Line 23: 
+_l4:   # While
+# new smartMove on: i_A_23, R1
+Move i_A_23, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, i_A_23 # reversed
+# new smartMove on: max, R3
+Move max, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Move R4, max # reversed
+# new smartMove on: R1, R5
+Move R1, R5 # brought to you by safe/smartmove
+# new smartMove on: R3, R6
+Move R3, R6 # brought to you by safe/smartmove
+# new smartMove on: 0, R7
+Move 0, R8 # brought to you by safe/smartmove
+Move R8, R7 # brought to you by safe/smartmove
+Compare R6,R5
+JumpGE _l6
+# new smartMove on: 1, R7
+Move 1, R9 # brought to you by safe/smartmove
+Move R9, R7 # brought to you by safe/smartmove
+_l6:
+Compare 0,R7		# While condition check
+JumpTrue _l5		# Conditional jump when while statement is false
+# Line 23: 
+# new smartMove on: 0, R14
+Move 0, R15 # brought to you by safe/smartmove
+Move R15, R14 # brought to you by safe/smartmove
+# TMP 4
+# new smartMove on: arr_A_23, R16
+Move arr_A_23, R17 # brought to you by safe/smartmove
+Move R17, R16 # brought to you by safe/smartmove
+Move R17, arr_A_23 # reversed
+ArrayLength R16,R13		# Getting array length
+Compare i_A_23,R13
+JumpL _illegal_arr_loc
+Compare i_A_23,R14
+JumpG _illegal_arr_loc
+# TMP 2
+# new smartMove on: arr_A_23[i_A_23], R12
+Move arr_A_23, R19 # brought to you by safe/smartmove
+MoveArray R19[i_A_23], R18 # SMART MOVED BITCH - Array Style
+Move R18, R12 # brought to you by safe/smartmove
+MoveArray R18, R19[i_A_23] # reversed
+Move R19, arr_A_23 # reversed
+# new smartMove on: val, R20
+Move val, R21 # brought to you by safe/smartmove
+Move R21, R20 # brought to you by safe/smartmove
+Move R21, val # reversed
+# TMP 1
+# new smartMove on: R20, arr_A_23[i_A_23]
+Move arr_A_23, R23 # brought to you by safe/smartmove
+MoveArray R23[i_A_23], R22 # SMART MOVED BITCH - Array Style
+Move R20, R22 # brought to you by safe/smartmove
+MoveArray R22, R23[i_A_23] # reversed
+Move R23, arr_A_23 # reversed
+# new smartMove on: i_A_23, R2
+Move i_A_23, R3 # brought to you by safe/smartmove
+Move R3, R2 # brought to you by safe/smartmove
+Move R3, i_A_23 # reversed
+Move 1, R4
+# new smartMove on: R2, R5
+Move R2, R5 # brought to you by safe/smartmove
+# new smartMove on: R4, R6
+Move R4, R6 # brought to you by safe/smartmove
+Add R6,R5
+# TMP 1
+# new smartMove on: R5, i_A_23
+Move R5, i_A_23 # brought to you by safe/smartmove
+# new smartMove on: i_A_23, R1
+Move i_A_23, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, i_A_23 # reversed
+Library __printi(R1),R3
+# new smartMove on: a, R1
+Move a, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, a # reversed
+Move 0, R3
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+# new smartMove on: 0, R6
+Move 0, R7 # brought to you by safe/smartmove
+Move R7, R6 # brought to you by safe/smartmove
+Compare R4,R5
+JumpFalse _l10
+# new smartMove on: 1, R6
+Move 1, R8 # brought to you by safe/smartmove
+Move R8, R6 # brought to you by safe/smartmove
+_l10:
+Compare 0,R6		# If's condition check
+JumpTrue _l8		# Conditional jump when If's outcome is true
+_l7:   # If's then label
+Jump _l5		# Break statement. Jump to end of while statement label: _l5
+Jump _l9		# Jump to end label(end of then part)
+_l8:   # If's else label
+_l9:   # End of If statement
+Jump _l4
+_l5:   # False while condition
+Return 9999
+_B_vfunc:   # Method vfunc:
+Return 9999
+_ic_main:   # Main Method
+# Line 42: 
+Library __exit(0),Rdummy
+# Method main end
+Return 9999
+
+######################
+# Error Labels
+######################
+
+_null_reference:
+Library __println(null_reference),Rdummy
+Library __exit(1),Rdummy
+
+_illegal_arr_loc:
+Library __println(illegal_arr_loc),Rdummy
+Library __exit(1),Rdummy
+
+_dev_by_zero:
+Library __println(dev_by_zero),Rdummy
+Library __exit(1),Rdummy
+
+_arr_neg_alloc_size:
+Library __println(arr_neg_alloc_size),Rdummy
+Library __exit(1),Rdummy
+

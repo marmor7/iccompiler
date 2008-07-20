@@ -1,0 +1,790 @@
+##################################
+# String Literals
+zero_division_error_str: "Runtime Error: Illegal division by zero!"
+array_index_out_of_bounds_str: "Runtime Error: Array index out of bounds!"
+array_size_negative_str: "Runtime Error: Array allocation with negative array size!"
+null_pointer_dereference_str: "Runtime Error: Null pointer dereference!"
+str4: "static first case == OK"
+str5: "static first case == Failed!!!!!!!!"
+str6: "static first case  < OK"
+str7: "static first case  < Failed!!!!!!!!"
+str8: "static first case  <= OK"
+str9: "static first case  <= Failed!!!!!!!!"
+str10: "static first case  > OK"
+str11: "static first case  > Failed!!!!!!!!"
+str12: "static first case  >= OK"
+str13: "static first case  >= Failed!!!!!!!!"
+str14: "static first case  != OK"
+str15: "static first case  != Failed!!!!!!!!"
+str16: "static second case  == Failed!!!!!!!!"
+str17: "static second case  == OK"
+str18: "static second case  == OK "
+str19: "dynamic first case == OK"
+str20: "dynamic first case == Failed!!!!!!!!"
+str21: "dynamic first case  < OK"
+str22: "dynamic first case  < Failed!!!!!!!!"
+str23: "dynamic first case  <= OK"
+str24: "dynamic first case  <= Failed!!!!!!!!"
+str25: "dynamic first case  > OK"
+str26: "dynamic first case  > Failed!!!!!!!!"
+str27: "dynamic first case  >= OK"
+str28: "dynamic first case  >= Failed!!!!!!!!"
+str29: "dynamic first case  != OK"
+str30: "dynamic first case  != Failed!!!!!!!!"
+str31: "dynamic second case  == Failed!!!!!!!!"
+str32: "dynamic second case  == OK"
+str33: "dynamic second case  < Failed!!!!!!!!"
+str34: "dynamic second case  < OK"
+str35: "dynamic second case  <= Failed!!!!!!!!"
+str36: "dynamic second case  <= OK "
+str37: "dynamic second case  > Failed!!!!!!!!"
+str38: "dynamic second case  > OK "
+str39: "dynamic second case  >= Failed!!!!!!!!"
+str40: "dynamic second case  >= OK "
+str41: "dynamic second case  != Failed!!!!!!!!"
+str42: "dynamic second case  != OK "
+str43: "dynamic second case  && false Failed!!!!!!!!"
+str44: "dynamic second case  && OK "
+str45: "dynamic second case  || false Failed!!!!!!!!"
+str46: "dynamic second case  || OK "
+str47: "dynamic second case  && true OK "
+str48: "dynamic second case  && Failed!!!!!!!!"
+str49: "dynamic second case  || true  OK "
+str50: "dynamic second case  || Failed!!!!!!!!"
+str51: "! operation OK "
+str52: "! operation not OK!"
+str53: "+ OK!"
+str54: "+ NOT OK!"
+str55: "- OK!"
+str56: "- NOT OK!"
+str57: "* OK!"
+str58: "* NOT OK!"
+str59: "/ OK!"
+str60: "/ NOT OK!"
+str61: "% OK!"
+str62: "% NOT OK!"
+##################################
+
+##################################
+# Dispatch Vectors
+
+# 'Test_if' field offsets: 
+_DV_Test_if : []
+##################################
+
+_zero_division_error_handler:
+Library __println(zero_division_error_str),Rdummy
+Library __exit(1),Rdummy
+
+_negative_array_size_handler:
+Library __println(array_size_negative_str),Rdummy
+Library __exit(1),Rdummy
+
+_null_ptr_dereference_handler:
+Library __println(null_pointer_dereference_str),Rdummy
+Library __exit(1),Rdummy
+
+_array_index_out_of_bounds_handler:
+Library __println(array_index_out_of_bounds_str),Rdummy
+Library __exit(1),Rdummy
+
+################# ic.main #################
+_ic_main:
+Move 5,R1
+Move R1,v0i
+Move 5,R1
+Move R1,v1j
+Move 6,R1
+Move R1,v2k
+Move 5,R2
+Move 5,R1
+Compare R1,R2
+JumpTrue _true_label4
+Move 0,R1
+Jump _end_lbl3
+_true_label4:
+Move 1,R1
+_end_lbl3:
+Compare 0,R1
+JumpTrue _else5
+Move str4,R2
+Library __println(R2),Rdummy
+Jump _end6
+_else5:
+Move str5,R1
+Library __println(R1),Rdummy
+_end6:
+Move 2,R2
+Move 5,R1
+Compare R1,R2
+JumpL _true_label8
+Move 0,R1
+Jump _end_lbl7
+_true_label8:
+Move 1,R1
+_end_lbl7:
+Compare 0,R1
+JumpTrue _else9
+Move str6,R2
+Library __println(R2),Rdummy
+Jump _end10
+_else9:
+Move str7,R1
+Library __println(R1),Rdummy
+_end10:
+Move 5,R2
+Move 5,R1
+Compare R1,R2
+JumpLE _true_label12
+Move 0,R1
+Jump _end_lbl11
+_true_label12:
+Move 1,R1
+_end_lbl11:
+Compare 0,R1
+JumpTrue _else13
+Move str8,R2
+Library __println(R2),Rdummy
+Jump _end14
+_else13:
+Move str9,R1
+Library __println(R1),Rdummy
+_end14:
+Move 5,R2
+Move 3,R1
+Compare R1,R2
+JumpG _true_label16
+Move 0,R1
+Jump _end_lbl15
+_true_label16:
+Move 1,R1
+_end_lbl15:
+Compare 0,R1
+JumpTrue _else17
+Move str10,R2
+Library __println(R2),Rdummy
+Jump _end18
+_else17:
+Move str11,R1
+Library __println(R1),Rdummy
+_end18:
+Move 5,R2
+Move 5,R1
+Compare R1,R2
+JumpGE _true_label20
+Move 0,R1
+Jump _end_lbl19
+_true_label20:
+Move 1,R1
+_end_lbl19:
+Compare 0,R1
+JumpTrue _else21
+Move str12,R2
+Library __println(R2),Rdummy
+Jump _end22
+_else21:
+Move str13,R1
+Library __println(R1),Rdummy
+_end22:
+Move 5,R2
+Move 4,R1
+Compare R1,R2
+JumpFalse _true_label24
+Move 0,R1
+Jump _end_lbl23
+_true_label24:
+Move 1,R1
+_end_lbl23:
+Compare 0,R1
+JumpTrue _else25
+Move str14,R2
+Library __println(R2),Rdummy
+Jump _end26
+_else25:
+Move str15,R1
+Library __println(R1),Rdummy
+_end26:
+Move 5,R2
+Move 6,R1
+Compare R1,R2
+JumpTrue _true_label28
+Move 0,R1
+Jump _end_lbl27
+_true_label28:
+Move 1,R1
+_end_lbl27:
+Compare 0,R1
+JumpTrue _else29
+Move str16,R2
+Library __println(R2),Rdummy
+Jump _end30
+_else29:
+Move str17,R1
+Library __println(R1),Rdummy
+_end30:
+Move 7,R2
+Move 5,R1
+Compare R1,R2
+JumpL _true_label32
+Move 0,R1
+Jump _end_lbl31
+_true_label32:
+Move 1,R1
+_end_lbl31:
+Compare 0,R1
+JumpTrue _else33
+Move str16,R2
+Library __println(R2),Rdummy
+Jump _end34
+_else33:
+Move str17,R1
+Library __println(R1),Rdummy
+_end34:
+Move 7,R2
+Move 5,R1
+Compare R1,R2
+JumpLE _true_label36
+Move 0,R1
+Jump _end_lbl35
+_true_label36:
+Move 1,R1
+_end_lbl35:
+Compare 0,R1
+JumpTrue _else37
+Move str16,R2
+Library __println(R2),Rdummy
+Jump _end38
+_else37:
+Move str18,R1
+Library __println(R1),Rdummy
+_end38:
+Move 2,R2
+Move 5,R1
+Compare R1,R2
+JumpG _true_label40
+Move 0,R1
+Jump _end_lbl39
+_true_label40:
+Move 1,R1
+_end_lbl39:
+Compare 0,R1
+JumpTrue _else41
+Move str16,R2
+Library __println(R2),Rdummy
+Jump _end42
+_else41:
+Move str18,R1
+Library __println(R1),Rdummy
+_end42:
+Move 2,R2
+Move 5,R1
+Compare R1,R2
+JumpGE _true_label44
+Move 0,R1
+Jump _end_lbl43
+_true_label44:
+Move 1,R1
+_end_lbl43:
+Compare 0,R1
+JumpTrue _else45
+Move str16,R2
+Library __println(R2),Rdummy
+Jump _end46
+_else45:
+Move str18,R1
+Library __println(R1),Rdummy
+_end46:
+Move 5,R2
+Move 5,R1
+Compare R1,R2
+JumpFalse _true_label48
+Move 0,R1
+Jump _end_lbl47
+_true_label48:
+Move 1,R1
+_end_lbl47:
+Compare 0,R1
+JumpTrue _else49
+Move str16,R2
+Library __println(R2),Rdummy
+Jump _end50
+_else49:
+Move str18,R1
+Library __println(R1),Rdummy
+_end50:
+Move v0i,R2
+Move v0i,R1
+Compare R1,R2
+JumpTrue _true_label52
+Move 0,R1
+Jump _end_lbl51
+_true_label52:
+Move 1,R1
+_end_lbl51:
+Compare 0,R1
+JumpTrue _else55
+Move str19,R2
+Library __println(R2),Rdummy
+Jump _end56
+_else55:
+Move str20,R1
+Library __println(R1),Rdummy
+_end56:
+Move v0i,R2
+Move v2k,R1
+Compare R1,R2
+JumpL _true_label58
+Move 0,R1
+Jump _end_lbl57
+_true_label58:
+Move 1,R1
+_end_lbl57:
+Compare 0,R1
+JumpTrue _else61
+Move str21,R2
+Library __println(R2),Rdummy
+Jump _end62
+_else61:
+Move str22,R1
+Library __println(R1),Rdummy
+_end62:
+Move v0i,R2
+Move v1j,R1
+Compare R1,R2
+JumpLE _true_label64
+Move 0,R1
+Jump _end_lbl63
+_true_label64:
+Move 1,R1
+_end_lbl63:
+Compare 0,R1
+JumpTrue _else67
+Move str23,R2
+Library __println(R2),Rdummy
+Jump _end68
+_else67:
+Move str24,R1
+Library __println(R1),Rdummy
+_end68:
+Move v2k,R2
+Move v0i,R1
+Compare R1,R2
+JumpG _true_label70
+Move 0,R1
+Jump _end_lbl69
+_true_label70:
+Move 1,R1
+_end_lbl69:
+Compare 0,R1
+JumpTrue _else73
+Move str25,R2
+Library __println(R2),Rdummy
+Jump _end74
+_else73:
+Move str26,R1
+Library __println(R1),Rdummy
+_end74:
+Move v2k,R2
+Move v0i,R1
+Compare R1,R2
+JumpGE _true_label76
+Move 0,R1
+Jump _end_lbl75
+_true_label76:
+Move 1,R1
+_end_lbl75:
+Compare 0,R1
+JumpTrue _else79
+Move str27,R2
+Library __println(R2),Rdummy
+Jump _end80
+_else79:
+Move str28,R1
+Library __println(R1),Rdummy
+_end80:
+Move v0i,R2
+Move v2k,R1
+Compare R1,R2
+JumpFalse _true_label82
+Move 0,R1
+Jump _end_lbl81
+_true_label82:
+Move 1,R1
+_end_lbl81:
+Compare 0,R1
+JumpTrue _else85
+Move str29,R2
+Library __println(R2),Rdummy
+Jump _end86
+_else85:
+Move str30,R1
+Library __println(R1),Rdummy
+_end86:
+Move v0i,R2
+Move v2k,R1
+Compare R1,R2
+JumpTrue _true_label88
+Move 0,R1
+Jump _end_lbl87
+_true_label88:
+Move 1,R1
+_end_lbl87:
+Compare 0,R1
+JumpTrue _else91
+Move str31,R2
+Library __println(R2),Rdummy
+Jump _end92
+_else91:
+Move str32,R1
+Library __println(R1),Rdummy
+_end92:
+Move v2k,R2
+Move v0i,R1
+Compare R1,R2
+JumpL _true_label94
+Move 0,R1
+Jump _end_lbl93
+_true_label94:
+Move 1,R1
+_end_lbl93:
+Compare 0,R1
+JumpTrue _else97
+Move str33,R2
+Library __println(R2),Rdummy
+Jump _end98
+_else97:
+Move str34,R1
+Library __println(R1),Rdummy
+_end98:
+Move v2k,R2
+Move v0i,R1
+Compare R1,R2
+JumpLE _true_label100
+Move 0,R1
+Jump _end_lbl99
+_true_label100:
+Move 1,R1
+_end_lbl99:
+Compare 0,R1
+JumpTrue _else103
+Move str35,R2
+Library __println(R2),Rdummy
+Jump _end104
+_else103:
+Move str36,R1
+Library __println(R1),Rdummy
+_end104:
+Move v0i,R2
+Move v2k,R1
+Compare R1,R2
+JumpG _true_label106
+Move 0,R1
+Jump _end_lbl105
+_true_label106:
+Move 1,R1
+_end_lbl105:
+Compare 0,R1
+JumpTrue _else109
+Move str37,R2
+Library __println(R2),Rdummy
+Jump _end110
+_else109:
+Move str38,R1
+Library __println(R1),Rdummy
+_end110:
+Move v0i,R2
+Move v2k,R1
+Compare R1,R2
+JumpGE _true_label112
+Move 0,R1
+Jump _end_lbl111
+_true_label112:
+Move 1,R1
+_end_lbl111:
+Compare 0,R1
+JumpTrue _else115
+Move str39,R2
+Library __println(R2),Rdummy
+Jump _end116
+_else115:
+Move str40,R1
+Library __println(R1),Rdummy
+_end116:
+Move v0i,R2
+Move v0i,R1
+Compare R1,R2
+JumpFalse _true_label118
+Move 0,R1
+Jump _end_lbl117
+_true_label118:
+Move 1,R1
+_end_lbl117:
+Compare 0,R1
+JumpTrue _else121
+Move str41,R2
+Library __println(R2),Rdummy
+Jump _end122
+_else121:
+Move str42,R1
+Library __println(R1),Rdummy
+_end122:
+Move 5,R2
+Move 5,R1
+Compare R1,R2
+JumpTrue _true_label125
+Move 0,R1
+Jump _end_lbl124
+_true_label125:
+Move 1,R1
+_end_lbl124:
+Compare 0,R1
+JumpTrue _end_lbl123
+Move 6,R2
+Move 7,R1
+Compare R1,R2
+JumpTrue _true_label127
+Move 0,R1
+Jump _end_lbl126
+_true_label127:
+Move 1,R1
+_end_lbl126:
+_end_lbl123:
+Compare 0,R1
+JumpTrue _else128
+Move str43,R2
+Library __println(R2),Rdummy
+Jump _end129
+_else128:
+Move str44,R1
+Library __println(R1),Rdummy
+_end129:
+Move 5,R2
+Move 3,R1
+Compare R1,R2
+JumpTrue _true_label132
+Move 0,R1
+Jump _end_lbl131
+_true_label132:
+Move 1,R1
+_end_lbl131:
+Compare 1,R1
+JumpTrue _end_lbl130
+Move 6,R2
+Move 7,R1
+Compare R1,R2
+JumpTrue _true_label134
+Move 0,R1
+Jump _end_lbl133
+_true_label134:
+Move 1,R1
+_end_lbl133:
+_end_lbl130:
+Compare 0,R1
+JumpTrue _else135
+Move str45,R2
+Library __println(R2),Rdummy
+Jump _end136
+_else135:
+Move str46,R1
+Library __println(R1),Rdummy
+_end136:
+Move 5,R2
+Move 5,R1
+Compare R1,R2
+JumpTrue _true_label139
+Move 0,R1
+Jump _end_lbl138
+_true_label139:
+Move 1,R1
+_end_lbl138:
+Compare 0,R1
+JumpTrue _end_lbl137
+Move 7,R2
+Move 7,R1
+Compare R1,R2
+JumpTrue _true_label141
+Move 0,R1
+Jump _end_lbl140
+_true_label141:
+Move 1,R1
+_end_lbl140:
+_end_lbl137:
+Compare 0,R1
+JumpTrue _else142
+Move str47,R2
+Library __println(R2),Rdummy
+Jump _end143
+_else142:
+Move str48,R1
+Library __println(R1),Rdummy
+_end143:
+Move 5,R2
+Move 3,R1
+Compare R1,R2
+JumpTrue _true_label146
+Move 0,R1
+Jump _end_lbl145
+_true_label146:
+Move 1,R1
+_end_lbl145:
+Compare 1,R1
+JumpTrue _end_lbl144
+Move 7,R2
+Move 7,R1
+Compare R1,R2
+JumpTrue _true_label148
+Move 0,R1
+Jump _end_lbl147
+_true_label148:
+Move 1,R1
+_end_lbl147:
+_end_lbl144:
+Compare 0,R1
+JumpTrue _else149
+Move str49,R2
+Library __println(R2),Rdummy
+Jump _end150
+_else149:
+Move str50,R1
+Library __println(R1),Rdummy
+_end150:
+Move 1,R1
+Move R1,v151b
+Move v151b,R2
+Xor 1,R2
+Move 0,R1
+Compare R1,R2
+JumpTrue _true_label153
+Move 0,R1
+Jump _end_lbl152
+_true_label153:
+Move 1,R1
+_end_lbl152:
+Compare 0,R1
+JumpTrue _else155
+Move str51,R2
+Library __println(R2),Rdummy
+Jump _end156
+_else155:
+Move str52,R1
+Library __println(R1),Rdummy
+_end156:
+Move 3,R1
+Move R1,v157x
+# x = UMINUSx
+Move v157x,R1
+Neg R1
+Move R1,v157x
+# x = UMINUSx
+Move v157x,R1
+Neg R1
+Move R1,v157x
+Move 5,R1
+Move R1,v162y
+Move v157x,R2
+Move v162y,R3
+Add R3,R2
+Move 8,R1
+Compare R1,R2
+JumpTrue _true_label164
+Move 0,R1
+Jump _end_lbl163
+_true_label164:
+Move 1,R1
+_end_lbl163:
+Compare 0,R1
+JumpTrue _else167
+Move str53,R2
+Library __println(R2),Rdummy
+Jump _end168
+_else167:
+Move str54,R1
+Library __println(R1),Rdummy
+_end168:
+Move v157x,R2
+Move v162y,R3
+Sub R3,R2
+Move 2,R1
+Neg R1
+Compare R1,R2
+JumpTrue _true_label170
+Move 0,R1
+Jump _end_lbl169
+_true_label170:
+Move 1,R1
+_end_lbl169:
+Compare 0,R1
+JumpTrue _else173
+Move str55,R2
+Library __println(R2),Rdummy
+Jump _end174
+_else173:
+Move str56,R1
+Library __println(R1),Rdummy
+_end174:
+Move v157x,R2
+Move v162y,R3
+Mul R3,R2
+Move 15,R1
+Compare R1,R2
+JumpTrue _true_label176
+Move 0,R1
+Jump _end_lbl175
+_true_label176:
+Move 1,R1
+_end_lbl175:
+Compare 0,R1
+JumpTrue _else179
+Move str57,R2
+Library __println(R2),Rdummy
+Jump _end180
+_else179:
+Move str58,R1
+Library __println(R1),Rdummy
+_end180:
+Move v157x,R2
+Move 3,R3
+Compare 0,R3
+JumpTrue _zero_division_error_handler
+Div R3,R2
+Move 1,R1
+Compare R1,R2
+JumpTrue _true_label182
+Move 0,R1
+Jump _end_lbl181
+_true_label182:
+Move 1,R1
+_end_lbl181:
+Compare 0,R1
+JumpTrue _else184
+Move str59,R2
+Library __println(R2),Rdummy
+Jump _end185
+_else184:
+Move str60,R1
+Library __println(R1),Rdummy
+_end185:
+Move v157x,R2
+Move 3,R3
+Compare 0,R3
+JumpTrue _zero_division_error_handler
+Mod R3,R2
+Move 0,R1
+Compare R1,R2
+JumpTrue _true_label187
+Move 0,R1
+Jump _end_lbl186
+_true_label187:
+Move 1,R1
+_end_lbl186:
+Compare 0,R1
+JumpTrue _else189
+Move str61,R2
+Library __println(R2),Rdummy
+Jump _end190
+_else189:
+Move str62,R1
+Library __println(R1),Rdummy
+_end190:
+##################################
+
