@@ -1,0 +1,63 @@
+##################################
+# String Literals
+zero_division_error_str: "Runtime Error: Illegal division by zero!"
+array_index_out_of_bounds_str: "Runtime Error: Array index out of bounds!"
+array_size_negative_str: "Runtime Error: Array allocation with negative array size!"
+null_pointer_dereference_str: "Runtime Error: Null pointer dereference!"
+##################################
+
+##################################
+# Dispatch Vectors
+
+# 'A' field offsets: 
+_DV_A : []
+##################################
+
+_zero_division_error_handler:
+Library __println(zero_division_error_str),Rdummy
+Library __exit(1),Rdummy
+
+_negative_array_size_handler:
+Library __println(array_size_negative_str),Rdummy
+Library __exit(1),Rdummy
+
+_null_ptr_dereference_handler:
+Library __println(null_pointer_dereference_str),Rdummy
+Library __exit(1),Rdummy
+
+_array_index_out_of_bounds_handler:
+Library __println(array_index_out_of_bounds_str),Rdummy
+Library __exit(1),Rdummy
+
+################# ic.main #################
+_ic_main:
+Move 1,R1
+Move R1,v0a
+Move v0a,R1
+Move 1,R2
+Add R2,R1
+Move R1,v2z
+# z = z PLUS 2
+Move v2z,R1
+Move 2,R2
+Add R2,R1
+Move R1,v2z
+# z = z MINUS 3
+Move v2z,R1
+Move 3,R2
+Sub R2,R1
+Move R1,v2z
+# z = z MULTIPLY 4
+Move v2z,R1
+Move 4,R2
+Mul R2,R1
+Move R1,v2z
+# z = z PLUS 5 PLUS 6
+Move v2z,R1
+Move 5,R3
+Add R3,R1
+Move 6,R2
+Add R2,R1
+Move R1,v2z
+##################################
+

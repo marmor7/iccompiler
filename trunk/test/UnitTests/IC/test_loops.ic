@@ -1,0 +1,44 @@
+class Test_while {
+
+	static void main(string[] args) {
+ 		int i;
+ 		int j;
+ 		i=0;
+ 		j=0;
+ 
+ 		while(i<10)
+ 		{
+			j=j+1;
+ 			i=i+1;
+ 		}
+ 		
+ 		if (j==10)
+ 			Library.println("test1 OK" );
+ 	
+ 		i=0;
+ 		j=0;
+ 		while(i<10) {
+ 			i=i+1;
+ 			j=j+1;
+ 			if (i==5) 
+ 				break; 
+ 		} 
+  		
+  		if (j==5)
+ 		Library.println("test2 OK" );
+ 
+ 		i=0;
+ 		j=0;
+  
+ 		while(i<10) {
+ 			i=i+1;
+ 			j=j+1;
+			if (i==5) continue;
+ 			if (i==5) j=20; 
+ 		} 
+   		
+   		if (j==10)
+ 		Library.println("test3 OK" );
+ 
+ 	}
+}

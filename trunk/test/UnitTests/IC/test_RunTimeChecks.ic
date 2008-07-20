@@ -1,0 +1,87 @@
+class RunTimeChecks {
+
+	static void main(string[] args){
+		
+		A[] arr1 = new A[100];
+		int[] arr2 = null;
+		
+		arr1[0] = new A();
+		arr1[1] = new A();
+		// Expecting NULL POINTER DEREF message! 
+		//int myInt = arr1[4].intField;
+		
+		// ok
+		int l1 = arr1.length;
+		// not ok! Expecting Null POINTER DEREF message!
+		//int l2 = arr2.length;
+		
+		// not ok!! Expecting illegal array size
+		int n = -1;
+		//arr2 = new int[n];
+		
+		// not ok! Expecting Array index out of bounds message!
+		arr2 = new int[10];
+		//arr2[-4] = 0;
+		//arr2[11] = 0;
+		
+		// NULL POINTER DEREF
+		A a = null;
+		//a.initStringField("MyStr");
+		
+		// ok - getIntField() return 0 ! 
+		a = new A();
+		int num = 10 + a.getIntField();
+		int num2 = a.bar() * 2;
+		
+		// NULL POINTER DEREF
+		//C obj = a.b.c;
+		
+		
+		// Division by zero - Expecting message
+		//int x = 0 / 0;
+		
+		//int y = 1 - 1;
+		//y  = 1 / y;
+		
+		//Library.printi(10/0);
+		
+		// ok
+		int z = 5 / 1;
+		Library.println("OK!");	
+		
+	}
+
+}
+
+class A
+{
+
+	string stringField;
+	int intField;
+	B b;
+	
+	void initStringField(string val) {
+		this.stringField = val;
+	}
+	
+	int getIntField()
+	{
+		return this.intField;
+	}
+	
+	string foo() {
+		return this.stringField;
+	}
+	
+	int bar() {
+		return intField;
+	}
+
+}
+
+class B {
+	C c;
+}
+
+class C {
+}

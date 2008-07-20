@@ -1,0 +1,437 @@
+
+######################
+# Program test_nestedScoping.ic
+######################
+
+######################
+# STRING LITERALS
+arr_neg_alloc_size: "Negative or zero array size allocation. Program will now exit. "
+null_reference: "Null reference. Program will now exit. "
+illegal_arr_loc: "Illegal array location. Program will now exit. "
+dev_by_zero: "Devision by zero. Program will now exit. "
+str0: "in foo: x = "
+str1: ""
+str2: "x - local: "
+str3: "First Test - OK"
+str4: "First Test - NOT OK"
+str5: "In Main: x = "
+str6: "Second Test - OK"
+str7: "Second Test - NOT OK"
+str8: "a in first block: "
+str9: "a in second block: "
+str10: "a in third block: "
+str11: "If a == num of block in every block, then "
+str12: "Third test - OK!"
+######################
+
+######################
+# DISPATCH VECTORS
+_DV_NestedScopingB: [_NestedScopingB_bar,_NestedScopingB_func]
+_DV_NestedScopingA: [_NestedScopingA_foo]
+######################
+
+_NestedScopingA_foo:   # Method foo:
+# Line 7: 
+# new smartMove on: this, R1
+Move this, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, this # reversed
+Compare 0,R1
+JumpTrue _null_reference
+# new smartMove on: R1.1, R3
+Compare 0,R1
+JumpTrue _null_reference
+MoveField R1.1,R4 # SMART MOVED BITCH - field style
+Move R4, R3 # brought to you by safe/smartmove
+MoveField R4,R1.1 # reversed
+Move 0, R5
+# TMP 1
+# new smartMove on: R5, R1.1
+Compare 0,R1
+JumpTrue _null_reference
+MoveField R1.1,R6 # SMART MOVED BITCH - field style
+Move R5, R6 # brought to you by safe/smartmove
+MoveField R6,R1.1 # reversed
+# Line 8: 
+Move str0, R1 # assigning literal to reg
+Library __print(R1),R2
+# Line 9: 
+# new smartMove on: this, R1
+Move this, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, this # reversed
+Compare 0,R1
+JumpTrue _null_reference
+# new smartMove on: R1.1, R3
+Compare 0,R1
+JumpTrue _null_reference
+MoveField R1.1,R4 # SMART MOVED BITCH - field style
+Move R4, R3 # brought to you by safe/smartmove
+MoveField R4,R1.1 # reversed
+Library __printi(R3),R5
+# Line 10: 
+Move str1, R1 # assigning literal to reg
+Library __println(R1),R2
+# Line 12: 
+# Line 12: 
+Move 2, R1
+# new smartMove on: R1, x_NestedScopingA_19
+Move R1, x_NestedScopingA_19 # brought to you by safe/smartmove
+Move str2, R1 # assigning literal to reg
+Library __print(R1),R2
+# new smartMove on: x_NestedScopingA_19, R1
+Move x_NestedScopingA_19, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, x_NestedScopingA_19 # reversed
+Library __printi(R1),R3
+Move str1, R1 # assigning literal to reg
+Library __println(R1),R2
+# Line 19: 
+_l1:   # While
+Move 1, R1
+Compare 0,R1		# While condition check
+JumpTrue _l2		# Conditional jump when while statement is false
+# Line 20: 
+Move this, R2
+# new smartMove on: R2.1, x_NestedScopingA_20
+Compare 0,R2
+JumpTrue _null_reference
+MoveField R2.1,R3 # SMART MOVED BITCH - field style
+Move R3, x_NestedScopingA_20 # brought to you by safe/smartmove
+MoveField R3,R2.1 # reversed
+# new smartMove on: x_NestedScopingA_20, R1
+Move x_NestedScopingA_20, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, x_NestedScopingA_20 # reversed
+Move this, R3
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3.1, R5
+Compare 0,R3
+JumpTrue _null_reference
+MoveField R3.1,R6 # SMART MOVED BITCH - field style
+Move R6, R5 # brought to you by safe/smartmove
+MoveField R6,R3.1 # reversed
+# new smartMove on: 0, R7
+Move 0, R8 # brought to you by safe/smartmove
+Move R8, R7 # brought to you by safe/smartmove
+Compare R4,R5
+JumpFalse _l6
+# new smartMove on: 1, R7
+Move 1, R9 # brought to you by safe/smartmove
+Move R9, R7 # brought to you by safe/smartmove
+_l6:
+Compare 0,R7		# If's condition check
+JumpTrue _l4		# Conditional jump when If's outcome is true
+_l3:   # If's then label
+Move str3, R10 # assigning literal to reg
+Library __println(R10),R11
+Jump _l5		# Jump to end label(end of then part)
+_l4:   # If's else label
+Move str4, R12 # assigning literal to reg
+Library __println(R12),R13
+_l5:   # End of If statement
+Jump _l2		# Break statement. Jump to end of while statement label: _l2
+Jump _l1
+_l2:   # False while condition
+Return 9999
+_ic_main:   # Main Method
+# Line 33: 
+Move 1, R1
+# new smartMove on: R1, x_NestedScopingA_21
+Move R1, x_NestedScopingA_21 # brought to you by safe/smartmove
+# Line 35: 
+Move str5, R1 # assigning literal to reg
+Library __print(R1),R2
+# Line 36: 
+# new smartMove on: x_NestedScopingA_21, R1
+Move x_NestedScopingA_21, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, x_NestedScopingA_21 # reversed
+Library __printi(R1),R3
+# Line 37: 
+Move str1, R1 # assigning literal to reg
+Library __println(R1),R2
+# Line 39: 
+Library __allocateObject(8),R1 # Allocation of NestedScopingA
+MoveField _DV_NestedScopingA,R1.0 # Move field for DV pointer
+# new smartMove on: R1, nsa_NestedScopingA_21
+Move R1, nsa_NestedScopingA_21 # brought to you by safe/smartmove
+# Line 41: 
+# new smartMove on: nsa_NestedScopingA_21, R2
+Move nsa_NestedScopingA_21, R3 # brought to you by safe/smartmove
+Move R3, R2 # brought to you by safe/smartmove
+Move R3, nsa_NestedScopingA_21 # reversed
+VirtualCall R2.0(),R2
+# Line 43: 
+Move 100, R2
+# TMP 1
+# new smartMove on: R2, nsa_NestedScopingA_21.1
+Move nsa_NestedScopingA_21, R4 # brought to you by safe/smartmove
+Compare 0,R4
+JumpTrue _null_reference
+MoveField R4.1,R3 # SMART MOVED BITCH - field style
+Move R2, R3 # brought to you by safe/smartmove
+MoveField R3,R4.1 # reversed
+Move R4, nsa_NestedScopingA_21 # reversed
+# Line 44: 
+# new smartMove on: nsa_NestedScopingA_21, R1
+Move nsa_NestedScopingA_21, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, nsa_NestedScopingA_21 # reversed
+# new smartMove on: x_NestedScopingA_21, R3
+Move x_NestedScopingA_21, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Move R4, x_NestedScopingA_21 # reversed
+# new smartMove on: R1.1, R5
+Compare 0,R1
+JumpTrue _null_reference
+MoveField R1.1,R7 # SMART MOVED BITCH - field style
+Move R7, R5 # brought to you by safe/smartmove
+MoveField R7,R1.1 # reversed
+# new smartMove on: R3, R6
+Move R3, R6 # brought to you by safe/smartmove
+# new smartMove on: 0, R8
+Move 0, R9 # brought to you by safe/smartmove
+Move R9, R8 # brought to you by safe/smartmove
+Compare R5,R6
+JumpTrue _l10
+# new smartMove on: 1, R8
+Move 1, R10 # brought to you by safe/smartmove
+Move R10, R8 # brought to you by safe/smartmove
+_l10:
+Compare 0,R8		# If's condition check
+JumpTrue _l8		# Conditional jump when If's outcome is true
+_l7:   # If's then label
+Move str6, R11 # assigning literal to reg
+Library __println(R11),R12
+Jump _l9		# Jump to end label(end of then part)
+_l8:   # If's else label
+Move str7, R13 # assigning literal to reg
+Library __println(R13),R14
+_l9:   # End of If statement
+# Line 49: 
+Library __allocateObject(16),R1 # Allocation of NestedScopingB
+MoveField _DV_NestedScopingB,R1.0 # Move field for DV pointer
+# new smartMove on: R1, nsb_NestedScopingA_21
+Move R1, nsb_NestedScopingA_21 # brought to you by safe/smartmove
+# Line 50: 
+# new smartMove on: x_NestedScopingA_21, R2
+Move x_NestedScopingA_21, R3 # brought to you by safe/smartmove
+Move R3, R2 # brought to you by safe/smartmove
+Move R3, x_NestedScopingA_21 # reversed
+# new smartMove on: nsb_NestedScopingA_21, R4
+Move nsb_NestedScopingA_21, R5 # brought to you by safe/smartmove
+Move R5, R4 # brought to you by safe/smartmove
+Move R5, nsb_NestedScopingA_21 # reversed
+VirtualCall R4.0(var=R2),R4
+# Line 51: 
+StaticCall _NestedScopingB_func(),R1
+Library __exit(0),Rdummy
+# Method main end
+Return 9999
+_NestedScopingB_bar:   # Method bar:
+# Line 62: 
+Move this, R1
+# new smartMove on: var, R2
+Move var, R3 # brought to you by safe/smartmove
+Move R3, R2 # brought to you by safe/smartmove
+Move R3, var # reversed
+# TMP 1
+# new smartMove on: R2, R1.1
+Compare 0,R1
+JumpTrue _null_reference
+MoveField R1.1,R4 # SMART MOVED BITCH - field style
+Move R2, R4 # brought to you by safe/smartmove
+MoveField R4,R1.1 # reversed
+# Line 63: 
+Move this, R1
+# new smartMove on: this, R2
+Move this, R3 # brought to you by safe/smartmove
+Move R3, R2 # brought to you by safe/smartmove
+Move R3, this # reversed
+Compare 0,R2
+JumpTrue _null_reference
+# new smartMove on: R2.1, R4
+Compare 0,R2
+JumpTrue _null_reference
+MoveField R2.1,R5 # SMART MOVED BITCH - field style
+Move R5, R4 # brought to you by safe/smartmove
+MoveField R5,R2.1 # reversed
+# TMP 1
+# new smartMove on: R4, R1.2
+Compare 0,R1
+JumpTrue _null_reference
+MoveField R1.2,R6 # SMART MOVED BITCH - field style
+Move R4, R6 # brought to you by safe/smartmove
+MoveField R6,R1.2 # reversed
+# Line 64: 
+Move this, R1
+# new smartMove on: this, R2
+Move this, R3 # brought to you by safe/smartmove
+Move R3, R2 # brought to you by safe/smartmove
+Move R3, this # reversed
+Compare 0,R2
+JumpTrue _null_reference
+# new smartMove on: R2.1, R4
+Compare 0,R2
+JumpTrue _null_reference
+MoveField R2.1,R5 # SMART MOVED BITCH - field style
+Move R5, R4 # brought to you by safe/smartmove
+MoveField R5,R2.1 # reversed
+# new smartMove on: this, R6
+Move this, R7 # brought to you by safe/smartmove
+Move R7, R6 # brought to you by safe/smartmove
+Move R7, this # reversed
+Compare 0,R6
+JumpTrue _null_reference
+# new smartMove on: R6.2, R8
+Compare 0,R6
+JumpTrue _null_reference
+MoveField R6.2,R9 # SMART MOVED BITCH - field style
+Move R9, R8 # brought to you by safe/smartmove
+MoveField R9,R6.2 # reversed
+# new smartMove on: R4, R10
+Move R4, R10 # brought to you by safe/smartmove
+# new smartMove on: R8, R11
+Move R8, R11 # brought to you by safe/smartmove
+# new smartMove on: 0, R12
+Move 0, R13 # brought to you by safe/smartmove
+Move R13, R12 # brought to you by safe/smartmove
+Compare R10,R11
+JumpFalse _l11
+# new smartMove on: 1, R12
+Move 1, R14 # brought to you by safe/smartmove
+Move R14, R12 # brought to you by safe/smartmove
+_l11:
+# TMP 1
+# new smartMove on: R12, R1.3
+Compare 0,R1
+JumpTrue _null_reference
+MoveField R1.3,R15 # SMART MOVED BITCH - field style
+Move R12, R15 # brought to you by safe/smartmove
+MoveField R15,R1.3 # reversed
+# Line 66: 
+# new smartMove on: this, R1
+Move this, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, this # reversed
+Compare 0,R1
+JumpTrue _null_reference
+# new smartMove on: R1.3, R3
+Compare 0,R1
+JumpTrue _null_reference
+MoveField R1.3,R4 # SMART MOVED BITCH - field style
+Move R4, R3 # brought to you by safe/smartmove
+MoveField R4,R1.3 # reversed
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+Return R5
+Return 9999
+_NestedScopingB_func:   # Method func:
+# Line 70: 
+Move 1, R1
+# new smartMove on: R1, a_NestedScopingB_23
+Move R1, a_NestedScopingB_23 # brought to you by safe/smartmove
+# Line 71: 
+Move str8, R1 # assigning literal to reg
+Library __print(R1),R2
+# Line 72: 
+# new smartMove on: a_NestedScopingB_23, R1
+Move a_NestedScopingB_23, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, a_NestedScopingB_23 # reversed
+Library __printi(R1),R3
+# Line 73: 
+Move str1, R1 # assigning literal to reg
+Library __println(R1),R2
+# Line 74: 
+# Line 74: 
+Move 2, R1
+# new smartMove on: R1, a_NestedScopingB_24
+Move R1, a_NestedScopingB_24 # brought to you by safe/smartmove
+Move str9, R1 # assigning literal to reg
+Library __print(R1),R2
+# new smartMove on: a_NestedScopingB_24, R1
+Move a_NestedScopingB_24, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, a_NestedScopingB_24 # reversed
+Library __printi(R1),R3
+Move str1, R1 # assigning literal to reg
+Library __println(R1),R2
+# Line 79: 
+Move 1, R1
+Move 2, R2
+# new smartMove on: R1, R3
+Move R1, R3 # brought to you by safe/smartmove
+# new smartMove on: R2, R4
+Move R2, R4 # brought to you by safe/smartmove
+# new smartMove on: 0, R5
+Move 0, R6 # brought to you by safe/smartmove
+Move R6, R5 # brought to you by safe/smartmove
+Compare R4,R3
+JumpLE _l15
+# new smartMove on: 1, R5
+Move 1, R7 # brought to you by safe/smartmove
+Move R7, R5 # brought to you by safe/smartmove
+_l15:
+Compare 0,R5		# If's condition check
+JumpTrue _l13		# Conditional jump when If's outcome is true
+_l12:   # If's then label
+# Line 81: 
+Move 3, R8
+# new smartMove on: R8, a_NestedScopingB_26
+Move R8, a_NestedScopingB_26 # brought to you by safe/smartmove
+Move str10, R1 # assigning literal to reg
+Library __print(R1),R2
+# new smartMove on: a_NestedScopingB_26, R1
+Move a_NestedScopingB_26, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, a_NestedScopingB_26 # reversed
+Library __printi(R1),R3
+Move str1, R1 # assigning literal to reg
+Library __println(R1),R2
+Jump _l14		# Jump to end label(end of then part)
+_l13:   # If's else label
+_l14:   # End of If statement
+# Line 89: 
+Move str8, R1 # assigning literal to reg
+Library __print(R1),R2
+# Line 90: 
+# new smartMove on: a_NestedScopingB_23, R1
+Move a_NestedScopingB_23, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, a_NestedScopingB_23 # reversed
+Library __printi(R1),R3
+# Line 91: 
+Move str1, R1 # assigning literal to reg
+Library __println(R1),R2
+# Line 93: 
+Move str11, R1 # assigning literal to reg
+Library __print(R1),R2
+# Line 94: 
+Move str12, R1 # assigning literal to reg
+Library __print(R1),R2
+# Method func end
+Return 9999
+
+######################
+# Error Labels
+######################
+
+_null_reference:
+Library __println(null_reference),Rdummy
+Library __exit(1),Rdummy
+
+_illegal_arr_loc:
+Library __println(illegal_arr_loc),Rdummy
+Library __exit(1),Rdummy
+
+_dev_by_zero:
+Library __println(dev_by_zero),Rdummy
+Library __exit(1),Rdummy
+
+_arr_neg_alloc_size:
+Library __println(arr_neg_alloc_size),Rdummy
+Library __exit(1),Rdummy
+

@@ -1,0 +1,168 @@
+
+######################
+# Program testOptimization.ic
+######################
+
+######################
+# STRING LITERALS
+arr_neg_alloc_size: "Negative or zero array size allocation. Program will now exit. "
+null_reference: "Null reference. Program will now exit. "
+illegal_arr_loc: "Illegal array location. Program will now exit. "
+dev_by_zero: "Devision by zero. Program will now exit. "
+
+######################
+
+######################
+# DISPATCH VECTORS
+_DV_TestOpt: []
+######################
+
+_ic_main:   # Main Method
+# Line 5: 
+Move 1, R1
+Move 1, R2
+# new smartMove on: R1, R3
+Move R1, R3 # brought to you by safe/smartmove
+# new smartMove on: R2, R4
+Move R2, R4 # brought to you by safe/smartmove
+Add R4,R3
+Move 2, R5
+Move 2, R6
+# new smartMove on: R5, R7
+Move R5, R7 # brought to you by safe/smartmove
+# new smartMove on: R6, R8
+Move R6, R8 # brought to you by safe/smartmove
+Add R8,R7
+# new smartMove on: R3, R9
+Move R3, R9 # brought to you by safe/smartmove
+# new smartMove on: R7, R10
+Move R7, R10 # brought to you by safe/smartmove
+Add R10,R9
+Move 3, R11
+Move 3, R12
+# new smartMove on: R11, R13
+Move R11, R13 # brought to you by safe/smartmove
+# new smartMove on: R12, R14
+Move R12, R14 # brought to you by safe/smartmove
+Add R14,R13
+# new smartMove on: R9, R15
+Move R9, R15 # brought to you by safe/smartmove
+# new smartMove on: R13, R16
+Move R13, R16 # brought to you by safe/smartmove
+Add R16,R15
+Move 4, R17
+Move 4, R18
+# new smartMove on: R17, R19
+Move R17, R19 # brought to you by safe/smartmove
+# new smartMove on: R18, R20
+Move R18, R20 # brought to you by safe/smartmove
+Add R20,R19
+# new smartMove on: R15, R21
+Move R15, R21 # brought to you by safe/smartmove
+# new smartMove on: R19, R22
+Move R19, R22 # brought to you by safe/smartmove
+Add R22,R21
+Move 5, R23
+Move 5, R24
+# new smartMove on: R23, R25
+Move R23, R25 # brought to you by safe/smartmove
+# new smartMove on: R24, R26
+Move R24, R26 # brought to you by safe/smartmove
+Add R26,R25
+# new smartMove on: R21, R27
+Move R21, R27 # brought to you by safe/smartmove
+# new smartMove on: R25, R28
+Move R25, R28 # brought to you by safe/smartmove
+Add R28,R27
+Move 6, R29
+Move 6, R30
+# new smartMove on: R29, R31
+Move R29, R31 # brought to you by safe/smartmove
+# new smartMove on: R30, R32
+Move R30, R32 # brought to you by safe/smartmove
+Add R32,R31
+# new smartMove on: R27, R33
+Move R27, R33 # brought to you by safe/smartmove
+# new smartMove on: R31, R34
+Move R31, R34 # brought to you by safe/smartmove
+Add R34,R33
+Move 7, R35
+Move 7, R36
+# new smartMove on: R35, R37
+Move R35, R37 # brought to you by safe/smartmove
+# new smartMove on: R36, R38
+Move R36, R38 # brought to you by safe/smartmove
+Add R38,R37
+# new smartMove on: R33, R39
+Move R33, R39 # brought to you by safe/smartmove
+# new smartMove on: R37, R40
+Move R37, R40 # brought to you by safe/smartmove
+Add R40,R39
+Move 8, R41
+Move 8, R42
+# new smartMove on: R41, R43
+Move R41, R43 # brought to you by safe/smartmove
+# new smartMove on: R42, R44
+Move R42, R44 # brought to you by safe/smartmove
+Add R44,R43
+# new smartMove on: R39, R45
+Move R39, R45 # brought to you by safe/smartmove
+# new smartMove on: R43, R46
+Move R43, R46 # brought to you by safe/smartmove
+Add R46,R45
+Move 9, R47
+Move 9, R48
+# new smartMove on: R47, R49
+Move R47, R49 # brought to you by safe/smartmove
+# new smartMove on: R48, R50
+Move R48, R50 # brought to you by safe/smartmove
+Add R50,R49
+# new smartMove on: R45, R51
+Move R45, R51 # brought to you by safe/smartmove
+# new smartMove on: R49, R52
+Move R49, R52 # brought to you by safe/smartmove
+Add R52,R51
+Move 10, R53
+Move 10, R54
+# new smartMove on: R53, R55
+Move R53, R55 # brought to you by safe/smartmove
+# new smartMove on: R54, R56
+Move R54, R56 # brought to you by safe/smartmove
+Add R56,R55
+# new smartMove on: R51, R57
+Move R51, R57 # brought to you by safe/smartmove
+# new smartMove on: R55, R58
+Move R55, R58 # brought to you by safe/smartmove
+Add R58,R57
+# new smartMove on: R57, result_TestOpt_17
+Move R57, result_TestOpt_17 # brought to you by safe/smartmove
+# Line 8: 
+# new smartMove on: result_TestOpt_17, R1
+Move result_TestOpt_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, result_TestOpt_17 # reversed
+Library __printi(R1),R3
+Library __exit(0),Rdummy
+# Method main end
+Return 9999
+
+######################
+# Error Labels
+######################
+
+_null_reference:
+Library __println(null_reference),Rdummy
+Library __exit(1),Rdummy
+
+_illegal_arr_loc:
+Library __println(illegal_arr_loc),Rdummy
+Library __exit(1),Rdummy
+
+_dev_by_zero:
+Library __println(dev_by_zero),Rdummy
+Library __exit(1),Rdummy
+
+_arr_neg_alloc_size:
+Library __println(arr_neg_alloc_size),Rdummy
+Library __exit(1),Rdummy
+

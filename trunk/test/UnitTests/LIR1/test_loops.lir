@@ -1,0 +1,211 @@
+##################################
+# String Literals
+zero_division_error_str: "Runtime Error: Illegal division by zero!"
+array_index_out_of_bounds_str: "Runtime Error: Array index out of bounds!"
+array_size_negative_str: "Runtime Error: Array allocation with negative array size!"
+null_pointer_dereference_str: "Runtime Error: Null pointer dereference!"
+str4: "test1 OK"
+str5: "test2 OK"
+str6: "test3 OK"
+##################################
+
+##################################
+# Dispatch Vectors
+
+# 'Test_while' field offsets: 
+_DV_Test_while : []
+##################################
+
+_zero_division_error_handler:
+Library __println(zero_division_error_str),Rdummy
+Library __exit(1),Rdummy
+
+_negative_array_size_handler:
+Library __println(array_size_negative_str),Rdummy
+Library __exit(1),Rdummy
+
+_null_ptr_dereference_handler:
+Library __println(null_pointer_dereference_str),Rdummy
+Library __exit(1),Rdummy
+
+_array_index_out_of_bounds_handler:
+Library __println(array_index_out_of_bounds_str),Rdummy
+Library __exit(1),Rdummy
+
+################# ic.main #################
+_ic_main:
+# i = 0
+Move 0,R1
+Move R1,v0i
+# j = 0
+Move 0,R1
+Move R1,v1j
+_test2:
+Move v0i,R2
+Move 10,R1
+Compare R1,R2
+JumpL _true_label5
+Move 0,R1
+Jump _end_lbl4
+_true_label5:
+Move 1,R1
+_end_lbl4:
+Compare 0,R1
+JumpTrue _end3
+# j = j PLUS 1
+Move v1j,R3
+Move 1,R4
+Add R4,R3
+Move R3,v1j
+# i = i PLUS 1
+Move v0i,R1
+Move 1,R2
+Add R2,R1
+Move R1,v0i
+Jump _test2
+_end3:
+Move v1j,R2
+Move 10,R1
+Compare R1,R2
+JumpTrue _true_label12
+Move 0,R1
+Jump _end_lbl11
+_true_label12:
+Move 1,R1
+_end_lbl11:
+Compare 0,R1
+JumpTrue _else14
+Move str4,R3
+Library __println(R3),Rdummy
+_else14:
+# i = 0
+Move 0,R1
+Move R1,v0i
+# j = 0
+Move 0,R1
+Move R1,v1j
+_test17:
+Move v0i,R2
+Move 10,R1
+Compare R1,R2
+JumpL _true_label20
+Move 0,R1
+Jump _end_lbl19
+_true_label20:
+Move 1,R1
+_end_lbl19:
+Compare 0,R1
+JumpTrue _end18
+# i = i PLUS 1
+Move v0i,R3
+Move 1,R4
+Add R4,R3
+Move R3,v0i
+# j = j PLUS 1
+Move v1j,R1
+Move 1,R2
+Add R2,R1
+Move R1,v1j
+Move v0i,R2
+Move 5,R1
+Compare R1,R2
+JumpTrue _true_label27
+Move 0,R1
+Jump _end_lbl26
+_true_label27:
+Move 1,R1
+_end_lbl26:
+Compare 0,R1
+JumpTrue _else29
+Jump _end18
+_else29:
+Jump _test17
+_end18:
+Move v1j,R2
+Move 5,R1
+Compare R1,R2
+JumpTrue _true_label31
+Move 0,R1
+Jump _end_lbl30
+_true_label31:
+Move 1,R1
+_end_lbl30:
+Compare 0,R1
+JumpTrue _else33
+Move str5,R3
+Library __println(R3),Rdummy
+_else33:
+# i = 0
+Move 0,R1
+Move R1,v0i
+# j = 0
+Move 0,R1
+Move R1,v1j
+_test36:
+Move v0i,R2
+Move 10,R1
+Compare R1,R2
+JumpL _true_label39
+Move 0,R1
+Jump _end_lbl38
+_true_label39:
+Move 1,R1
+_end_lbl38:
+Compare 0,R1
+JumpTrue _end37
+# i = i PLUS 1
+Move v0i,R3
+Move 1,R4
+Add R4,R3
+Move R3,v0i
+# j = j PLUS 1
+Move v1j,R1
+Move 1,R2
+Add R2,R1
+Move R1,v1j
+Move v0i,R2
+Move 5,R1
+Compare R1,R2
+JumpTrue _true_label46
+Move 0,R1
+Jump _end_lbl45
+_true_label46:
+Move 1,R1
+_end_lbl45:
+Compare 0,R1
+JumpTrue _else48
+Jump _test36
+_else48:
+Move v0i,R2
+Move 5,R1
+Compare R1,R2
+JumpTrue _true_label50
+Move 0,R1
+Jump _end_lbl49
+_true_label50:
+Move 1,R1
+_end_lbl49:
+Compare 0,R1
+JumpTrue _else52
+# j = 20
+Move 20,R3
+Move R3,v1j
+_else52:
+Jump _test36
+_end37:
+Move v1j,R2
+Move 10,R1
+Compare R1,R2
+JumpTrue _true_label55
+Move 0,R1
+Jump _end_lbl54
+_true_label55:
+Move 1,R1
+_end_lbl54:
+Compare 0,R1
+JumpTrue _else57
+Move str6,R3
+Library __println(R3),Rdummy
+_else57:
+##################################
+

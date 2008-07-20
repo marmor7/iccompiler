@@ -1,0 +1,1253 @@
+
+######################
+# Program test_if_binary_unary.ic
+######################
+
+######################
+# STRING LITERALS
+arr_neg_alloc_size: "Negative or zero array size allocation. Program will now exit. "
+null_reference: "Null reference. Program will now exit. "
+illegal_arr_loc: "Illegal array location. Program will now exit. "
+dev_by_zero: "Devision by zero. Program will now exit. "
+str0: "static first case == OK"
+str1: "static first case == Failed!!!!!!!!"
+str2: "static first case  < OK"
+str3: "static first case  < Failed!!!!!!!!"
+str4: "static first case  <= OK"
+str5: "static first case  <= Failed!!!!!!!!"
+str6: "static first case  > OK"
+str7: "static first case  > Failed!!!!!!!!"
+str8: "static first case  >= OK"
+str9: "static first case  >= Failed!!!!!!!!"
+str10: "static first case  != OK"
+str11: "static first case  != Failed!!!!!!!!"
+str12: "static second case  == Failed!!!!!!!!"
+str13: "static second case  == OK"
+str14: "static second case  == OK "
+str15: "dynamic first case == OK"
+str16: "dynamic first case == Failed!!!!!!!!"
+str17: "dynamic first case  < OK"
+str18: "dynamic first case  < Failed!!!!!!!!"
+str19: "dynamic first case  <= OK"
+str20: "dynamic first case  <= Failed!!!!!!!!"
+str21: "dynamic first case  > OK"
+str22: "dynamic first case  > Failed!!!!!!!!"
+str23: "dynamic first case  >= OK"
+str24: "dynamic first case  >= Failed!!!!!!!!"
+str25: "dynamic first case  != OK"
+str26: "dynamic first case  != Failed!!!!!!!!"
+str27: "dynamic second case  == Failed!!!!!!!!"
+str28: "dynamic second case  == OK"
+str29: "dynamic second case  < Failed!!!!!!!!"
+str30: "dynamic second case  < OK"
+str31: "dynamic second case  <= Failed!!!!!!!!"
+str32: "dynamic second case  <= OK "
+str33: "dynamic second case  > Failed!!!!!!!!"
+str34: "dynamic second case  > OK "
+str35: "dynamic second case  >= Failed!!!!!!!!"
+str36: "dynamic second case  >= OK "
+str37: "dynamic second case  != Failed!!!!!!!!"
+str38: "dynamic second case  != OK "
+str39: "dynamic second case  && false Failed!!!!!!!!"
+str40: "dynamic second case  && OK "
+str41: "dynamic second case  || false Failed!!!!!!!!"
+str42: "dynamic second case  || OK "
+str43: "dynamic second case  && true OK "
+str44: "dynamic second case  && Failed!!!!!!!!"
+str45: "dynamic second case  || true  OK "
+str46: "dynamic second case  || Failed!!!!!!!!"
+str47: "! operation OK "
+str48: "! operation not OK!"
+str49: "+ OK!"
+str50: "+ NOT OK!"
+str51: "- OK!"
+str52: "- NOT OK!"
+str53: "* OK!"
+str54: "* NOT OK!"
+str55: "/ OK!"
+str56: "/ NOT OK!"
+str57: "% OK!"
+str58: "% NOT OK!"
+######################
+
+######################
+# DISPATCH VECTORS
+_DV_Test_if: []
+######################
+
+_ic_main:   # Main Method
+# Line 4: 
+Move 5, R1
+# new smartMove on: R1, i_Test_if_17
+Move R1, i_Test_if_17 # brought to you by safe/smartmove
+# Line 5: 
+Move 5, R1
+# new smartMove on: R1, j_Test_if_17
+Move R1, j_Test_if_17 # brought to you by safe/smartmove
+# Line 6: 
+Move 6, R1
+# new smartMove on: R1, k_Test_if_17
+Move R1, k_Test_if_17 # brought to you by safe/smartmove
+# Line 8: 
+Move 5, R1
+Move 5, R2
+# new smartMove on: R1, R3
+Move R1, R3 # brought to you by safe/smartmove
+# new smartMove on: R2, R4
+Move R2, R4 # brought to you by safe/smartmove
+# new smartMove on: 0, R5
+Move 0, R6 # brought to you by safe/smartmove
+Move R6, R5 # brought to you by safe/smartmove
+Compare R3,R4
+JumpFalse _l4
+# new smartMove on: 1, R5
+Move 1, R7 # brought to you by safe/smartmove
+Move R7, R5 # brought to you by safe/smartmove
+_l4:
+Compare 0,R5		# If's condition check
+JumpTrue _l2		# Conditional jump when If's outcome is true
+_l1:   # If's then label
+Move str0, R8 # assigning literal to reg
+Library __println(R8),R9
+Jump _l3		# Jump to end label(end of then part)
+_l2:   # If's else label
+Move str1, R10 # assigning literal to reg
+Library __println(R10),R11
+_l3:   # End of If statement
+# Line 12: 
+Move 2, R1
+Move 5, R2
+# new smartMove on: R1, R3
+Move R1, R3 # brought to you by safe/smartmove
+# new smartMove on: R2, R4
+Move R2, R4 # brought to you by safe/smartmove
+# new smartMove on: 0, R5
+Move 0, R6 # brought to you by safe/smartmove
+Move R6, R5 # brought to you by safe/smartmove
+Compare R4,R3
+JumpGE _l8
+# new smartMove on: 1, R5
+Move 1, R7 # brought to you by safe/smartmove
+Move R7, R5 # brought to you by safe/smartmove
+_l8:
+Compare 0,R5		# If's condition check
+JumpTrue _l6		# Conditional jump when If's outcome is true
+_l5:   # If's then label
+Move str2, R8 # assigning literal to reg
+Library __println(R8),R9
+Jump _l7		# Jump to end label(end of then part)
+_l6:   # If's else label
+Move str3, R10 # assigning literal to reg
+Library __println(R10),R11
+_l7:   # End of If statement
+# Line 17: 
+Move 5, R1
+Move 5, R2
+# new smartMove on: R1, R3
+Move R1, R3 # brought to you by safe/smartmove
+# new smartMove on: R2, R4
+Move R2, R4 # brought to you by safe/smartmove
+# new smartMove on: 0, R5
+Move 0, R6 # brought to you by safe/smartmove
+Move R6, R5 # brought to you by safe/smartmove
+Compare R4,R3
+JumpG _l12
+# new smartMove on: 1, R5
+Move 1, R7 # brought to you by safe/smartmove
+Move R7, R5 # brought to you by safe/smartmove
+_l12:
+Compare 0,R5		# If's condition check
+JumpTrue _l10		# Conditional jump when If's outcome is true
+_l9:   # If's then label
+Move str4, R8 # assigning literal to reg
+Library __println(R8),R9
+Jump _l11		# Jump to end label(end of then part)
+_l10:   # If's else label
+Move str5, R10 # assigning literal to reg
+Library __println(R10),R11
+_l11:   # End of If statement
+# Line 22: 
+Move 5, R1
+Move 3, R2
+# new smartMove on: R1, R3
+Move R1, R3 # brought to you by safe/smartmove
+# new smartMove on: R2, R4
+Move R2, R4 # brought to you by safe/smartmove
+# new smartMove on: 0, R5
+Move 0, R6 # brought to you by safe/smartmove
+Move R6, R5 # brought to you by safe/smartmove
+Compare R4,R3
+JumpLE _l16
+# new smartMove on: 1, R5
+Move 1, R7 # brought to you by safe/smartmove
+Move R7, R5 # brought to you by safe/smartmove
+_l16:
+Compare 0,R5		# If's condition check
+JumpTrue _l14		# Conditional jump when If's outcome is true
+_l13:   # If's then label
+Move str6, R8 # assigning literal to reg
+Library __println(R8),R9
+Jump _l15		# Jump to end label(end of then part)
+_l14:   # If's else label
+Move str7, R10 # assigning literal to reg
+Library __println(R10),R11
+_l15:   # End of If statement
+# Line 27: 
+Move 5, R1
+Move 5, R2
+# new smartMove on: R1, R3
+Move R1, R3 # brought to you by safe/smartmove
+# new smartMove on: R2, R4
+Move R2, R4 # brought to you by safe/smartmove
+# new smartMove on: 0, R5
+Move 0, R6 # brought to you by safe/smartmove
+Move R6, R5 # brought to you by safe/smartmove
+Compare R4,R3
+JumpL _l20
+# new smartMove on: 1, R5
+Move 1, R7 # brought to you by safe/smartmove
+Move R7, R5 # brought to you by safe/smartmove
+_l20:
+Compare 0,R5		# If's condition check
+JumpTrue _l18		# Conditional jump when If's outcome is true
+_l17:   # If's then label
+Move str8, R8 # assigning literal to reg
+Library __println(R8),R9
+Jump _l19		# Jump to end label(end of then part)
+_l18:   # If's else label
+Move str9, R10 # assigning literal to reg
+Library __println(R10),R11
+_l19:   # End of If statement
+# Line 32: 
+Move 5, R1
+Move 4, R2
+# new smartMove on: R1, R3
+Move R1, R3 # brought to you by safe/smartmove
+# new smartMove on: R2, R4
+Move R2, R4 # brought to you by safe/smartmove
+# new smartMove on: 0, R5
+Move 0, R6 # brought to you by safe/smartmove
+Move R6, R5 # brought to you by safe/smartmove
+Compare R3,R4
+JumpTrue _l24
+# new smartMove on: 1, R5
+Move 1, R7 # brought to you by safe/smartmove
+Move R7, R5 # brought to you by safe/smartmove
+_l24:
+Compare 0,R5		# If's condition check
+JumpTrue _l22		# Conditional jump when If's outcome is true
+_l21:   # If's then label
+Move str10, R8 # assigning literal to reg
+Library __println(R8),R9
+Jump _l23		# Jump to end label(end of then part)
+_l22:   # If's else label
+Move str11, R10 # assigning literal to reg
+Library __println(R10),R11
+_l23:   # End of If statement
+# Line 37: 
+Move 5, R1
+Move 6, R2
+# new smartMove on: R1, R3
+Move R1, R3 # brought to you by safe/smartmove
+# new smartMove on: R2, R4
+Move R2, R4 # brought to you by safe/smartmove
+# new smartMove on: 0, R5
+Move 0, R6 # brought to you by safe/smartmove
+Move R6, R5 # brought to you by safe/smartmove
+Compare R3,R4
+JumpFalse _l28
+# new smartMove on: 1, R5
+Move 1, R7 # brought to you by safe/smartmove
+Move R7, R5 # brought to you by safe/smartmove
+_l28:
+Compare 0,R5		# If's condition check
+JumpTrue _l26		# Conditional jump when If's outcome is true
+_l25:   # If's then label
+Move str12, R8 # assigning literal to reg
+Library __println(R8),R9
+Jump _l27		# Jump to end label(end of then part)
+_l26:   # If's else label
+Move str13, R10 # assigning literal to reg
+Library __println(R10),R11
+_l27:   # End of If statement
+# Line 41: 
+Move 7, R1
+Move 5, R2
+# new smartMove on: R1, R3
+Move R1, R3 # brought to you by safe/smartmove
+# new smartMove on: R2, R4
+Move R2, R4 # brought to you by safe/smartmove
+# new smartMove on: 0, R5
+Move 0, R6 # brought to you by safe/smartmove
+Move R6, R5 # brought to you by safe/smartmove
+Compare R4,R3
+JumpGE _l32
+# new smartMove on: 1, R5
+Move 1, R7 # brought to you by safe/smartmove
+Move R7, R5 # brought to you by safe/smartmove
+_l32:
+Compare 0,R5		# If's condition check
+JumpTrue _l30		# Conditional jump when If's outcome is true
+_l29:   # If's then label
+Move str12, R8 # assigning literal to reg
+Library __println(R8),R9
+Jump _l31		# Jump to end label(end of then part)
+_l30:   # If's else label
+Move str13, R10 # assigning literal to reg
+Library __println(R10),R11
+_l31:   # End of If statement
+# Line 46: 
+Move 7, R1
+Move 5, R2
+# new smartMove on: R1, R3
+Move R1, R3 # brought to you by safe/smartmove
+# new smartMove on: R2, R4
+Move R2, R4 # brought to you by safe/smartmove
+# new smartMove on: 0, R5
+Move 0, R6 # brought to you by safe/smartmove
+Move R6, R5 # brought to you by safe/smartmove
+Compare R4,R3
+JumpG _l36
+# new smartMove on: 1, R5
+Move 1, R7 # brought to you by safe/smartmove
+Move R7, R5 # brought to you by safe/smartmove
+_l36:
+Compare 0,R5		# If's condition check
+JumpTrue _l34		# Conditional jump when If's outcome is true
+_l33:   # If's then label
+Move str12, R8 # assigning literal to reg
+Library __println(R8),R9
+Jump _l35		# Jump to end label(end of then part)
+_l34:   # If's else label
+Move str14, R10 # assigning literal to reg
+Library __println(R10),R11
+_l35:   # End of If statement
+# Line 51: 
+Move 2, R1
+Move 5, R2
+# new smartMove on: R1, R3
+Move R1, R3 # brought to you by safe/smartmove
+# new smartMove on: R2, R4
+Move R2, R4 # brought to you by safe/smartmove
+# new smartMove on: 0, R5
+Move 0, R6 # brought to you by safe/smartmove
+Move R6, R5 # brought to you by safe/smartmove
+Compare R4,R3
+JumpLE _l40
+# new smartMove on: 1, R5
+Move 1, R7 # brought to you by safe/smartmove
+Move R7, R5 # brought to you by safe/smartmove
+_l40:
+Compare 0,R5		# If's condition check
+JumpTrue _l38		# Conditional jump when If's outcome is true
+_l37:   # If's then label
+Move str12, R8 # assigning literal to reg
+Library __println(R8),R9
+Jump _l39		# Jump to end label(end of then part)
+_l38:   # If's else label
+Move str14, R10 # assigning literal to reg
+Library __println(R10),R11
+_l39:   # End of If statement
+# Line 56: 
+Move 2, R1
+Move 5, R2
+# new smartMove on: R1, R3
+Move R1, R3 # brought to you by safe/smartmove
+# new smartMove on: R2, R4
+Move R2, R4 # brought to you by safe/smartmove
+# new smartMove on: 0, R5
+Move 0, R6 # brought to you by safe/smartmove
+Move R6, R5 # brought to you by safe/smartmove
+Compare R4,R3
+JumpL _l44
+# new smartMove on: 1, R5
+Move 1, R7 # brought to you by safe/smartmove
+Move R7, R5 # brought to you by safe/smartmove
+_l44:
+Compare 0,R5		# If's condition check
+JumpTrue _l42		# Conditional jump when If's outcome is true
+_l41:   # If's then label
+Move str12, R8 # assigning literal to reg
+Library __println(R8),R9
+Jump _l43		# Jump to end label(end of then part)
+_l42:   # If's else label
+Move str14, R10 # assigning literal to reg
+Library __println(R10),R11
+_l43:   # End of If statement
+# Line 61: 
+Move 5, R1
+Move 5, R2
+# new smartMove on: R1, R3
+Move R1, R3 # brought to you by safe/smartmove
+# new smartMove on: R2, R4
+Move R2, R4 # brought to you by safe/smartmove
+# new smartMove on: 0, R5
+Move 0, R6 # brought to you by safe/smartmove
+Move R6, R5 # brought to you by safe/smartmove
+Compare R3,R4
+JumpTrue _l48
+# new smartMove on: 1, R5
+Move 1, R7 # brought to you by safe/smartmove
+Move R7, R5 # brought to you by safe/smartmove
+_l48:
+Compare 0,R5		# If's condition check
+JumpTrue _l46		# Conditional jump when If's outcome is true
+_l45:   # If's then label
+Move str12, R8 # assigning literal to reg
+Library __println(R8),R9
+Jump _l47		# Jump to end label(end of then part)
+_l46:   # If's else label
+Move str14, R10 # assigning literal to reg
+Library __println(R10),R11
+_l47:   # End of If statement
+# Line 68: 
+# new smartMove on: i_Test_if_17, R1
+Move i_Test_if_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, i_Test_if_17 # reversed
+# new smartMove on: i_Test_if_17, R3
+Move i_Test_if_17, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Move R4, i_Test_if_17 # reversed
+# new smartMove on: R1, R5
+Move R1, R5 # brought to you by safe/smartmove
+# new smartMove on: R3, R6
+Move R3, R6 # brought to you by safe/smartmove
+# new smartMove on: 0, R7
+Move 0, R8 # brought to you by safe/smartmove
+Move R8, R7 # brought to you by safe/smartmove
+Compare R5,R6
+JumpFalse _l52
+# new smartMove on: 1, R7
+Move 1, R9 # brought to you by safe/smartmove
+Move R9, R7 # brought to you by safe/smartmove
+_l52:
+Compare 0,R7		# If's condition check
+JumpTrue _l50		# Conditional jump when If's outcome is true
+_l49:   # If's then label
+Move str15, R10 # assigning literal to reg
+Library __println(R10),R11
+Jump _l51		# Jump to end label(end of then part)
+_l50:   # If's else label
+Move str16, R12 # assigning literal to reg
+Library __println(R12),R13
+_l51:   # End of If statement
+# Line 72: 
+# new smartMove on: i_Test_if_17, R1
+Move i_Test_if_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, i_Test_if_17 # reversed
+# new smartMove on: k_Test_if_17, R3
+Move k_Test_if_17, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Move R4, k_Test_if_17 # reversed
+# new smartMove on: R1, R5
+Move R1, R5 # brought to you by safe/smartmove
+# new smartMove on: R3, R6
+Move R3, R6 # brought to you by safe/smartmove
+# new smartMove on: 0, R7
+Move 0, R8 # brought to you by safe/smartmove
+Move R8, R7 # brought to you by safe/smartmove
+Compare R6,R5
+JumpGE _l56
+# new smartMove on: 1, R7
+Move 1, R9 # brought to you by safe/smartmove
+Move R9, R7 # brought to you by safe/smartmove
+_l56:
+Compare 0,R7		# If's condition check
+JumpTrue _l54		# Conditional jump when If's outcome is true
+_l53:   # If's then label
+Move str17, R10 # assigning literal to reg
+Library __println(R10),R11
+Jump _l55		# Jump to end label(end of then part)
+_l54:   # If's else label
+Move str18, R12 # assigning literal to reg
+Library __println(R12),R13
+_l55:   # End of If statement
+# Line 77: 
+# new smartMove on: i_Test_if_17, R1
+Move i_Test_if_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, i_Test_if_17 # reversed
+# new smartMove on: j_Test_if_17, R3
+Move j_Test_if_17, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Move R4, j_Test_if_17 # reversed
+# new smartMove on: R1, R5
+Move R1, R5 # brought to you by safe/smartmove
+# new smartMove on: R3, R6
+Move R3, R6 # brought to you by safe/smartmove
+# new smartMove on: 0, R7
+Move 0, R8 # brought to you by safe/smartmove
+Move R8, R7 # brought to you by safe/smartmove
+Compare R6,R5
+JumpG _l60
+# new smartMove on: 1, R7
+Move 1, R9 # brought to you by safe/smartmove
+Move R9, R7 # brought to you by safe/smartmove
+_l60:
+Compare 0,R7		# If's condition check
+JumpTrue _l58		# Conditional jump when If's outcome is true
+_l57:   # If's then label
+Move str19, R10 # assigning literal to reg
+Library __println(R10),R11
+Jump _l59		# Jump to end label(end of then part)
+_l58:   # If's else label
+Move str20, R12 # assigning literal to reg
+Library __println(R12),R13
+_l59:   # End of If statement
+# Line 82: 
+# new smartMove on: k_Test_if_17, R1
+Move k_Test_if_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, k_Test_if_17 # reversed
+# new smartMove on: i_Test_if_17, R3
+Move i_Test_if_17, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Move R4, i_Test_if_17 # reversed
+# new smartMove on: R1, R5
+Move R1, R5 # brought to you by safe/smartmove
+# new smartMove on: R3, R6
+Move R3, R6 # brought to you by safe/smartmove
+# new smartMove on: 0, R7
+Move 0, R8 # brought to you by safe/smartmove
+Move R8, R7 # brought to you by safe/smartmove
+Compare R6,R5
+JumpLE _l64
+# new smartMove on: 1, R7
+Move 1, R9 # brought to you by safe/smartmove
+Move R9, R7 # brought to you by safe/smartmove
+_l64:
+Compare 0,R7		# If's condition check
+JumpTrue _l62		# Conditional jump when If's outcome is true
+_l61:   # If's then label
+Move str21, R10 # assigning literal to reg
+Library __println(R10),R11
+Jump _l63		# Jump to end label(end of then part)
+_l62:   # If's else label
+Move str22, R12 # assigning literal to reg
+Library __println(R12),R13
+_l63:   # End of If statement
+# Line 87: 
+# new smartMove on: k_Test_if_17, R1
+Move k_Test_if_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, k_Test_if_17 # reversed
+# new smartMove on: i_Test_if_17, R3
+Move i_Test_if_17, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Move R4, i_Test_if_17 # reversed
+# new smartMove on: R1, R5
+Move R1, R5 # brought to you by safe/smartmove
+# new smartMove on: R3, R6
+Move R3, R6 # brought to you by safe/smartmove
+# new smartMove on: 0, R7
+Move 0, R8 # brought to you by safe/smartmove
+Move R8, R7 # brought to you by safe/smartmove
+Compare R6,R5
+JumpL _l68
+# new smartMove on: 1, R7
+Move 1, R9 # brought to you by safe/smartmove
+Move R9, R7 # brought to you by safe/smartmove
+_l68:
+Compare 0,R7		# If's condition check
+JumpTrue _l66		# Conditional jump when If's outcome is true
+_l65:   # If's then label
+Move str23, R10 # assigning literal to reg
+Library __println(R10),R11
+Jump _l67		# Jump to end label(end of then part)
+_l66:   # If's else label
+Move str24, R12 # assigning literal to reg
+Library __println(R12),R13
+_l67:   # End of If statement
+# Line 92: 
+# new smartMove on: i_Test_if_17, R1
+Move i_Test_if_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, i_Test_if_17 # reversed
+# new smartMove on: k_Test_if_17, R3
+Move k_Test_if_17, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Move R4, k_Test_if_17 # reversed
+# new smartMove on: R1, R5
+Move R1, R5 # brought to you by safe/smartmove
+# new smartMove on: R3, R6
+Move R3, R6 # brought to you by safe/smartmove
+# new smartMove on: 0, R7
+Move 0, R8 # brought to you by safe/smartmove
+Move R8, R7 # brought to you by safe/smartmove
+Compare R5,R6
+JumpTrue _l72
+# new smartMove on: 1, R7
+Move 1, R9 # brought to you by safe/smartmove
+Move R9, R7 # brought to you by safe/smartmove
+_l72:
+Compare 0,R7		# If's condition check
+JumpTrue _l70		# Conditional jump when If's outcome is true
+_l69:   # If's then label
+Move str25, R10 # assigning literal to reg
+Library __println(R10),R11
+Jump _l71		# Jump to end label(end of then part)
+_l70:   # If's else label
+Move str26, R12 # assigning literal to reg
+Library __println(R12),R13
+_l71:   # End of If statement
+# Line 99: 
+# new smartMove on: i_Test_if_17, R1
+Move i_Test_if_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, i_Test_if_17 # reversed
+# new smartMove on: k_Test_if_17, R3
+Move k_Test_if_17, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Move R4, k_Test_if_17 # reversed
+# new smartMove on: R1, R5
+Move R1, R5 # brought to you by safe/smartmove
+# new smartMove on: R3, R6
+Move R3, R6 # brought to you by safe/smartmove
+# new smartMove on: 0, R7
+Move 0, R8 # brought to you by safe/smartmove
+Move R8, R7 # brought to you by safe/smartmove
+Compare R5,R6
+JumpFalse _l76
+# new smartMove on: 1, R7
+Move 1, R9 # brought to you by safe/smartmove
+Move R9, R7 # brought to you by safe/smartmove
+_l76:
+Compare 0,R7		# If's condition check
+JumpTrue _l74		# Conditional jump when If's outcome is true
+_l73:   # If's then label
+Move str27, R10 # assigning literal to reg
+Library __println(R10),R11
+Jump _l75		# Jump to end label(end of then part)
+_l74:   # If's else label
+Move str28, R12 # assigning literal to reg
+Library __println(R12),R13
+_l75:   # End of If statement
+# Line 103: 
+# new smartMove on: k_Test_if_17, R1
+Move k_Test_if_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, k_Test_if_17 # reversed
+# new smartMove on: i_Test_if_17, R3
+Move i_Test_if_17, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Move R4, i_Test_if_17 # reversed
+# new smartMove on: R1, R5
+Move R1, R5 # brought to you by safe/smartmove
+# new smartMove on: R3, R6
+Move R3, R6 # brought to you by safe/smartmove
+# new smartMove on: 0, R7
+Move 0, R8 # brought to you by safe/smartmove
+Move R8, R7 # brought to you by safe/smartmove
+Compare R6,R5
+JumpGE _l80
+# new smartMove on: 1, R7
+Move 1, R9 # brought to you by safe/smartmove
+Move R9, R7 # brought to you by safe/smartmove
+_l80:
+Compare 0,R7		# If's condition check
+JumpTrue _l78		# Conditional jump when If's outcome is true
+_l77:   # If's then label
+Move str29, R10 # assigning literal to reg
+Library __println(R10),R11
+Jump _l79		# Jump to end label(end of then part)
+_l78:   # If's else label
+Move str30, R12 # assigning literal to reg
+Library __println(R12),R13
+_l79:   # End of If statement
+# Line 108: 
+# new smartMove on: k_Test_if_17, R1
+Move k_Test_if_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, k_Test_if_17 # reversed
+# new smartMove on: i_Test_if_17, R3
+Move i_Test_if_17, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Move R4, i_Test_if_17 # reversed
+# new smartMove on: R1, R5
+Move R1, R5 # brought to you by safe/smartmove
+# new smartMove on: R3, R6
+Move R3, R6 # brought to you by safe/smartmove
+# new smartMove on: 0, R7
+Move 0, R8 # brought to you by safe/smartmove
+Move R8, R7 # brought to you by safe/smartmove
+Compare R6,R5
+JumpG _l84
+# new smartMove on: 1, R7
+Move 1, R9 # brought to you by safe/smartmove
+Move R9, R7 # brought to you by safe/smartmove
+_l84:
+Compare 0,R7		# If's condition check
+JumpTrue _l82		# Conditional jump when If's outcome is true
+_l81:   # If's then label
+Move str31, R10 # assigning literal to reg
+Library __println(R10),R11
+Jump _l83		# Jump to end label(end of then part)
+_l82:   # If's else label
+Move str32, R12 # assigning literal to reg
+Library __println(R12),R13
+_l83:   # End of If statement
+# Line 113: 
+# new smartMove on: i_Test_if_17, R1
+Move i_Test_if_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, i_Test_if_17 # reversed
+# new smartMove on: k_Test_if_17, R3
+Move k_Test_if_17, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Move R4, k_Test_if_17 # reversed
+# new smartMove on: R1, R5
+Move R1, R5 # brought to you by safe/smartmove
+# new smartMove on: R3, R6
+Move R3, R6 # brought to you by safe/smartmove
+# new smartMove on: 0, R7
+Move 0, R8 # brought to you by safe/smartmove
+Move R8, R7 # brought to you by safe/smartmove
+Compare R6,R5
+JumpLE _l88
+# new smartMove on: 1, R7
+Move 1, R9 # brought to you by safe/smartmove
+Move R9, R7 # brought to you by safe/smartmove
+_l88:
+Compare 0,R7		# If's condition check
+JumpTrue _l86		# Conditional jump when If's outcome is true
+_l85:   # If's then label
+Move str33, R10 # assigning literal to reg
+Library __println(R10),R11
+Jump _l87		# Jump to end label(end of then part)
+_l86:   # If's else label
+Move str34, R12 # assigning literal to reg
+Library __println(R12),R13
+_l87:   # End of If statement
+# Line 118: 
+# new smartMove on: i_Test_if_17, R1
+Move i_Test_if_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, i_Test_if_17 # reversed
+# new smartMove on: k_Test_if_17, R3
+Move k_Test_if_17, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Move R4, k_Test_if_17 # reversed
+# new smartMove on: R1, R5
+Move R1, R5 # brought to you by safe/smartmove
+# new smartMove on: R3, R6
+Move R3, R6 # brought to you by safe/smartmove
+# new smartMove on: 0, R7
+Move 0, R8 # brought to you by safe/smartmove
+Move R8, R7 # brought to you by safe/smartmove
+Compare R6,R5
+JumpL _l92
+# new smartMove on: 1, R7
+Move 1, R9 # brought to you by safe/smartmove
+Move R9, R7 # brought to you by safe/smartmove
+_l92:
+Compare 0,R7		# If's condition check
+JumpTrue _l90		# Conditional jump when If's outcome is true
+_l89:   # If's then label
+Move str35, R10 # assigning literal to reg
+Library __println(R10),R11
+Jump _l91		# Jump to end label(end of then part)
+_l90:   # If's else label
+Move str36, R12 # assigning literal to reg
+Library __println(R12),R13
+_l91:   # End of If statement
+# Line 123: 
+# new smartMove on: i_Test_if_17, R1
+Move i_Test_if_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, i_Test_if_17 # reversed
+# new smartMove on: i_Test_if_17, R3
+Move i_Test_if_17, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Move R4, i_Test_if_17 # reversed
+# new smartMove on: R1, R5
+Move R1, R5 # brought to you by safe/smartmove
+# new smartMove on: R3, R6
+Move R3, R6 # brought to you by safe/smartmove
+# new smartMove on: 0, R7
+Move 0, R8 # brought to you by safe/smartmove
+Move R8, R7 # brought to you by safe/smartmove
+Compare R5,R6
+JumpTrue _l96
+# new smartMove on: 1, R7
+Move 1, R9 # brought to you by safe/smartmove
+Move R9, R7 # brought to you by safe/smartmove
+_l96:
+Compare 0,R7		# If's condition check
+JumpTrue _l94		# Conditional jump when If's outcome is true
+_l93:   # If's then label
+Move str37, R10 # assigning literal to reg
+Library __println(R10),R11
+Jump _l95		# Jump to end label(end of then part)
+_l94:   # If's else label
+Move str38, R12 # assigning literal to reg
+Library __println(R12),R13
+_l95:   # End of If statement
+# Line 128: 
+Move 5, R1
+Move 5, R2
+# new smartMove on: R1, R3
+Move R1, R3 # brought to you by safe/smartmove
+# new smartMove on: R2, R4
+Move R2, R4 # brought to you by safe/smartmove
+# new smartMove on: 0, R5
+Move 0, R6 # brought to you by safe/smartmove
+Move R6, R5 # brought to you by safe/smartmove
+Compare R3,R4
+JumpFalse _l100
+# new smartMove on: 1, R5
+Move 1, R7 # brought to you by safe/smartmove
+Move R7, R5 # brought to you by safe/smartmove
+_l100:
+Move 6, R8
+Move 7, R9
+# new smartMove on: R8, R10
+Move R8, R10 # brought to you by safe/smartmove
+# new smartMove on: R9, R11
+Move R9, R11 # brought to you by safe/smartmove
+# new smartMove on: 0, R12
+Move 0, R13 # brought to you by safe/smartmove
+Move R13, R12 # brought to you by safe/smartmove
+Compare R10,R11
+JumpFalse _l101
+# new smartMove on: 1, R12
+Move 1, R14 # brought to you by safe/smartmove
+Move R14, R12 # brought to you by safe/smartmove
+_l101:
+# new smartMove on: R5, R15
+Move R5, R15 # brought to you by safe/smartmove
+# new smartMove on: R12, R16
+Move R12, R16 # brought to you by safe/smartmove
+# new smartMove on: 0, R17
+Move 0, R18 # brought to you by safe/smartmove
+Move R18, R17 # brought to you by safe/smartmove
+And R15,R16
+Compare 0,R16		# If's condition check
+JumpTrue _l98		# Conditional jump when If's outcome is true
+_l97:   # If's then label
+Move str39, R19 # assigning literal to reg
+Library __println(R19),R20
+Jump _l99		# Jump to end label(end of then part)
+_l98:   # If's else label
+Move str40, R21 # assigning literal to reg
+Library __println(R21),R22
+_l99:   # End of If statement
+# Line 133: 
+Move 5, R1
+Move 3, R2
+# new smartMove on: R1, R3
+Move R1, R3 # brought to you by safe/smartmove
+# new smartMove on: R2, R4
+Move R2, R4 # brought to you by safe/smartmove
+# new smartMove on: 0, R5
+Move 0, R6 # brought to you by safe/smartmove
+Move R6, R5 # brought to you by safe/smartmove
+Compare R3,R4
+JumpFalse _l106
+# new smartMove on: 1, R5
+Move 1, R7 # brought to you by safe/smartmove
+Move R7, R5 # brought to you by safe/smartmove
+_l106:
+Move 6, R8
+Move 7, R9
+# new smartMove on: R8, R10
+Move R8, R10 # brought to you by safe/smartmove
+# new smartMove on: R9, R11
+Move R9, R11 # brought to you by safe/smartmove
+# new smartMove on: 0, R12
+Move 0, R13 # brought to you by safe/smartmove
+Move R13, R12 # brought to you by safe/smartmove
+Compare R10,R11
+JumpFalse _l107
+# new smartMove on: 1, R12
+Move 1, R14 # brought to you by safe/smartmove
+Move R14, R12 # brought to you by safe/smartmove
+_l107:
+# new smartMove on: R5, R15
+Move R5, R15 # brought to you by safe/smartmove
+# new smartMove on: R12, R16
+Move R12, R16 # brought to you by safe/smartmove
+# new smartMove on: 0, R17
+Move 0, R18 # brought to you by safe/smartmove
+Move R18, R17 # brought to you by safe/smartmove
+Or R15,R16
+Compare 0,R16		# If's condition check
+JumpTrue _l104		# Conditional jump when If's outcome is true
+_l103:   # If's then label
+Move str41, R19 # assigning literal to reg
+Library __println(R19),R20
+Jump _l105		# Jump to end label(end of then part)
+_l104:   # If's else label
+Move str42, R21 # assigning literal to reg
+Library __println(R21),R22
+_l105:   # End of If statement
+# Line 139: 
+Move 5, R1
+Move 5, R2
+# new smartMove on: R1, R3
+Move R1, R3 # brought to you by safe/smartmove
+# new smartMove on: R2, R4
+Move R2, R4 # brought to you by safe/smartmove
+# new smartMove on: 0, R5
+Move 0, R6 # brought to you by safe/smartmove
+Move R6, R5 # brought to you by safe/smartmove
+Compare R3,R4
+JumpFalse _l112
+# new smartMove on: 1, R5
+Move 1, R7 # brought to you by safe/smartmove
+Move R7, R5 # brought to you by safe/smartmove
+_l112:
+Move 7, R8
+Move 7, R9
+# new smartMove on: R8, R10
+Move R8, R10 # brought to you by safe/smartmove
+# new smartMove on: R9, R11
+Move R9, R11 # brought to you by safe/smartmove
+# new smartMove on: 0, R12
+Move 0, R13 # brought to you by safe/smartmove
+Move R13, R12 # brought to you by safe/smartmove
+Compare R10,R11
+JumpFalse _l113
+# new smartMove on: 1, R12
+Move 1, R14 # brought to you by safe/smartmove
+Move R14, R12 # brought to you by safe/smartmove
+_l113:
+# new smartMove on: R5, R15
+Move R5, R15 # brought to you by safe/smartmove
+# new smartMove on: R12, R16
+Move R12, R16 # brought to you by safe/smartmove
+# new smartMove on: 0, R17
+Move 0, R18 # brought to you by safe/smartmove
+Move R18, R17 # brought to you by safe/smartmove
+And R15,R16
+Compare 0,R16		# If's condition check
+JumpTrue _l110		# Conditional jump when If's outcome is true
+_l109:   # If's then label
+Move str43, R19 # assigning literal to reg
+Library __println(R19),R20
+Jump _l111		# Jump to end label(end of then part)
+_l110:   # If's else label
+Move str44, R21 # assigning literal to reg
+Library __println(R21),R22
+_l111:   # End of If statement
+# Line 145: 
+Move 5, R1
+Move 3, R2
+# new smartMove on: R1, R3
+Move R1, R3 # brought to you by safe/smartmove
+# new smartMove on: R2, R4
+Move R2, R4 # brought to you by safe/smartmove
+# new smartMove on: 0, R5
+Move 0, R6 # brought to you by safe/smartmove
+Move R6, R5 # brought to you by safe/smartmove
+Compare R3,R4
+JumpFalse _l118
+# new smartMove on: 1, R5
+Move 1, R7 # brought to you by safe/smartmove
+Move R7, R5 # brought to you by safe/smartmove
+_l118:
+Move 7, R8
+Move 7, R9
+# new smartMove on: R8, R10
+Move R8, R10 # brought to you by safe/smartmove
+# new smartMove on: R9, R11
+Move R9, R11 # brought to you by safe/smartmove
+# new smartMove on: 0, R12
+Move 0, R13 # brought to you by safe/smartmove
+Move R13, R12 # brought to you by safe/smartmove
+Compare R10,R11
+JumpFalse _l119
+# new smartMove on: 1, R12
+Move 1, R14 # brought to you by safe/smartmove
+Move R14, R12 # brought to you by safe/smartmove
+_l119:
+# new smartMove on: R5, R15
+Move R5, R15 # brought to you by safe/smartmove
+# new smartMove on: R12, R16
+Move R12, R16 # brought to you by safe/smartmove
+# new smartMove on: 0, R17
+Move 0, R18 # brought to you by safe/smartmove
+Move R18, R17 # brought to you by safe/smartmove
+Or R15,R16
+Compare 0,R16		# If's condition check
+JumpTrue _l116		# Conditional jump when If's outcome is true
+_l115:   # If's then label
+Move str45, R19 # assigning literal to reg
+Library __println(R19),R20
+Jump _l117		# Jump to end label(end of then part)
+_l116:   # If's else label
+Move str46, R21 # assigning literal to reg
+Library __println(R21),R22
+_l117:   # End of If statement
+# Line 151: 
+Move 1, R1
+# new smartMove on: R1, b_Test_if_17
+Move R1, b_Test_if_17 # brought to you by safe/smartmove
+# Line 152: 
+# new smartMove on: b_Test_if_17, R1
+Move b_Test_if_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, b_Test_if_17 # reversed
+Move 0, R3
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+# new smartMove on: 0, R6
+Move 0, R7 # brought to you by safe/smartmove
+Move R7, R6 # brought to you by safe/smartmove
+Compare R4,R5
+JumpFalse _l124
+# new smartMove on: 1, R6
+Move 1, R8 # brought to you by safe/smartmove
+Move R8, R6 # brought to you by safe/smartmove
+_l124:
+Xor 1,R6
+Compare 0,R6		# If's condition check
+JumpTrue _l122		# Conditional jump when If's outcome is true
+_l121:   # If's then label
+Move str47, R9 # assigning literal to reg
+Library __println(R9),R10
+Jump _l123		# Jump to end label(end of then part)
+_l122:   # If's else label
+Move str48, R11 # assigning literal to reg
+Library __println(R11),R12
+_l123:   # End of If statement
+# Line 157: 
+Move 3, R1
+# new smartMove on: R1, x_Test_if_17
+Move R1, x_Test_if_17 # brought to you by safe/smartmove
+# Line 158: 
+# new smartMove on: x_Test_if_17, R2
+Move x_Test_if_17, R3 # brought to you by safe/smartmove
+Move R3, R2 # brought to you by safe/smartmove
+Move R3, x_Test_if_17 # reversed
+Neg R2
+# TMP 1
+# new smartMove on: R2, x_Test_if_17
+Move R2, x_Test_if_17 # brought to you by safe/smartmove
+# Line 158: 
+# new smartMove on: x_Test_if_17, R2
+Move x_Test_if_17, R3 # brought to you by safe/smartmove
+Move R3, R2 # brought to you by safe/smartmove
+Move R3, x_Test_if_17 # reversed
+Neg R2
+# TMP 1
+# new smartMove on: R2, x_Test_if_17
+Move R2, x_Test_if_17 # brought to you by safe/smartmove
+# Line 159: 
+Move 5, R1
+# new smartMove on: R1, y_Test_if_17
+Move R1, y_Test_if_17 # brought to you by safe/smartmove
+# Line 160: 
+# new smartMove on: x_Test_if_17, R1
+Move x_Test_if_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, x_Test_if_17 # reversed
+# new smartMove on: y_Test_if_17, R3
+Move y_Test_if_17, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Move R4, y_Test_if_17 # reversed
+# new smartMove on: R1, R5
+Move R1, R5 # brought to you by safe/smartmove
+# new smartMove on: R3, R6
+Move R3, R6 # brought to you by safe/smartmove
+Add R6,R5
+Move 8, R7
+# new smartMove on: R5, R8
+Move R5, R8 # brought to you by safe/smartmove
+# new smartMove on: R7, R9
+Move R7, R9 # brought to you by safe/smartmove
+# new smartMove on: 0, R10
+Move 0, R11 # brought to you by safe/smartmove
+Move R11, R10 # brought to you by safe/smartmove
+Compare R8,R9
+JumpFalse _l128
+# new smartMove on: 1, R10
+Move 1, R12 # brought to you by safe/smartmove
+Move R12, R10 # brought to you by safe/smartmove
+_l128:
+Compare 0,R10		# If's condition check
+JumpTrue _l126		# Conditional jump when If's outcome is true
+_l125:   # If's then label
+Move str49, R13 # assigning literal to reg
+Library __println(R13),R14
+Jump _l127		# Jump to end label(end of then part)
+_l126:   # If's else label
+Move str50, R15 # assigning literal to reg
+Library __println(R15),R16
+_l127:   # End of If statement
+# Line 165: 
+# new smartMove on: x_Test_if_17, R1
+Move x_Test_if_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, x_Test_if_17 # reversed
+# new smartMove on: y_Test_if_17, R3
+Move y_Test_if_17, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Move R4, y_Test_if_17 # reversed
+# new smartMove on: R1, R5
+Move R1, R5 # brought to you by safe/smartmove
+# new smartMove on: R3, R6
+Move R3, R6 # brought to you by safe/smartmove
+Sub R6,R5
+Move 2, R7
+Neg R7
+# new smartMove on: R5, R8
+Move R5, R8 # brought to you by safe/smartmove
+# new smartMove on: R7, R9
+Move R7, R9 # brought to you by safe/smartmove
+# new smartMove on: 0, R10
+Move 0, R11 # brought to you by safe/smartmove
+Move R11, R10 # brought to you by safe/smartmove
+Compare R8,R9
+JumpFalse _l132
+# new smartMove on: 1, R10
+Move 1, R12 # brought to you by safe/smartmove
+Move R12, R10 # brought to you by safe/smartmove
+_l132:
+Compare 0,R10		# If's condition check
+JumpTrue _l130		# Conditional jump when If's outcome is true
+_l129:   # If's then label
+Move str51, R13 # assigning literal to reg
+Library __println(R13),R14
+Jump _l131		# Jump to end label(end of then part)
+_l130:   # If's else label
+Move str52, R15 # assigning literal to reg
+Library __println(R15),R16
+_l131:   # End of If statement
+# Line 170: 
+# new smartMove on: x_Test_if_17, R1
+Move x_Test_if_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, x_Test_if_17 # reversed
+# new smartMove on: y_Test_if_17, R3
+Move y_Test_if_17, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Move R4, y_Test_if_17 # reversed
+# new smartMove on: R1, R5
+Move R1, R5 # brought to you by safe/smartmove
+# new smartMove on: R3, R6
+Move R3, R6 # brought to you by safe/smartmove
+Mul R6,R5
+Move 15, R7
+# new smartMove on: R5, R8
+Move R5, R8 # brought to you by safe/smartmove
+# new smartMove on: R7, R9
+Move R7, R9 # brought to you by safe/smartmove
+# new smartMove on: 0, R10
+Move 0, R11 # brought to you by safe/smartmove
+Move R11, R10 # brought to you by safe/smartmove
+Compare R8,R9
+JumpFalse _l136
+# new smartMove on: 1, R10
+Move 1, R12 # brought to you by safe/smartmove
+Move R12, R10 # brought to you by safe/smartmove
+_l136:
+Compare 0,R10		# If's condition check
+JumpTrue _l134		# Conditional jump when If's outcome is true
+_l133:   # If's then label
+Move str53, R13 # assigning literal to reg
+Library __println(R13),R14
+Jump _l135		# Jump to end label(end of then part)
+_l134:   # If's else label
+Move str54, R15 # assigning literal to reg
+Library __println(R15),R16
+_l135:   # End of If statement
+# Line 175: 
+# new smartMove on: x_Test_if_17, R1
+Move x_Test_if_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, x_Test_if_17 # reversed
+Move 3, R3
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+Compare 0,R5
+JumpTrue _dev_by_zero
+Div R5,R4
+Move 1, R6
+# new smartMove on: R4, R7
+Move R4, R7 # brought to you by safe/smartmove
+# new smartMove on: R6, R8
+Move R6, R8 # brought to you by safe/smartmove
+# new smartMove on: 0, R9
+Move 0, R10 # brought to you by safe/smartmove
+Move R10, R9 # brought to you by safe/smartmove
+Compare R7,R8
+JumpFalse _l140
+# new smartMove on: 1, R9
+Move 1, R11 # brought to you by safe/smartmove
+Move R11, R9 # brought to you by safe/smartmove
+_l140:
+Compare 0,R9		# If's condition check
+JumpTrue _l138		# Conditional jump when If's outcome is true
+_l137:   # If's then label
+Move str55, R12 # assigning literal to reg
+Library __println(R12),R13
+Jump _l139		# Jump to end label(end of then part)
+_l138:   # If's else label
+Move str56, R14 # assigning literal to reg
+Library __println(R14),R15
+_l139:   # End of If statement
+# Line 180: 
+# new smartMove on: x_Test_if_17, R1
+Move x_Test_if_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, x_Test_if_17 # reversed
+Move 3, R3
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+Mod R5,R4
+Move 0, R6
+# new smartMove on: R4, R7
+Move R4, R7 # brought to you by safe/smartmove
+# new smartMove on: R6, R8
+Move R6, R8 # brought to you by safe/smartmove
+# new smartMove on: 0, R9
+Move 0, R10 # brought to you by safe/smartmove
+Move R10, R9 # brought to you by safe/smartmove
+Compare R7,R8
+JumpFalse _l144
+# new smartMove on: 1, R9
+Move 1, R11 # brought to you by safe/smartmove
+Move R11, R9 # brought to you by safe/smartmove
+_l144:
+Compare 0,R9		# If's condition check
+JumpTrue _l142		# Conditional jump when If's outcome is true
+_l141:   # If's then label
+Move str57, R12 # assigning literal to reg
+Library __println(R12),R13
+Jump _l143		# Jump to end label(end of then part)
+_l142:   # If's else label
+Move str58, R14 # assigning literal to reg
+Library __println(R14),R15
+_l143:   # End of If statement
+Library __exit(0),Rdummy
+# Method main end
+Return 9999
+
+######################
+# Error Labels
+######################
+
+_null_reference:
+Library __println(null_reference),Rdummy
+Library __exit(1),Rdummy
+
+_illegal_arr_loc:
+Library __println(illegal_arr_loc),Rdummy
+Library __exit(1),Rdummy
+
+_dev_by_zero:
+Library __println(dev_by_zero),Rdummy
+Library __exit(1),Rdummy
+
+_arr_neg_alloc_size:
+Library __println(arr_neg_alloc_size),Rdummy
+Library __exit(1),Rdummy
+

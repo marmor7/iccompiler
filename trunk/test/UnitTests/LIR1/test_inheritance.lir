@@ -1,0 +1,203 @@
+##################################
+# String Literals
+zero_division_error_str: "Runtime Error: Illegal division by zero!"
+array_index_out_of_bounds_str: "Runtime Error: Array index out of bounds!"
+array_size_negative_str: "Runtime Error: Array allocation with negative array size!"
+null_pointer_dereference_str: "Runtime Error: Null pointer dereference!"
+str4: "should print printed from c"
+str5: "TEST!!"
+str6: "should print printed from a"
+str7: "should print printed from d"
+str8: "another test OK"
+str9: "printed from a"
+str10: "printed from b"
+str11: "printed from c"
+str12: "printed from d"
+##################################
+
+##################################
+# Dispatch Vectors
+
+# 'Test_Inheritance' field offsets: 
+_DV_Test_Inheritance : []
+
+# 'A' field offsets: 1:field_a 
+_DV_A : [_A_dinamic_print, _A_special_print]
+
+# 'B' field offsets: 1:field_a 2:field_b 
+_DV_B : [_B_dinamic_print, _A_special_print]
+
+# 'C' field offsets: 1:field_a 2:field_b 
+_DV_C : [_C_dinamic_print, _A_special_print]
+
+# 'D' field offsets: 1:field_a 
+_DV_D : [_D_dinamic_print, _A_special_print]
+##################################
+
+_zero_division_error_handler:
+Library __println(zero_division_error_str),Rdummy
+Library __exit(1),Rdummy
+
+_negative_array_size_handler:
+Library __println(array_size_negative_str),Rdummy
+Library __exit(1),Rdummy
+
+_null_ptr_dereference_handler:
+Library __println(null_pointer_dereference_str),Rdummy
+Library __exit(1),Rdummy
+
+_array_index_out_of_bounds_handler:
+Library __println(array_index_out_of_bounds_str),Rdummy
+Library __exit(1),Rdummy
+
+################# A.dinamic_print #################
+_A_dinamic_print:
+Move text,R1
+Move str9,R2
+Library __stringCat(R1, R2),R1
+Library __println(R1),Rdummy
+Return Rdummy
+##################################
+
+################# B.dinamic_print #################
+_B_dinamic_print:
+Move text,R1
+Move str10,R2
+Library __stringCat(R1, R2),R1
+Library __println(R1),Rdummy
+Return Rdummy
+##################################
+
+################# A.special_print #################
+_A_special_print:
+Move text,R1
+Move str9,R2
+Library __stringCat(R1, R2),R1
+Library __println(R1),Rdummy
+Return Rdummy
+##################################
+
+################# D.dinamic_print #################
+_D_dinamic_print:
+Move text,R1
+Move str12,R2
+Library __stringCat(R1, R2),R1
+Library __println(R1),Rdummy
+Return Rdummy
+##################################
+
+################# B.static_print #################
+_B_static_print:
+Move text,R1
+Move str10,R2
+Library __stringCat(R1, R2),R1
+Library __println(R1),Rdummy
+Return Rdummy
+##################################
+
+################# D.static_print #################
+_D_static_print:
+Move text,R1
+Move str12,R2
+Library __stringCat(R1, R2),R1
+Library __println(R1),Rdummy
+Return Rdummy
+##################################
+
+################# A.static_print #################
+_A_static_print:
+Move text,R1
+Move str9,R2
+Library __stringCat(R1, R2),R1
+Library __println(R1),Rdummy
+Return Rdummy
+##################################
+
+################# C.dinamic_print #################
+_C_dinamic_print:
+Move text,R1
+Move str11,R2
+Library __stringCat(R1, R2),R1
+Library __println(R1),Rdummy
+Return Rdummy
+##################################
+
+################# C.static_print #################
+_C_static_print:
+Move text,R1
+Move str11,R2
+Library __stringCat(R1, R2),R1
+Library __println(R1),Rdummy
+Return Rdummy
+##################################
+
+################# ic.main #################
+_ic_main:
+Library __allocateObject(12),R1
+MoveField _DV_C,R1.0
+Move R1,v0test_1
+# field_a = 5
+Move 5,R1
+Move v0test_1,R2
+Compare 0,R2
+JumpTrue _null_ptr_dereference_handler
+MoveField R1,R2.1
+# field_b = 7
+Move 7,R1
+Move v0test_1,R2
+Compare 0,R2
+JumpTrue _null_ptr_dereference_handler
+MoveField R1,R2.2
+Library __allocateObject(8),R1
+MoveField _DV_D,R1.0
+Move R1,v3test_2
+# field_a = 5
+Move 5,R1
+Move v3test_2,R2
+Compare 0,R2
+JumpTrue _null_ptr_dereference_handler
+MoveField R1,R2.1
+Move str4,R1
+Library __println(R1),Rdummy
+Move v0test_1,R1
+Compare 0,R1
+JumpTrue _null_ptr_dereference_handler
+Move str5,R2
+VirtualCall R1.0(text=R2),Rdummy
+Move str6,R1
+Library __println(R1),Rdummy
+Move v0test_1,R1
+Compare 0,R1
+JumpTrue _null_ptr_dereference_handler
+Move str5,R2
+VirtualCall R1.1(text=R2),Rdummy
+Move str4,R1
+Library __println(R1),Rdummy
+Move str5,R1
+StaticCall _C_static_print(text=R1),Rdummy
+Move str7,R1
+Library __println(R1),Rdummy
+Move v3test_2,R1
+Compare 0,R1
+JumpTrue _null_ptr_dereference_handler
+Move str5,R2
+VirtualCall R1.0(text=R2),Rdummy
+Move v0test_1,R3
+Compare 0,R3
+JumpTrue _null_ptr_dereference_handler
+MoveField R3.1,R2
+Move 5,R1
+Compare R1,R2
+JumpTrue _true_label9
+Move 0,R1
+Jump _end_lbl8
+_true_label9:
+Move 1,R1
+_end_lbl8:
+Compare 0,R1
+JumpTrue _else11
+Move str8,R2
+Library __println(R2),Rdummy
+_else11:
+##################################
+

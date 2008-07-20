@@ -1,0 +1,9 @@
+In Main: x = 1
+in foo: x = 0
+x - local: 2
+First Test - OK
+Second Test - OK
+a in first block: 1
+a in second block: 2
+a in first block: 1
+If a == num of block in every block, then Third test - OK!
