@@ -14,6 +14,11 @@ public class ArithmeticInstruction extends Instruction{
 		super(op1P, op2P, type);
 	}
 	
+	/**
+	 * Constructor
+	 * @param op1P
+	 * @param type
+	 */
 	public ArithmeticInstruction(Op op1P,
 			 ArithmeticInstructionType type) 
 {
@@ -34,6 +39,9 @@ public class ArithmeticInstruction extends Instruction{
 		Neg;
 	}
 	
+	/**
+	 * ToString()
+	 */
 	public String toString(){
 		String str  = getInstructionType().toString() + " ";
 		str += getOp1();

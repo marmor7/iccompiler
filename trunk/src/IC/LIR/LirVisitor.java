@@ -397,9 +397,9 @@ public class LirVisitor implements Visitor {
 
 	public Object visit(If ifStatement) {
 		// Set labels:
-		String thenLabel = Jump.getnextjumpcounter();
-		String elseLabel = Jump.getnextjumpcounter();
-		String endLabel = Jump.getnextjumpcounter();
+		String thenLabel = Jump.getNextJumpCounter();
+		String elseLabel = Jump.getNextJumpCounter();
+		String endLabel = Jump.getNextJumpCounter();
 
 		// Check If's condition
 		Op reg = (Op) ifStatement.getCondition().accept(this);
@@ -453,8 +453,8 @@ public class LirVisitor implements Visitor {
 		String previousWhileEndLabel = this.latestWhileEndLabel;
 
 		// Add while label to instructions list and generate new labels
-		String whileLabel = Jump.getnextjumpcounter();
-		String falseWhileLabel = Jump.getnextjumpcounter();
+		String whileLabel = Jump.getNextJumpCounter();
+		String falseWhileLabel = Jump.getNextJumpCounter();
 		list.add(new Label(whileLabel, "While"));
 
 		// Update LirVisitor for the new labels:
@@ -952,7 +952,7 @@ public Object visit(VariableLocation location) {
 		Instruction i;// = new DataTransferInstruction(zero, reg, DIT);
 //		list.add(i);
 		smartMove(zero, reg);
-		Op jumpto = new Op(Jump.getnextjumpcounter(), OpType.Label);
+		Op jumpto = new Op(Jump.getNextJumpCounter(), OpType.Label);
 
 		if (binaryOp.getOperator() == IC.BinaryOps.LAND) {
 			LIT = LogicalInstructionType.And;
@@ -1088,7 +1088,7 @@ public Object visit(VariableLocation location) {
 			if (!StringLiteral.isIn(strlit)) {
 				StringLiteral.addtoliterals(strlit);
 			}
-			strOutput = StringLiteral.getindexoflit(strlit);
+			strOutput = StringLiteral.getIndexOfLit(strlit);
 			Op reg = new Op(Register.getFreeReg(), OpType.Reg);
 			Op strLitOp = new Op(strOutput, OpType.Memory);
 			list.add(new DataTransferInstruction(strLitOp, reg,
@@ -1113,6 +1113,11 @@ public Object visit(VariableLocation location) {
 
 	}
 
+	/**
+	 * Gets the amount of fields from a class (including base)
+	 * @param icClass Class name
+	 * @return
+	 */
 	private int getClassFieldsNumber(ICClass icClass) {
 		int fieldsNums = 0;
 		ICClass superClass = null;
@@ -1134,6 +1139,11 @@ public Object visit(VariableLocation location) {
 		}
 	}
 
+	/**
+	 * Gets a class object from name
+	 * @param className
+	 * @return
+	 */
 	private ICClass getIcClassFromName(String className) {
 		ICClass toRet = null;
 
@@ -1146,6 +1156,9 @@ public Object visit(VariableLocation location) {
 		return toRet;
 	}
 	
+	/**
+	 * Adds common error labels to lit code
+	 */
 	private void addErrorLabelsToList()
 	{
 		list.add(new StringInstruction(""));
@@ -1179,11 +1192,20 @@ public Object visit(VariableLocation location) {
 		list.add(new StringInstruction(""));
 	}
 	
+	/**
+	 * Adds the null reference check the function call point 
+	 * @param reg
+	 */
 	private void addNullReferenceCheckToList(Op reg)
 	{
 		addNullReferenceCheckToList(reg, list);
 	}
 	
+	/**
+	 * Adds the null reference check to list for a specific register
+	 * @param reg
+	 * @param list
+	 */
 	private void addNullReferenceCheckToList(Op reg, ArrayList<Instruction> list)
 	{
 		if(reg.getName().contains("."))
@@ -1200,11 +1222,22 @@ public Object visit(VariableLocation location) {
 				ControlTransferInstructionType.JumpTrue));
 	}
 	
+	/**
+	 * Adds correctness test for array length call
+	 * @param arrayObject
+	 * @param place
+	 */
 	private void testArrayLength(Op arrayObject, Op place)
 	{
 		testArrayLength(arrayObject, place, list);
 	}
 	
+	/**
+	 * Tests array length for specific registers
+	 * @param arrayObject
+	 * @param place
+	 * @param tlist
+	 */
 	private void testArrayLength(Op arrayObject, Op place, ArrayList<Instruction> tlist)
 	{
 		Op arrSize = new Op(Register.getFreeReg(), OpType.Reg);
@@ -1227,6 +1260,11 @@ public Object visit(VariableLocation location) {
 												ControlTransferInstructionType.JumpG));	
 	}
 	
+	/**
+	 * Smart move for registers to support depth of nesting
+	 * @param src
+	 * @param dst
+	 */
 	private void smartMove(Op src, Op dst)
 	{
 		list.add(new Comment("new smartMove on: " + src.getName() + ", " + dst.getName()));
@@ -1263,7 +1301,13 @@ public Object visit(VariableLocation location) {
 		}
 	}
 	
-	
+	/**
+	 * Peels of "." and arrays from registers
+	 * @param op
+	 * @param list
+	 * @param dst
+	 * @return
+	 */
 	private Op peel(Op op, ArrayList<Instruction> list, boolean dst)
 	{
 		if (op.getName().lastIndexOf(".") > op.getName().lastIndexOf("["))
@@ -1279,6 +1323,14 @@ public Object visit(VariableLocation location) {
 		
 		return op;
 	}
+	
+	/**
+	 * Peels dot from registers
+	 * @param op
+	 * @param tlist
+	 * @param dst
+	 * @return
+	 */
 	private Op peelDot(Op op, ArrayList<Instruction> tlist, boolean dst)
 	{	
 		Op onePeel = new Op( op.getName().substring(0, op.getName().lastIndexOf("."))  ,OpType.Reg );
@@ -1291,6 +1343,13 @@ public Object visit(VariableLocation location) {
 		return toRet;
 	}
 	
+	/**
+	 * Peels of brackets from registers
+	 * @param op
+	 * @param tlist
+	 * @param dst
+	 * @return
+	 */
 	private Op peelBrack(Op op, ArrayList<Instruction> tlist, boolean dst)
 	{	
 		Op onePeel = new Op( op.getName().substring(0, op.getName().lastIndexOf("["))  ,OpType.Reg );
@@ -1300,7 +1359,12 @@ public Object visit(VariableLocation location) {
 		return toRet;
 	}
 	
-	
+	/**
+	 * Safe move used by smart move and peel
+	 * @param source
+	 * @param dest
+	 * @param tlist
+	 */
 	private void safeMove(Op source,Op dest, ArrayList<Instruction> tlist)
 	{
 		DataTransferInstructionType dt = DataTransferInstructionType.Move;
@@ -1332,7 +1396,11 @@ public Object visit(VariableLocation location) {
 		tlist.add(new DataTransferInstruction(source,dest,dt).setOptComment("brought to you by safe/smartmove"));
 	}
 	
-	
+	/**
+	 * Helper method for debugging needs. Currently not in use
+	 * @param opName
+	 * @return
+	 */
 	private int howSafe(String opName)
 	{
 		int dot = opName.lastIndexOf(".");

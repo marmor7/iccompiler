@@ -14,6 +14,9 @@ public class StringInstruction extends Instruction{
 		this.line = line;
 	}
 	
+	/**
+	 * Constructor
+	 */
 	public StringInstruction()
 	{
 		super(DispatchTableType.EmptyLine);
@@ -38,6 +41,9 @@ public class StringInstruction extends Instruction{
 		EmptyLine
 	}
 	
+	/**
+	 * ToString()
+	 */
 	public String toString()
 	{
 		return this.line; 

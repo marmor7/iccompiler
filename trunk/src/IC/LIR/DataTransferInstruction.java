@@ -14,7 +14,13 @@ public class DataTransferInstruction extends Instruction{
 		super(op1P, op2P, type);
 	}
 	
-	
+	/**
+	 * Constructor
+	 * @param op1P
+	 * @param op2P
+	 * @param op3P
+	 * @param type
+	 */
 	public DataTransferInstruction(Op op1P, Op op2P, Op op3P,  
 			   DataTransferInstructionType type)
 {
@@ -33,6 +39,9 @@ public class DataTransferInstruction extends Instruction{
 		ArrayLength;
 	}
 	
+	/**
+	 * ToString()
+	 */
 	public String toString()
     {
             String ret = "";

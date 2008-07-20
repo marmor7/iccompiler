@@ -11,9 +11,14 @@ public abstract class Instruction {
 	private int opsCount = 0;
 	private Comment optComment = null;
 	
-	
-	
-	
+	/**
+	 * Constructor. 
+	 * Base class for all instructions
+	 * @param op1P
+	 * @param op2P
+	 * @param op3P
+	 * @param iType
+	 */
 	public Instruction(Op op1P, Op op2P,Op op3P ,InstructionType iType)
 	{
 		this.op1 = op1P;
@@ -39,10 +44,19 @@ public abstract class Instruction {
 		this.opsCount = 2;
 	}
 	
+	/**
+	 * Gets the comment for current line (instruction)
+	 * @return
+	 */
 	public Comment getOptComment() {
 		return optComment;
 	}
 
+	/**
+	 * Sets a comment for the instruction
+	 * @param optComment
+	 * @return
+	 */
 	public Instruction setOptComment(String optComment) {
 		this.optComment = new Comment(optComment);
 		return this;
@@ -93,6 +107,10 @@ public abstract class Instruction {
 		return str;
 	}
 	
+	/**
+	 * Empty interface for derived classes
+	 *
+	 */
 	public interface InstructionType{};
 	
 	/**
@@ -111,6 +129,9 @@ public abstract class Instruction {
 		return this.op2;
 	}
 	
+	/**
+	 * @return The third op
+	 */
 	public Op getOp3()
 	{
 		return this.op3;

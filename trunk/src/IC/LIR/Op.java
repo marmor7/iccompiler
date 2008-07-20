@@ -54,10 +54,17 @@ public class Op {
 		return this.opType;
 	}
 	
+	/**
+	 * ToString()
+	 */
 	public String toString(){
 		return getName();
 	}
 
+	/**
+	 * Sets the op's name
+	 * @param opName
+	 */
 	public void setOpName(String opName) {
 		this.opName = opName;
 	}

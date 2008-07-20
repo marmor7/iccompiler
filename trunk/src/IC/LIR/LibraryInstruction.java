@@ -23,6 +23,10 @@ public class LibraryInstruction extends Instruction {
 		Dummy;
 	}
 	
+	/**
+	 * Gets the size of the instruction
+	 * @return
+	 */
 	public int getSize()
 	{
 		return this.size;
