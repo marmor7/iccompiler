@@ -1,0 +1,82 @@
+
+######################
+# Program ~nullRef.ic
+######################
+
+######################
+# STRING LITERALS
+arr_neg_alloc_size: "Negative or zero array size allocation. Program will now exit. "
+null_reference: "Null reference. Program will now exit. "
+illegal_arr_loc: "Illegal array location. Program will now exit. "
+dev_by_zero: "Devision by zero. Program will now exit. "
+str0: ""
+######################
+
+######################
+# DISPATCH VECTORS
+_DV_A: []
+######################
+
+_ic_main:   # Main Method
+# Line 5: 
+Library __allocateObject(8),R1 # Allocation of A
+MoveField _DV_A,R1.0 # Move field for DV pointer
+# new smartMove on: R1, a_A_17
+Move R1, a_A_17 # brought to you by safe/smartmove
+# Line 6: 
+Move 0, R2
+# TMP 1
+# new smartMove on: R2, a_A_17
+Move R2, a_A_17 # brought to you by safe/smartmove
+# Line 7: 
+Move 2, R2
+# TMP 1
+# new smartMove on: R2, a_A_17.1
+Move a_A_17, R4 # brought to you by safe/smartmove
+Compare 0,R4
+JumpTrue _null_reference
+MoveField R4.1,R3 # SMART MOVED BITCH - field style
+Move R2, R3 # brought to you by safe/smartmove
+MoveField R3,R4.1 # reversed
+Move R4, a_A_17 # reversed
+# Line 8: 
+# new smartMove on: a_A_17, R1
+Move a_A_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, a_A_17 # reversed
+Compare 0,R1
+JumpTrue _null_reference
+# new smartMove on: R1.1, R3
+Compare 0,R1
+JumpTrue _null_reference
+MoveField R1.1,R4 # SMART MOVED BITCH - field style
+Move R4, R3 # brought to you by safe/smartmove
+MoveField R4,R1.1 # reversed
+Library __printi(R3),R5
+# Line 9: 
+Move str0, R1 # assigning literal to reg
+Library __println(R1),R2
+Library __exit(0),Rdummy
+# Method main end
+Return 9999
+
+######################
+# Error Labels
+######################
+
+_null_reference:
+Library __println(null_reference),Rdummy
+Library __exit(1),Rdummy
+
+_illegal_arr_loc:
+Library __println(illegal_arr_loc),Rdummy
+Library __exit(1),Rdummy
+
+_dev_by_zero:
+Library __println(dev_by_zero),Rdummy
+Library __exit(1),Rdummy
+
+_arr_neg_alloc_size:
+Library __println(arr_neg_alloc_size),Rdummy
+Library __exit(1),Rdummy
+

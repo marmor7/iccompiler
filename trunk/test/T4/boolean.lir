@@ -1,0 +1,205 @@
+
+######################
+# Program ~boolean.ic
+######################
+
+######################
+# STRING LITERALS
+arr_neg_alloc_size: "Negative or zero array size allocation. Program will no exit. "
+null_reference: "Null reference. Program will no exit. "
+illegal_arr_loc: "Illegal array location. Program will no exit. "
+dev_by_zero: "Devision by zero. Program will no exit. "
+str0: "y="
+str1: ""
+str2: "x<y"
+str3: "yo momma"
+str4: "x>y"
+str5: "so fat"
+str6: "x<=y"
+str7: "x>=y"
+str8: "x==y"
+str9: "x!=y"
+######################
+
+######################
+# DISPATCH VECTORS
+_DV_BooleanTest: []
+######################
+
+_ic_main:   # Main Method
+# Line 4: 
+Move 1, R1
+Move R1, x_BooleanTest_17
+# Line 5: 
+Move x_BooleanTest_17, R2
+Move 1, R3
+Add R3,R2
+Move R2, y_BooleanTest_17
+# Line 7: 
+Move str0, R4 # assigning literal to reg
+Library __print(R4),R5
+# Line 8: 
+Move y_BooleanTest_17, R6
+Library __printi(R6),R7
+# Line 9: 
+Move str1, R8 # assigning literal to reg
+Library __println(R8),R9
+# Line 11: 
+Move x_BooleanTest_17, R10
+Move y_BooleanTest_17, R11
+Move 0, R12
+Compare R11,R10
+JumpGE _l4
+Move 1, R12
+_l4:
+Move 1, R13
+Move 2, R14
+Move 0, R15
+Compare R14,R13
+JumpLE _l5
+Move 1, R15
+_l5:
+Move y_BooleanTest_17, R16
+Move 2, R17
+Move 0, R18
+Compare R16,R17
+JumpFalse _l6
+Move 1, R18
+_l6:
+Move 2, R19
+Move 2, R20
+Move 0, R21
+Compare R19,R20
+JumpTrue _l7
+Move 1, R21
+_l7:
+Move 0, R22
+And R18,R21
+Move 0, R23
+Or R15,R21
+Move 0, R24
+And R12,R21
+Compare 0,R21		# If's condition check
+JumpTrue _l2		# Conditional jump when If's outcome is true
+_l1:   # If's then label
+# Line 11: 
+Move str2, R25 # assigning literal to reg
+Library __println(R25),R26
+Jump _l3		# Jump to end label(end of then part)
+_l2:   # If's else label
+# Line 15: 
+Move str3, R27 # assigning literal to reg
+Library __println(R27),R28
+_l3:   # End of If statement
+# Line 20: 
+Move x_BooleanTest_17, R29
+Move y_BooleanTest_17, R30
+Move 0, R31
+Compare R30,R29
+JumpLE _l14
+Move 1, R31
+_l14:
+Compare 0,R31		# If's condition check
+JumpTrue _l12		# Conditional jump when If's outcome is true
+_l11:   # If's then label
+# Line 20: 
+Move str4, R32 # assigning literal to reg
+Library __println(R32),R33
+Jump _l13		# Jump to end label(end of then part)
+_l12:   # If's else label
+# Line 24: 
+Move str5, R34 # assigning literal to reg
+Library __println(R34),R35
+_l13:   # End of If statement
+# Line 29: 
+Move x_BooleanTest_17, R36
+Move y_BooleanTest_17, R37
+Move 0, R38
+Compare R37,R36
+JumpG _l18
+Move 1, R38
+_l18:
+Compare 0,R38		# If's condition check
+JumpTrue _l16		# Conditional jump when If's outcome is true
+_l15:   # If's then label
+# Line 29: 
+Move str6, R39 # assigning literal to reg
+Library __println(R39),R40
+Jump _l17		# Jump to end label(end of then part)
+_l16:   # If's else label
+_l17:   # End of If statement
+# Line 32: 
+Move x_BooleanTest_17, R41
+Move y_BooleanTest_17, R42
+Move 0, R43
+Compare R42,R41
+JumpL _l22
+Move 1, R43
+_l22:
+Compare 0,R43		# If's condition check
+JumpTrue _l20		# Conditional jump when If's outcome is true
+_l19:   # If's then label
+# Line 32: 
+Move str7, R44 # assigning literal to reg
+Library __println(R44),R45
+Jump _l21		# Jump to end label(end of then part)
+_l20:   # If's else label
+_l21:   # End of If statement
+# Line 35: 
+Move x_BooleanTest_17, R46
+Move y_BooleanTest_17, R47
+Move 0, R48
+Compare R46,R47
+JumpFalse _l26
+Move 1, R48
+_l26:
+Compare 0,R48		# If's condition check
+JumpTrue _l24		# Conditional jump when If's outcome is true
+_l23:   # If's then label
+# Line 35: 
+Move str8, R49 # assigning literal to reg
+Library __println(R49),R50
+Jump _l25		# Jump to end label(end of then part)
+_l24:   # If's else label
+_l25:   # End of If statement
+# Line 38: 
+Move x_BooleanTest_17, R51
+Move y_BooleanTest_17, R52
+Move 0, R53
+Compare R51,R52
+JumpTrue _l30
+Move 1, R53
+_l30:
+Compare 0,R53		# If's condition check
+JumpTrue _l28		# Conditional jump when If's outcome is true
+_l27:   # If's then label
+# Line 38: 
+Move str9, R54 # assigning literal to reg
+Library __println(R54),R55
+Jump _l29		# Jump to end label(end of then part)
+_l28:   # If's else label
+_l29:   # End of If statement
+Library __exit(0),Rdummy
+# Method main end
+Return 9999
+
+######################
+# Error Labels
+######################
+
+_null_reference:
+Library __println(null_reference),Rdummy
+Library __exit(1),Rdummy
+
+_illegal_arr_loc:
+Library __println(illegal_arr_loc),Rdummy
+Library __exit(1),Rdummy
+
+_dev_by_zero:
+Library __println(dev_by_zero),Rdummy
+Library __exit(1),Rdummy
+
+_arr_neg_alloc_size:
+Library __println(arr_neg_alloc_size),Rdummy
+Library __exit(1),Rdummy
+

@@ -1,0 +1,122 @@
+
+######################
+# Program ~longLocation.ic
+######################
+
+######################
+# STRING LITERALS
+arr_neg_alloc_size: "Negative or zero array size allocation. Program will no exit. "
+null_reference: "Null reference. Program will no exit. "
+illegal_arr_loc: "Illegal array location. Program will no exit. "
+dev_by_zero: "Devision by zero. Program will no exit. "
+str0: ""
+######################
+
+######################
+# DISPATCH VECTORS
+_DV_C: [_C_method_int,_C_method_B]
+_DV_B: [_B_method_int]
+_DV_A: []
+######################
+
+_ic_main:   # Main Method
+# Line 6: 
+Library __allocateObject(12),R1 # Allocation of A
+MoveField _DV_A,R1.0 # Move field for DV pointer
+# new smartMove on: R1, a_A_19
+Move R1, a_A_19 # brought to you by safe/smartmove
+# Line 7: 
+Library __allocateObject(4),R1 # Allocation of B
+MoveField _DV_B,R1.0 # Move field for DV pointer
+# new smartMove on: R1, b_A_19
+Move R1, b_A_19 # brought to you by safe/smartmove
+# Line 8: 
+Library __allocateObject(4),R1 # Allocation of C
+MoveField _DV_C,R1.0 # Move field for DV pointer
+# new smartMove on: R1, c_A_19
+Move R1, c_A_19 # brought to you by safe/smartmove
+# Line 10: 
+# new smartMove on: c_A_19, R3
+Move c_A_19, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Move R4, c_A_19 # reversed
+VirtualCall R3.1(),R3
+VirtualCall R3.0(),R3
+# new smartMove on: R3, int_b_A_19
+Move R3, int_b_A_19 # brought to you by safe/smartmove
+# Line 11: 
+# new smartMove on: int_b_A_19, R1
+Move int_b_A_19, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, int_b_A_19 # reversed
+Library __printi(R1),R3
+# Line 12: 
+Move str0, R1 # assigning literal to reg
+Library __println(R1),R2
+# Line 13: 
+# new smartMove on: c_A_19, R2
+Move c_A_19, R3 # brought to you by safe/smartmove
+Move R3, R2 # brought to you by safe/smartmove
+Move R3, c_A_19 # reversed
+VirtualCall R2.0(),R2
+# new smartMove on: R2, int_c_A_19
+Move R2, int_c_A_19 # brought to you by safe/smartmove
+# Line 14: 
+# new smartMove on: int_c_A_19, R1
+Move int_c_A_19, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, int_c_A_19 # reversed
+Library __printi(R1),R3
+Library __exit(0),Rdummy
+# Method main end
+Return 9999
+_B_method_int:   # Method method_int:
+# Line 21: 
+Move 1, R1
+# new smartMove on: R1, R2
+Move R1, R2 # brought to you by safe/smartmove
+Return R2
+Return 9999
+_C_method_int:   # Method method_int:
+# Line 29: 
+Move 2, R1
+# new smartMove on: R1, R2
+Move R1, R2 # brought to you by safe/smartmove
+Return R2
+Return 9999
+_C_method_B:   # Method method_B:
+# Line 33: 
+Library __allocateObject(4),R1 # Allocation of B
+MoveField _DV_B,R1.0 # Move field for DV pointer
+# new smartMove on: R1, b_C_22
+Move R1, b_C_22 # brought to you by safe/smartmove
+# Line 34: 
+# new smartMove on: b_C_22, R1
+Move b_C_22, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, b_C_22 # reversed
+# new smartMove on: R1, R3
+Move R1, R3 # brought to you by safe/smartmove
+Return R3
+Return 9999
+
+######################
+# Error Labels
+######################
+
+_null_reference:
+Library __println(null_reference),Rdummy
+Library __exit(1),Rdummy
+
+_illegal_arr_loc:
+Library __println(illegal_arr_loc),Rdummy
+Library __exit(1),Rdummy
+
+_dev_by_zero:
+Library __println(dev_by_zero),Rdummy
+Library __exit(1),Rdummy
+
+_arr_neg_alloc_size:
+Library __println(arr_neg_alloc_size),Rdummy
+Library __exit(1),Rdummy
+
