@@ -7,4 +7,9 @@ public class Register {
 		RegCounter++;
 		return "R" + RegCounter;
 	}
+	
+	static void reset()
+	{
+		RegCounter = 0;
+	}
 }

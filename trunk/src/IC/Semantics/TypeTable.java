@@ -178,7 +178,20 @@ public class TypeTable {
 	
 	public MethodSigType getMethodSig(String methodName, String methodClass)
 	{
-		return (MethodSigType) types.get(Utils.hashKeyForMethods(methodName, methodClass));
+		MethodSigType mst = (MethodSigType) types.get(Utils.hashKeyForMethods(methodName, methodClass));
+		if (mst == null)
+		{
+			String name = Utils.hashKey(methodClass, 0);
+			TypeClass cl = (TypeClass) types.get(name);
+			TypeClass parent = cl.getParent();
+			if (parent != null)
+			{
+				return getMethodSig(methodName, parent.getId());
+			}
+			return null;
+		}
+		else
+			return mst;
 	}
 	
 	public Collection<TypeClassMold> getValues()

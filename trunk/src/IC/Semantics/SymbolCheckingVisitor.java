@@ -322,13 +322,21 @@ public class SymbolCheckingVisitor implements Visitor {
 		
 		if (call.isExternal()) {
 			
-			SymbolClass sym = (SymbolClass) call.getLocation().accept(this);
-			
-			if (sym == null)
-				Utils.handleSemanticError(new SemanticError(call.getLine(), 
-						"external location illegal sym:'" + sym + "')"));
-			
-			TypeClass tc = (TypeClass) sym.getType();
+			TypeClass tc;
+			Object obj = call.getLocation().accept(this);
+			if (obj instanceof SymbolClass) {
+				SymbolClass sym = (SymbolClass) obj;
+				if (sym == null)
+					Utils.handleSemanticError(new SemanticError(call.getLine(), 
+							"external location illegal sym:'" + sym + "')"));
+				 tc = (TypeClass) sym.getType();
+			}
+			else
+			{
+				tc = (TypeClass) obj;
+			}
+	
+
 			
 			ICClass c = classesList.get(tc.getId());
 			if (c == null)
@@ -350,7 +358,9 @@ public class SymbolCheckingVisitor implements Visitor {
 			Utils.handleSemanticError(new SemanticError(call.getLine(), 
 					"method '" + call.getName() + "' used without being declared."));
 
-		return null;
+		MethodSigType mst = (MethodSigType) class1.getType();
+		
+		return mst.getReturnVal();
 	}
 
 	public Object visit(This thisExpression) {
