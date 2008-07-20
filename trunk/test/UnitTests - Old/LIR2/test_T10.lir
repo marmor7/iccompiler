@@ -1,0 +1,168 @@
+
+######################
+# Program test_T10.ic
+######################
+
+######################
+# STRING LITERALS
+arr_neg_alloc_size: "Negative or zero array size allocation. Program will now exit. "
+null_reference: "Null reference. Program will now exit. "
+illegal_arr_loc: "Illegal array location. Program will now exit. "
+dev_by_zero: "Devision by zero. Program will now exit. "
+str0: "y="
+######################
+
+######################
+# DISPATCH VECTORS
+_DV_B: [_B_foo]
+_DV_A: [_A_foo]
+######################
+
+_A_foo:   # Method foo:
+# Line 5: 
+# new smartMove on: y, R1
+Move y, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, y # reversed
+Move 1, R3
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+Add R5,R4
+# new smartMove on: R4, z_A_18
+Move R4, z_A_18 # brought to you by safe/smartmove
+# Line 6: 
+# new smartMove on: z_A_18, R1
+Move z_A_18, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, z_A_18 # reversed
+# new smartMove on: R1, R3
+Move R1, R3 # brought to you by safe/smartmove
+Return R3
+Return 9999
+_ic_main:   # Main Method
+# Line 9: 
+Library __allocateObject(16),R1 # Allocation of B
+MoveField _DV_B,R1.0 # Move field for DV pointer
+# new smartMove on: R1, p_A_19
+Move R1, p_A_19 # brought to you by safe/smartmove
+# Line 10: 
+Move 5, R2
+# new smartMove on: p_A_19, R3
+Move p_A_19, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Move R4, p_A_19 # reversed
+VirtualCall R3.0(y=R2),R3
+Library __exit(0),Rdummy
+# Method main end
+Return 9999
+_B_foo:   # Method foo:
+# Line 17: 
+# new smartMove on: this, R1
+Move this, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, this # reversed
+Compare 0,R1
+JumpTrue _null_reference
+# new smartMove on: R1.2, R3
+Compare 0,R1
+JumpTrue _null_reference
+MoveField R1.2,R4 # SMART MOVED BITCH - field style
+Move R4, R3 # brought to you by safe/smartmove
+MoveField R4,R1.2 # reversed
+Move str0, R5 # assigning literal to reg
+# new smartMove on: y, R6
+Move y, R7 # brought to you by safe/smartmove
+Move R7, R6 # brought to you by safe/smartmove
+Move R7, y # reversed
+Library __itos(R6),R8
+# new smartMove on: R5, R9
+Move R5, R9 # brought to you by safe/smartmove
+# new smartMove on: R8, R10
+Move R8, R10 # brought to you by safe/smartmove
+Library __stringCat(R9,R10),R9
+# TMP 1
+# new smartMove on: R9, R1.2
+Compare 0,R1
+JumpTrue _null_reference
+MoveField R1.2,R11 # SMART MOVED BITCH - field style
+Move R9, R11 # brought to you by safe/smartmove
+MoveField R11,R1.2 # reversed
+# Line 18: 
+# new smartMove on: this, R1
+Move this, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, this # reversed
+Compare 0,R1
+JumpTrue _null_reference
+# new smartMove on: R1.2, R3
+Compare 0,R1
+JumpTrue _null_reference
+MoveField R1.2,R4 # SMART MOVED BITCH - field style
+Move R4, R3 # brought to you by safe/smartmove
+MoveField R4,R1.2 # reversed
+Library __println(R3),R5
+# Line 19: 
+# new smartMove on: this, R1
+Move this, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, this # reversed
+Compare 0,R1
+JumpTrue _null_reference
+# new smartMove on: R1.2, R3
+Compare 0,R1
+JumpTrue _null_reference
+MoveField R1.2,R4 # SMART MOVED BITCH - field style
+Move R4, R3 # brought to you by safe/smartmove
+MoveField R4,R1.2 # reversed
+Library __stoa(R3),R5
+# new smartMove on: R5, sarr_B_20
+Move R5, sarr_B_20 # brought to you by safe/smartmove
+# Line 20: 
+# new smartMove on: sarr_B_20, R1
+Move sarr_B_20, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, sarr_B_20 # reversed
+# TMP 3
+# new smartMove on: R1, R3
+Move R1, R3 # brought to you by safe/smartmove
+ArrayLength R3, R3
+# new smartMove on: R3, l_B_20
+Move R3, l_B_20 # brought to you by safe/smartmove
+# Line 21: 
+# new smartMove on: l_B_20, R1
+Move l_B_20, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, l_B_20 # reversed
+Library __printi(R1),R3
+# Line 22: 
+# new smartMove on: l_B_20, R1
+Move l_B_20, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, l_B_20 # reversed
+# new smartMove on: R1, R3
+Move R1, R3 # brought to you by safe/smartmove
+Return R3
+Return 9999
+
+######################
+# Error Labels
+######################
+
+_null_reference:
+Library __println(null_reference),Rdummy
+Library __exit(1),Rdummy
+
+_illegal_arr_loc:
+Library __println(illegal_arr_loc),Rdummy
+Library __exit(1),Rdummy
+
+_dev_by_zero:
+Library __println(dev_by_zero),Rdummy
+Library __exit(1),Rdummy
+
+_arr_neg_alloc_size:
+Library __println(arr_neg_alloc_size),Rdummy
+Library __exit(1),Rdummy
+
