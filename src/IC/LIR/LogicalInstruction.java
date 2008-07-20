@@ -15,6 +15,16 @@ public class LogicalInstruction extends Instruction {
 	}
 	
 	/**
+	 * Type's constructor
+	 * @param op1P First Op 
+	 * @param type Instruction's Type
+	 */
+	public LogicalInstruction(Op op1P, LogicalInstructionType type) 
+	{
+		super(op1P, type);
+	}
+	
+	/**
 	* Type's <code>enum</code> 
 	*
 	*/

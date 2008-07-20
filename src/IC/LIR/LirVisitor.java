@@ -315,6 +315,7 @@ public class LirVisitor implements Visitor {
 			assert(oldAssignmentLoc != null);
 			
 			list.add(new Comment("TMP 1"));
+			
 			smartMove(value, oldAssignmentLoc, true);
 			/*if (oldAssigmentIndex > -1)
 			{
@@ -373,11 +374,14 @@ public class LirVisitor implements Visitor {
 	public Object visit(Return returnStatement) {
 		// if (returnStatement.getValue() == null)
 		// list.add(new)
-
+		if (!returnStatement.hasValue())
+			return null;
 		Op reg = (Op) returnStatement.getValue().accept(this);
 		Op newregister = new Op(Register.getFreeReg(), OpType.Reg);
+		
 		list.add(new DataTransferInstruction(reg, newregister,
 				DataTransferInstruction.DataTransferInstructionType.Move));
+	
 		list.add(new ControlTransferInstruction(newregister,
 				ControlTransferInstructionType.Return));
 		return null;
@@ -557,7 +561,8 @@ public class LirVisitor implements Visitor {
 		// throw new RuntimeException("local variable Bug?");
 	}
 
-	public Object visit(VariableLocation location) {
+	
+public Object visit(VariableLocation location) {
 
 		TypeClass tc = (TypeClass) location.enclosingScope().searchVariable(
 				location.getName()).getType();
@@ -613,7 +618,8 @@ public class LirVisitor implements Visitor {
 
 			if (!lval)
 			{
-			list.add(new DataTransferInstruction(var, reg,
+			//	smartMove(var, reg, true);
+			list.add(new DataTransferInstruction(var, reg, 
 					DataTransferInstructionType.Move));
 			return reg;
 			}
@@ -666,8 +672,8 @@ public class LirVisitor implements Visitor {
 				if (op.getName().contains(".")) {
 					reg = new Op(Register.getFreeReg(), OpType.Reg);
 					addNullReferenceCheckToList(op);
-					list.add(new DataTransferInstruction(op, reg,
-							DataTransferInstructionType.MoveField).setOptComment("### 2"));
+				//	list.add(new DataTransferInstruction(op, reg,DataTransferInstructionType.MoveField).setOptComment("### 2"));
+					smartMove(op, reg,false );
 					op = reg;
 				}
 				funcHeader += "(" + op.getName() + ",";
@@ -849,8 +855,8 @@ public class LirVisitor implements Visitor {
 		Op reg = new Op(Register.getFreeReg(), OpType.Reg);
 		list.add(new Comment("TMP 3"));
 		smartMove(one, reg, false);
-		//TMP Instruction i = new DataTransferInstruction(one, reg, DataTransferInstructionType.ArrayLength); 
-		//list.add(i);
+		Instruction i = new DataTransferInstruction(reg, reg, DataTransferInstructionType.ArrayLength); 
+		list.add(i);
 
 		return (reg);
 	}
@@ -1011,16 +1017,7 @@ public class LirVisitor implements Visitor {
 		Op one = (Op) unaryOp.getOperand().accept(this);
 		LogicalInstructionType AIT;
 		AIT = LogicalInstructionType.Not;
-		Instruction i = new LogicalInstruction(one, one, AIT); // TBD - how do
-																// we handle
-																// arithmetic
-																// instructions
-																// that have
-																// only one
-																// paramater-
-																// currently im
-																// passing the
-																// same op twice
+		Instruction i = new LogicalInstruction(one, AIT); 
 		list.add(i);
 
 		return (one);
@@ -1042,8 +1039,8 @@ public class LirVisitor implements Visitor {
 					DataTransferInstructionType.Move));
 			return reg;
 		}
-		if ((literal.getType() == IC.LiteralTypes.FALSE)
-				&& (literal.getType() == IC.LiteralTypes.NULL)) {
+		if (literal.getType() == IC.LiteralTypes.FALSE)
+		{
 			Op num = new Op("0", OpType.Immediate);
 			Op reg = new Op(Register.getFreeReg(), OpType.Reg);
 			list.add(new DataTransferInstruction(num, reg,
@@ -1192,69 +1189,88 @@ public class LirVisitor implements Visitor {
 	private void smartMove(Op src, Op dst, boolean var)
 	{
 		list.add(new Comment("new smartMove on: " + src.getName() + ", " + dst.getName()));
+		var = !dst.getName().startsWith("R");
+		ArrayList<Instruction> templist = new ArrayList<Instruction>();
+		ArrayList<Instruction> reverselist = new ArrayList<Instruction>();
 		
-		Op srcOp = peel(src);
+		Op srcOp = peel(src,templist,false);
+		
 		Op dstOp;
 		if (!var)
-			dstOp = peel(dst);
+			dstOp = peel(dst,templist,false);
 		else
 		{
-			Op peeledDst = peel(dst);
-			if (howSafe(dst.getName()) <= 1)
-				safeMove(peeledDst, dst);
+			Op peeledDst = peel(dst,templist, true);
+//			if (howSafe(dst.getName()) <= 1)
+	//			safeMove(peeledDst, dst,templist);
+	
 			dstOp = peeledDst;
 			//list.add(new DataTransferInstruction(peel(dst),dst,DataTransferInstructionType.Move).setOptComment("Final Smart MOVE on " + dst.getName()));
 		}
 		
-		safeMove(srcOp, dstOp);
+		safeMove(srcOp, dstOp,templist);
+		
+		list.addAll(templist);
+		
+		for(int i = templist.size()-2; i>-1;i--)
+		{
+			if (templist.get(i) instanceof DataTransferInstruction  )
+			{
+					
+				list.add(new DataTransferInstruction(templist.get(i).getOp2(), templist.get(i).getOp1(), (DataTransferInstructionType) templist.get(i).getInstructionType()).setOptComment("reversed"));
+			}
+		}
+			
 		//list.add(new DataTransferInstruction(srcOp,dstOp,DataTransferInstructionType.Move).setOptComment("REALLY Final Smart MOVE on " + dstOp.getName()));		
 	}
 	
-	private void smartMove(Op op,boolean var)
+	/*private void smartMove(Op op,boolean var)
 	{
 		if (!var)
 			peel(op);
 		else
 			list.add(new DataTransferInstruction(peel(op),op,DataTransferInstructionType.Move)
 				.setOptComment("Final Smart MOVE on " + op.getName()));
-	}
-	private Op peel(Op op)
+	}*/
+	
+	
+	private Op peel(Op op, ArrayList<Instruction> list, boolean dst)
 	{
 		if (op.getName().lastIndexOf(".") > op.getName().lastIndexOf("["))
-			return peelDot(op);
+			return peelDot(op,list,dst);
 		if (op.getName().lastIndexOf(".") < op.getName().lastIndexOf("["))
-			return peelBrack(op);
-		if (!op.getName().startsWith("R"))
+			return peelBrack(op,list,dst);
+		if ((!op.getName().startsWith("R")) && (!dst))
 		{
 			Op toRet = new Op( Register.getFreeReg()  ,OpType.Reg );
-			safeMove(op, toRet);
+			safeMove(op, toRet,list);
 			return toRet;
 		}
 		
 		return op;
 	}
-	private Op peelDot(Op op)
+	private Op peelDot(Op op, ArrayList<Instruction> list, boolean dst)
 	{	
 		Op onePeel = new Op( op.getName().substring(0, op.getName().lastIndexOf("."))  ,OpType.Reg );
 		Op toRet = new Op( Register.getFreeReg()  ,OpType.Reg );
-		Op peeled = peel(onePeel);
+		Op peeled = peel(onePeel,list,false);
 		list.add(new DataTransferInstruction(new Op( peeled.getName()+op.getName().substring(op.getName().lastIndexOf(".")), OpType.Reg ), 
 					toRet,DataTransferInstructionType.MoveField)
 					.setOptComment("SMART MOVED BITCH - field style"));
 		return toRet;
 	}
 	
-	private Op peelBrack(Op op)
+	private Op peelBrack(Op op, ArrayList<Instruction> list, boolean dst)
 	{	
 		Op onePeel = new Op( op.getName().substring(0, op.getName().lastIndexOf("["))  ,OpType.Reg );
 		Op toRet = new Op( Register.getFreeReg()  ,OpType.Reg );
-		Op peeled = peel(onePeel);
+		Op peeled = peel(onePeel,list,false);
 		list.add(new DataTransferInstruction(new Op( peeled.getName()+op.getName().substring( op.getName().lastIndexOf("[")) ,OpType.Reg ) ,toRet,DataTransferInstructionType.MoveArray).setOptComment("SMART MOVED BITCH - Array Style"));
 		return toRet;
 	}
 	
 	
-	private void safeMove(Op source,Op dest)
+	private void safeMove(Op source,Op dest, ArrayList<Instruction> list)
 	{
 		DataTransferInstructionType dt = DataTransferInstructionType.Move;
 		if (source.getName().contains(".") || (dest.getName().contains(".")))
