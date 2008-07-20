@@ -1,0 +1,77 @@
+class A1{
+	int x;
+	int y;
+	
+	void g(){
+		Library.println("In method g of class A1");
+		return;	
+	}
+	
+}
+
+
+
+
+class A2{
+
+	static boolean f(){
+		boolean b = true;
+		boolean b1 = false;
+		boolean b2= !(b1 && b);
+		return b2&&true;
+	}
+	
+	static void main(string[] args){
+		boolean result = A2.f();
+		Library.printb(result);
+		Library.println("");
+		Library.printb(A2.f());
+		A1 a = new A1();
+		a.x = 7;
+		a.y = 52;
+		Library.println("");
+		Library.printi(a.y%a.x);
+		(new A1()).g();
+		Library.printi((new int[323]).length / 10);
+		if (5 != 5){
+			Library.println("");
+			Library.println("x is greater than y");
+			int t = a.x;
+			a.x = a.y;
+			a.y = t;
+		}
+		{
+		 Library.println("");
+		 Library.println("inside a statement block");
+		 int k = 23;
+		 int x = k;
+		 Library.println("");
+		 Library.printi(k*x);
+		
+		
+		}
+		while (a.y<=a.x){
+			while (a.y <=a.x){
+				break;
+			}
+			a.y = a.y +1;
+		}
+		Library.println("");
+		Library.printi(a.y);
+		int[] arr1 = new int[3];
+		int[] arr2 = new int[3];
+		arr1[0]=0;
+		arr1[1]=1;
+		arr1[2]=2;
+		arr2[0]=arr1[2];
+		arr2[1]=arr1[1];
+		arr2[2]=arr1[0];
+		Library.println("");
+		Library.printi(arr2[0]);
+		Library.println("");
+		Library.printi(arr2[1]);
+		Library.println("");
+		Library.printi(arr2[2]);
+	}
+
+}

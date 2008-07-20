@@ -1,0 +1,18 @@
+class StaticTest {
+
+	static int returnOne() {
+		return 1;
+	}
+	
+	static void main(string[] args) {
+		Library.printi(OtherStaticTest.returnTwo());
+	}
+}
+
+class OtherStaticTest {
+
+	static int returnTwo() {
+		return 2;
+	}
+
+}

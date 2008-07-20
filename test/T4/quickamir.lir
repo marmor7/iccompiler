@@ -1,0 +1,165 @@
+
+######################
+# Program ~quick.ic
+######################
+
+######################
+# STRING LITERALS
+arr_neg_alloc_size: "Negative array size allocation. Program will no exit. "
+null_reference: "Null reference. Program will no exit. "
+illegal_arr_loc: "Illegal array location. Program will no exit. "
+dev_by_zero: "Devision by zero. Program will no exit. "
+
+######################
+
+######################
+# DISPATCH VECTORS
+_DV_Quicksort: [_Quicksort_partition]
+######################
+
+_Quicksort_partition:   # Method partition:
+# Line 19: 
+Move this, R1
+MoveField R1.0,R2
+Move low, R3
+MoveArray R2[R3], R4
+Move R4, pivot_Quicksort_17
+# Line 20: 
+Move low, R5
+Move R5, i_Quicksort_17
+# Line 21: 
+Move high, R6
+Move R6, j_Quicksort_17
+# Line 22: 
+# Line 24: 
+_l1:   # While
+Move 1, R7
+Compare 0,R7		# While condition check
+JumpLE _l2		# Conditional jump when while statement is false
+# Line 24: 
+_l3:   # While
+Move this, R8
+MoveField R8.0,R9
+Move i_Quicksort_18, R10
+MoveArray R9[R10], R11
+Move pivot_Quicksort_18, R12
+Move 0, R13
+Compare R12,R11
+JumpGE _l5
+Move 1, R13
+_l5:
+Compare 0,R13		# While condition check
+JumpLE _l4		# Conditional jump when while statement is false
+Move i_Quicksort_18, R15
+Move 1, R16
+Add R16,R15
+Move R15, i_Quicksort_18 # assigning val to loc
+_l4:   # False while condition
+_l6:   # While
+Move this, R17
+MoveField R17.0,R18
+Move j_Quicksort_18, R19
+MoveArray R18[R19], R20
+Move pivot_Quicksort_18, R21
+Move 0, R22
+Compare R21,R20
+JumpLE _l8
+Move 1, R22
+_l8:
+Compare 0,R22		# While condition check
+JumpLE _l7		# Conditional jump when while statement is false
+Move j_Quicksort_18, R24
+Move 1, R25
+Sub R25,R24
+Move R24, j_Quicksort_18 # assigning val to loc
+_l7:   # False while condition
+Move i_Quicksort_18, R26
+Move j_Quicksort_18, R27
+Move 0, R28
+Compare R27,R26
+JumpL _l12
+Move 1, R28
+_l12:
+Compare 0,R28		# If's condition check
+JumpTrue _l10		# Conditional jump when If's outcome is true
+_l9:   # If's then label
+Jump _l2		# Break statement. Jump to end of while statement label: _l2
+Jump _l11		# Jump to end label(end of then part)
+_l10:   # If's else label
+_l11:   # End of If statement
+Move this, R30
+MoveField R30.0,R31
+Move i_Quicksort_18, R32
+MoveArray R31[R32], R33
+Move R33, tmp_Quicksort_18 # assigning val to loc
+Move this, R34
+MoveField R34.0,R35
+Move i_Quicksort_18, R36
+Move this, R38
+MoveField R38.0,R39
+Move j_Quicksort_18, R40
+MoveArray R39[R40], R41
+MoveArray R41, R35[R36] # assigning val to loc
+Move this, R42
+MoveField R42.0,R43
+Move j_Quicksort_18, R44
+Move tmp_Quicksort_18, R46
+MoveArray R46, R43[R44] # assigning val to loc
+Move i_Quicksort_18, R48
+Move 1, R49
+Add R49,R48
+Move R48, i_Quicksort_18 # assigning val to loc
+Move j_Quicksort_18, R51
+Move 1, R52
+Sub R52,R51
+Move R51, j_Quicksort_18 # assigning val to loc
+_l2:   # False while condition
+# Line 37: 
+Move j_Quicksort_17, R53
+Move R53, R54
+Return R54
+Return 9999
+_ic_main:   # Main Method
+# Line 40: 
+# Line 43: 
+Move 200, R56
+Move R56, n_Quicksort_19 # assigning val to loc
+# Line 44: 
+Library __allocateObject(8),R57 # Allocation of Quicksort
+MoveField _DV_Quicksort,R57.0 # Move field for DV pointer
+Move R57, s_Quicksort_19
+# Line 45: 
+Move this, R58
+Move n_Quicksort_19, R60
+Move 4, R61
+Mul R61,R60
+Library __allocateArray(R60),R62
+# Line 47: 
+Move 3, R64
+Move 3, R65
+Move s_Quicksort_19, R66
+VirtualCall R66.0(low=R64,high=R65),R66
+Library __exit(0),Rdummy
+# Method main end
+Return 9999
+
+######################
+# Error Labels
+######################
+
+_null_reference:
+Library __println(null_reference),Rdummy
+Library __exit(1),Rdummy
+
+_illegal_arr_loc:
+Library __println(illegal_arr_loc),Rdummy
+Library __exit(1),Rdummy
+
+_dev_by_zero:
+Library __println(dev_by_zero),Rdummy
+Library __exit(1),Rdummy
+
+_arr_neg_alloc_size:
+Library __println(arr_neg_alloc_size),Rdummy
+Library __exit(1),Rdummy
+

@@ -1,0 +1,194 @@
+##################################
+# String Literals
+zero_division_error_str: "Runtime Error: Illegal division by zero!"
+array_index_out_of_bounds_str: "Runtime Error: Array index out of bounds!"
+array_size_negative_str: "Runtime Error: Array allocation with non-positive array size!"
+null_pointer_dereference_str: "Runtime Error: Null pointer dereference!"
+str4: ""
+str5: "in foo_classA"
+str6: "in foo_classB"
+str7: "in bar_classB"
+str8: "in bar_classD"
+##################################
+
+##################################
+# Dispatch Vectors
+_DV_A : [_A_foo]
+_DV_B : [_B_foo, _B_bar, _B_print_place]
+_DV_D : [_B_foo, _B_bar, _D_print_place]
+##################################
+
+_zero_division_error_handler:
+Library __println(zero_division_error_str),Rdummy
+Library __exit(1),Rdummy
+
+_negative_array_size_handler:
+Library __println(array_size_negative_str),Rdummy
+Library __exit(1),Rdummy
+
+_null_ptr_dereference_handler:
+Library __println(null_pointer_dereference_str),Rdummy
+Library __exit(1),Rdummy
+
+_array_index_out_of_bounds_handler:
+Library __println(array_index_out_of_bounds_str),Rdummy
+Library __exit(1),Rdummy
+
+################# A.foo #################
+_A_foo:
+Move this,R2
+MoveField R2.1,R1
+Library __printi(R1),Rdummy
+Move str4,R1
+Library __println(R1),Rdummy
+Move str5,R1
+Library __println(R1),Rdummy
+Return Rdummy
+##################################
+
+################# B.foo #################
+_B_foo:
+# f_a = f_a PLUS 1
+Move this,R3
+MoveField R3.1,R1
+Move 1,R2
+Add R2,R1
+Move this,R2
+Compare 0,R2
+JumpTrue _null_ptr_dereference_handler
+MoveField R1,R2.1
+Move this,R2
+MoveField R2.1,R1
+Library __printi(R1),Rdummy
+Move str4,R1
+Library __println(R1),Rdummy
+Move str6,R1
+Library __println(R1),Rdummy
+Return Rdummy
+##################################
+
+################# D.print_place #################
+_D_print_place:
+Move bools,R1
+Library __printb(R1),Rdummy
+Move str4,R1
+Library __println(R1),Rdummy
+Move str8,R1
+Library __println(R1),Rdummy
+Return Rdummy
+##################################
+
+################# B.bar #################
+_B_bar:
+Move bool,R1
+Compare 0,R1
+JumpTrue _else18
+Move this,R2
+Move bool,R3
+VirtualCall R2.2(bool=R3),Rdummy
+Jump _end19
+_else18:
+# f_b = 8
+Move 8,R2
+Move this,R3
+MoveField R2,R3.2
+Move this,R2
+Move bool,R3
+VirtualCall R2.2(bool=R3),Rdummy
+_end19:
+Move this,R2
+MoveField R2.2,R1
+Return R1
+##################################
+
+################# B.print_place #################
+_B_print_place:
+Move bool,R1
+Library __printb(R1),Rdummy
+Move str4,R1
+Library __println(R1),Rdummy
+Move str7,R1
+Library __println(R1),Rdummy
+Return Rdummy
+##################################
+
+################# ic.main #################
+_ic_main:
+Library __allocateObject(8),R1
+MoveField _DV_A,R1.0
+Move R1,v0a
+# f_a = 0
+Move 0,R1
+Move v0a,R2
+Compare 0,R2
+JumpTrue _null_ptr_dereference_handler
+MoveField R1,R2.1
+Move v0a,R1
+Compare 0,R1
+JumpTrue _null_ptr_dereference_handler
+VirtualCall R1.0(),Rdummy
+Library __allocateObject(12),R1
+MoveField _DV_B,R1.0
+Move R1,v3b
+# f_b = UMINUS1
+Move 1,R1
+Neg R1
+Move v3b,R2
+Compare 0,R2
+JumpTrue _null_ptr_dereference_handler
+MoveField R1,R2.2
+Move v3b,R1
+Compare 0,R1
+JumpTrue _null_ptr_dereference_handler
+VirtualCall R1.0(),Rdummy
+Move v3b,R1
+Compare 0,R1
+JumpTrue _null_ptr_dereference_handler
+Move v0a,R4
+Compare 0,R4
+JumpTrue _null_ptr_dereference_handler
+MoveField R4.1,R3
+Move 1,R2
+Compare R2,R3
+JumpTrue _true_label8
+Move 0,R2
+Jump _end_lbl7
+_true_label8:
+Move 1,R2
+_end_lbl7:
+VirtualCall R1.1(bool=R2),Rdummy
+Library __allocateObject(12),R1
+MoveField _DV_D,R1.0
+Move R1,v10d
+# f_b = f_b PLUS 1
+Move v3b,R3
+Compare 0,R3
+JumpTrue _null_ptr_dereference_handler
+MoveField R3.2,R1
+Move 1,R2
+Add R2,R1
+Move v10d,R2
+Compare 0,R2
+JumpTrue _null_ptr_dereference_handler
+MoveField R1,R2.2
+Move v10d,R1
+Compare 0,R1
+JumpTrue _null_ptr_dereference_handler
+Move v10d,R4
+Compare 0,R4
+JumpTrue _null_ptr_dereference_handler
+MoveField R4.2,R3
+Move v3b,R4
+Compare 0,R4
+JumpTrue _null_ptr_dereference_handler
+MoveField R4.2,R2
+Compare R2,R3
+JumpGE _true_label15
+Move 0,R2
+Jump _end_lbl14
+_true_label15:
+Move 1,R2
+_end_lbl14:
+VirtualCall R1.1(bool=R2),Rdummy
+##################################
+

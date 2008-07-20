@@ -1,15 +1,11 @@
 
 ######################
-# Program workspace/IC_COMPILER/test/T4/basicArray.ic
+# Program ~basicArray.ic
 ######################
 
 ######################
 # STRING LITERALS
-arr_neg_alloc_size: "Negative array size allocation. Program will no exit. "
-null_reference: "Null reference. Program will no exit. "
-illegal_arr_loc: "Illegal array location. Program will no exit. "
-dev_by_zero: "Devision by zero. Program will no exit. "
-
+str0: " "
 ######################
 
 ######################
@@ -18,55 +14,69 @@ _DV_A: []
 ######################
 
 _ic_main:   # Main Method
-# Line 5: 
-Move 2, R1
+# Line 6: 
+Move 3, R1
 Move 4, R2
 Mul R2,R1
 Library __allocateArray(R1),R3
 Move R3, a_A_17
 # Line 7: 
 Move a_A_17, R4
-Move 1, R5
-Move 2, R7
+Move 0, R5
+Move 1, R7
 MoveArray R7, R4[R5] # assigning val to loc
 # Line 8: 
 Move a_A_17, R8
-Move 0, R9
-Move a_A_17, R11
-Move 1, R12
-MoveArray R11[R12], R13
-MoveArray R13, R8[R9] # assigning val to loc
+Move 1, R9
+Move 2, R11
+MoveArray R11, R8[R9] # assigning val to loc
 # Line 9: 
-Move a_A_17, R14
-Move 0, R15
-MoveArray R14[R15], R16
-Library __printi(R16),R17
-# Line 10: 
-Move a_A_17, R18
-Move 1, R19
-MoveArray R18[R19], R20
-Library __printi(R20),R21
+Move a_A_17, R12
+Move 2, R13
+Move 3, R15
+MoveArray R15, R12[R13] # assigning val to loc
+# Line 12: 
+Move a_A_17, R16
+ArrayLength R16, R17
+Move R17, foo_A_17
+# Line 13: 
+Move foo_A_17, R19
+Library __printi(R19),R20
+# Line 14: 
+Move str0, R21 # assigning literal to reg
+Library __println(R21),R22
+# Line 15: 
+Move a_A_17, R23
+Move 0, R24
+MoveArray R23[R24], R25
+Library __printi(R25),R26
+# Line 16: 
+Move str0, R27 # assigning literal to reg
+Library __println(R27),R28
+# Line 17: 
+Move a_A_17, R29
+Move 1, R30
+MoveArray R29[R30], R31
+Library __printi(R31),R32
+# Line 18: 
+Move str0, R33 # assigning literal to reg
+Library __println(R33),R34
+# Line 19: 
+Move a_A_17, R35
+Move 0, R36
+Move a_A_17, R38
+Move 1, R39
+MoveArray R38[R39], R40
+Move a_A_17, R41
+Move 2, R42
+MoveArray R41[R42], R43
+Add R43,R40
+MoveArray R40, R35[R36] # assigning val to loc
+# Line 21: 
+Move a_A_17, R44
+Move 0, R45
+MoveArray R44[R45], R46
+Library __printi(R46),R47
 Library __exit(0),Rdummy
 # Method main end
 Return 9999
-
-######################
-# Error Labels
-######################
-
-_null_reference:
-Library __println(null_reference),Rdummy
-Library __exit(1),Rdummy
-
-_illegal_arr_loc:
-Library __println(illegal_arr_loc),Rdummy
-Library __exit(1),Rdummy
-
-_dev_by_zero:
-Library __println(dev_by_zero),Rdummy
-Library __exit(1),Rdummy
-
-_arr_neg_alloc_size:
-Library __println(arr_neg_alloc_size),Rdummy
-Library __exit(1),Rdummy
-

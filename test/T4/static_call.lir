@@ -1,0 +1,37 @@
+
+######################
+# Program ~static_call.ic
+######################
+
+######################
+# STRING LITERALS
+
+######################
+
+######################
+# DISPATCH VECTORS
+_DV_StaticTest: [_StaticTest_returnOne]
+_DV_OtherStaticTest: [_OtherStaticTest_returnTwo]
+######################
+
+_StaticTest_returnOne:   # Method returnOne:
+# Line 4: 
+Move 1, R1
+Move R1, R2
+Return R2
+# Method returnOne end
+Return 9999
+_ic_main:   # Main Method
+# Line 8: 
+StaticCall _OtherStaticTest_returnTwo(),R3
+Library __printi(R3),R4
+Library __exit(0),Rdummy
+# Method main end
+Return 9999
+_OtherStaticTest_returnTwo:   # Method returnTwo:
+# Line 15: 
+Move 2, R5
+Move R5, R6
+Return R6
+# Method returnTwo end
+Return 9999

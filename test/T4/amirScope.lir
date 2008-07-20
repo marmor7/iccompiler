@@ -1,0 +1,97 @@
+
+######################
+# Program ~amirScope.ic
+######################
+
+######################
+# STRING LITERALS
+arr_neg_alloc_size: "Negative or zero array size allocation. Program will no exit. "
+null_reference: "Null reference. Program will no exit. "
+illegal_arr_loc: "Illegal array location. Program will no exit. "
+dev_by_zero: "Devision by zero. Program will no exit. "
+
+######################
+
+######################
+# DISPATCH VECTORS
+_DV_Scop: []
+######################
+
+_ic_main:   # Main Method
+# Line 4: 
+# Line 5: 
+Move 7, R2
+# TMP 1
+# new smartMove on: R2, y_Scop_17
+Move R2, y_Scop_17 # brought to you by safe/smartmove
+# Line 6: 
+Move 5, R3
+# new smartMove on: R3, x_Scop_17
+Move R3, x_Scop_17 # brought to you by safe/smartmove
+# Line 7: 
+_l1:   # While
+# new smartMove on: y_Scop_17, R4
+Move y_Scop_17, R5 # brought to you by safe/smartmove
+Move R5, R4 # brought to you by safe/smartmove
+Move R5, y_Scop_17 # reversed
+Move 0, R6
+# new smartMove on: R4, R7
+Move R4, R7 # brought to you by safe/smartmove
+# new smartMove on: R6, R8
+Move R6, R8 # brought to you by safe/smartmove
+# new smartMove on: 0, R9
+Move 0, R10 # brought to you by safe/smartmove
+Move R10, R9 # brought to you by safe/smartmove
+Compare R8,R7
+JumpLE _l3
+# new smartMove on: 1, R9
+Move 1, R11 # brought to you by safe/smartmove
+Move R11, R9 # brought to you by safe/smartmove
+_l3:
+Compare 0,R9		# While condition check
+JumpTrue _l2		# Conditional jump when while statement is false
+# Line 8: 
+# new smartMove on: x_Scop_17, R12
+Move x_Scop_17, R13 # brought to you by safe/smartmove
+Move R13, R12 # brought to you by safe/smartmove
+Move R13, x_Scop_17 # reversed
+Library __printi(R12),R14
+# new smartMove on: y_Scop_17, R16
+Move y_Scop_17, R17 # brought to you by safe/smartmove
+Move R17, R16 # brought to you by safe/smartmove
+Move R17, y_Scop_17 # reversed
+Move 1, R18
+# new smartMove on: R16, R19
+Move R16, R19 # brought to you by safe/smartmove
+# new smartMove on: R18, R20
+Move R18, R20 # brought to you by safe/smartmove
+Sub R20,R19
+# TMP 1
+# new smartMove on: R19, y_Scop_17
+Move R19, y_Scop_17 # brought to you by safe/smartmove
+Jump _l1
+_l2:   # False while condition
+Library __exit(0),Rdummy
+# Method main end
+Return 9999
+
+######################
+# Error Labels
+######################
+
+_null_reference:
+Library __println(null_reference),Rdummy
+Library __exit(1),Rdummy
+
+_illegal_arr_loc:
+Library __println(illegal_arr_loc),Rdummy
+Library __exit(1),Rdummy
+
+_dev_by_zero:
+Library __println(dev_by_zero),Rdummy
+Library __exit(1),Rdummy
+
+_arr_neg_alloc_size:
+Library __println(arr_neg_alloc_size),Rdummy
+Library __exit(1),Rdummy
+

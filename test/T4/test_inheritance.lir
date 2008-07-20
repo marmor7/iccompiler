@@ -1,0 +1,313 @@
+
+######################
+# Program ~test_inheritance.IC
+######################
+
+######################
+# STRING LITERALS
+arr_neg_alloc_size: "Negative or zero array size allocation. Program will no exit. "
+null_reference: "Null reference. Program will no exit. "
+illegal_arr_loc: "Illegal array location. Program will no exit. "
+dev_by_zero: "Devision by zero. Program will no exit. "
+str0: "should print printed from c"
+str1: ""
+str2: "TEST!!"
+str3: "should print printed from a"
+str4: "should print printed from d"
+str5: "another test OK"
+str6: "printed from a"
+str7: "printed from b"
+str8: "printed from c"
+str9: "printed from d"
+######################
+
+######################
+# DISPATCH VECTORS
+_DV_Test_Inheritance: []
+_DV_C: [_C_static_print,_C_dinamic_print,_A_special_print]
+_DV_B: [_B_static_print,_B_dinamic_print,_A_special_print]
+_DV_A: [_A_static_print,_A_dinamic_print,_A_special_print]
+_DV_D: [_D_static_print,_D_dinamic_print,_A_special_print]
+######################
+
+_ic_main:   # Main Method
+# Line 4: 
+Library __allocateObject(12),R1 # Allocation of C
+MoveField _DV_C,R1.0 # Move field for DV pointer
+# new smartMove on: R1, test_1_Test_Inheritance_21
+Move R1, test_1_Test_Inheritance_21 # brought to you by safe/smartmove
+# Line 5: 
+Move 5, R2
+# TMP 1
+# new smartMove on: R2, test_1_Test_Inheritance_21.1
+Move test_1_Test_Inheritance_21, R4 # brought to you by safe/smartmove
+MoveField R4.1,R3 # SMART MOVED BITCH - field style
+Move R2, R3 # brought to you by safe/smartmove
+MoveField R3,R4.1 # reversed
+Move R4, test_1_Test_Inheritance_21 # reversed
+# Line 6: 
+Move 7, R2
+# TMP 1
+# new smartMove on: R2, test_1_Test_Inheritance_21.2
+Move test_1_Test_Inheritance_21, R4 # brought to you by safe/smartmove
+MoveField R4.2,R3 # SMART MOVED BITCH - field style
+Move R2, R3 # brought to you by safe/smartmove
+MoveField R3,R4.2 # reversed
+Move R4, test_1_Test_Inheritance_21 # reversed
+# Line 7: 
+Library __allocateObject(8),R1 # Allocation of D
+MoveField _DV_D,R1.0 # Move field for DV pointer
+# new smartMove on: R1, test_2_Test_Inheritance_21
+Move R1, test_2_Test_Inheritance_21 # brought to you by safe/smartmove
+# Line 8: 
+Move 5, R2
+# TMP 1
+# new smartMove on: R2, test_2_Test_Inheritance_21.1
+Move test_2_Test_Inheritance_21, R4 # brought to you by safe/smartmove
+MoveField R4.1,R3 # SMART MOVED BITCH - field style
+Move R2, R3 # brought to you by safe/smartmove
+MoveField R3,R4.1 # reversed
+Move R4, test_2_Test_Inheritance_21 # reversed
+# Line 12: 
+Move str0, R1 # assigning literal to reg
+Library __print(R1),R2
+# Line 13: 
+Move str1, R1 # assigning literal to reg
+Library __println(R1),R2
+# Line 14: 
+Move str2, R2 # assigning literal to reg
+# new smartMove on: test_1_Test_Inheritance_21, R3
+Move test_1_Test_Inheritance_21, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Move R4, test_1_Test_Inheritance_21 # reversed
+VirtualCall R3.1(text=R2),R3
+# Line 16: 
+Move str1, R1 # assigning literal to reg
+Library __println(R1),R2
+# Line 17: 
+Move str3, R1 # assigning literal to reg
+Library __print(R1),R2
+# Line 18: 
+Move str1, R1 # assigning literal to reg
+Library __println(R1),R2
+# Line 19: 
+Move str2, R2 # assigning literal to reg
+# new smartMove on: test_1_Test_Inheritance_21, R3
+Move test_1_Test_Inheritance_21, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Move R4, test_1_Test_Inheritance_21 # reversed
+VirtualCall R3.2(text=R2),R3
+# Line 21: 
+Move str1, R1 # assigning literal to reg
+Library __println(R1),R2
+# Line 22: 
+Move str0, R1 # assigning literal to reg
+Library __print(R1),R2
+# Line 23: 
+Move str1, R1 # assigning literal to reg
+Library __println(R1),R2
+# Line 24: 
+Move str2, R1 # assigning literal to reg
+StaticCall _C_static_print(text=R1),R2
+# Line 26: 
+Move str1, R1 # assigning literal to reg
+Library __println(R1),R2
+# Line 27: 
+Move str4, R1 # assigning literal to reg
+Library __print(R1),R2
+# Line 28: 
+Move str1, R1 # assigning literal to reg
+Library __println(R1),R2
+# Line 29: 
+Move str2, R2 # assigning literal to reg
+# new smartMove on: test_2_Test_Inheritance_21, R3
+Move test_2_Test_Inheritance_21, R4 # brought to you by safe/smartmove
+Move R4, R3 # brought to you by safe/smartmove
+Move R4, test_2_Test_Inheritance_21 # reversed
+VirtualCall R3.1(text=R2),R3
+# Line 31: 
+Move str1, R1 # assigning literal to reg
+Library __println(R1),R2
+# Line 32: 
+# new smartMove on: test_1_Test_Inheritance_21, R1
+Move test_1_Test_Inheritance_21, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, test_1_Test_Inheritance_21 # reversed
+Move 5, R3
+# new smartMove on: R1.1, R4
+MoveField R1.1,R6 # SMART MOVED BITCH - field style
+Move R6, R4 # brought to you by safe/smartmove
+MoveField R6,R1.1 # reversed
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+# new smartMove on: 0, R7
+Move 0, R8 # brought to you by safe/smartmove
+Move R8, R7 # brought to you by safe/smartmove
+Compare R4,R5
+JumpFalse _l4
+# new smartMove on: 1, R7
+Move 1, R9 # brought to you by safe/smartmove
+Move R9, R7 # brought to you by safe/smartmove
+_l4:
+Compare 0,R7		# If's condition check
+JumpTrue _l2		# Conditional jump when If's outcome is true
+_l1:   # If's then label
+Move str5, R10 # assigning literal to reg
+Library __print(R10),R11
+Jump _l3		# Jump to end label(end of then part)
+_l2:   # If's else label
+_l3:   # End of If statement
+Library __exit(0),Rdummy
+# Method main end
+Return 9999
+_A_static_print:   # Method static_print:
+# Line 45: 
+# new smartMove on: text, R1
+Move text, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, text # reversed
+Move str6, R3 # assigning literal to reg
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+Library __stringCat(R4,R5),R4
+Library __print(R4),R6
+# Method static_print end
+Return 9999
+_A_dinamic_print:   # Method dinamic_print:
+# Line 49: 
+# new smartMove on: text, R1
+Move text, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, text # reversed
+Move str6, R3 # assigning literal to reg
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+Library __stringCat(R4,R5),R4
+Library __print(R4),R6
+Return 9999
+_A_special_print:   # Method special_print:
+# Line 52: 
+# new smartMove on: text, R1
+Move text, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, text # reversed
+Move str6, R3 # assigning literal to reg
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+Library __stringCat(R4,R5),R4
+Library __print(R4),R6
+Return 9999
+_B_static_print:   # Method static_print:
+# Line 63: 
+# new smartMove on: text, R1
+Move text, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, text # reversed
+Move str7, R3 # assigning literal to reg
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+Library __stringCat(R4,R5),R4
+Library __print(R4),R6
+# Method static_print end
+Return 9999
+_B_dinamic_print:   # Method dinamic_print:
+# Line 66: 
+# new smartMove on: text, R1
+Move text, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, text # reversed
+Move str7, R3 # assigning literal to reg
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+Library __stringCat(R4,R5),R4
+Library __print(R4),R6
+Return 9999
+_C_static_print:   # Method static_print:
+# Line 72: 
+# new smartMove on: text, R1
+Move text, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, text # reversed
+Move str8, R3 # assigning literal to reg
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+Library __stringCat(R4,R5),R4
+Library __print(R4),R6
+# Method static_print end
+Return 9999
+_C_dinamic_print:   # Method dinamic_print:
+# Line 75: 
+# new smartMove on: text, R1
+Move text, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, text # reversed
+Move str8, R3 # assigning literal to reg
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+Library __stringCat(R4,R5),R4
+Library __print(R4),R6
+Return 9999
+_D_static_print:   # Method static_print:
+# Line 82: 
+# new smartMove on: text, R1
+Move text, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, text # reversed
+Move str9, R3 # assigning literal to reg
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+Library __stringCat(R4,R5),R4
+Library __print(R4),R6
+# Method static_print end
+Return 9999
+_D_dinamic_print:   # Method dinamic_print:
+# Line 85: 
+# new smartMove on: text, R1
+Move text, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, text # reversed
+Move str9, R3 # assigning literal to reg
+# new smartMove on: R1, R4
+Move R1, R4 # brought to you by safe/smartmove
+# new smartMove on: R3, R5
+Move R3, R5 # brought to you by safe/smartmove
+Library __stringCat(R4,R5),R4
+Library __print(R4),R6
+Return 9999
+
+######################
+# Error Labels
+######################
+
+_null_reference:
+Library __println(null_reference),Rdummy
+Library __exit(1),Rdummy
+
+_illegal_arr_loc:
+Library __println(illegal_arr_loc),Rdummy
+Library __exit(1),Rdummy
+
+_dev_by_zero:
+Library __println(dev_by_zero),Rdummy
+Library __exit(1),Rdummy
+
+_arr_neg_alloc_size:
+Library __println(arr_neg_alloc_size),Rdummy
+Library __exit(1),Rdummy
+

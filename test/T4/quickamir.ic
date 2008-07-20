@@ -1,0 +1,53 @@
+/* Quicksort <n>: sorts an array of n integers initialized
+   with random values.
+   Output: the array contents before and after sorting.
+*/
+
+//class Library{
+//    void println(string s) {}
+//    void print(string s) {}
+//    void printi(int i) {}
+//    int stoi(string s, int i) {}
+//   int random(int n) {}
+//    void exit(int n) {}
+//}
+
+class Quicksort {
+    int[] a;
+
+    int partition(int low, int high) {
+    int pivot = a[low];
+    int i = low;
+    int j = high;
+    int tmp;
+
+    while (true) {
+        while (a[i] < pivot) i = i+1;
+        while (a[j] > pivot) j = j-1;
+
+        if (i >= j) break;
+
+        tmp = a[i];
+        a[i] = a[j];
+        a[j] = tmp;
+        i = i+1;
+        j = j-1;
+    }
+
+    return j;
+    }
+    static void main(string[] args) {
+    int n;
+
+  
+    n = 200;
+    Quicksort s = new Quicksort();
+    s.a = new int[n];
+
+    s.partition(3,3);
+  //  s.printArray();Library.println("");
+  //  s.quicksort(0, n-1);
+  // s.printArray();
+    
+    }
+}

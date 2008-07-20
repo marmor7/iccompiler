@@ -1,0 +1,133 @@
+
+######################
+# Program ~test_virtual_calls.ic
+######################
+
+######################
+# STRING LITERALS
+str0: "In Foo_rise"
+str1: "In Foo_shine"
+str2: "In Bar_rise"
+str3: "In Bar_twinkle"
+str4: "In BN_rise"
+######################
+
+######################
+# DISPATCH VECTORS
+_DV_Bar: [_Bar_rise,_Foo_shine,_Bar_twinkle]
+_DV_BN: [_BN_rise,_Foo_shine,_Bar_twinkle]
+_DV_Foo: [_Foo_rise,_Foo_shine]
+######################
+
+_Foo_rise:   # Method rise:
+# Line 10: 
+Move str0, R1 # assigning literal to reg
+Library __println(R1),R2
+# Line 11: 
+Move x, R3
+Library __printi(R3),R4
+# Line 12: 
+Move 2, R5
+Move R5, R6
+Return R6
+Return 9999
+_Foo_shine:   # Method shine:
+# Line 16: 
+Move str1, R7 # assigning literal to reg
+Library __println(R7),R8
+# Line 17: 
+Move x, R9
+Library __printi(R9),R10
+# Line 18: 
+Move 1, R11
+Move R11, R12
+Return R12
+Return 9999
+_ic_main:   # Main Method
+# Line 22: 
+Library __allocateObject(16),R13 # Allocation of Bar
+MoveField _DV_Bar,R13.0 # Move field for DV pointer
+Move R13, f_Foo_21
+# Line 23: 
+Library __allocateObject(12),R14 # Allocation of Foo
+MoveField _DV_Foo,R14.0 # Move field for DV pointer
+Move R14, f2_Foo_21
+# Line 24: 
+Move 322, R16
+Move f2_Foo_21, R17
+VirtualCall R17.0(x=R16),R17
+# Line 25: 
+Move 1, R19
+Move f_Foo_21, R20
+VirtualCall R20.0(x=R19),R20
+# Line 26: 
+Move 2, R22
+Move f_Foo_21, R23
+VirtualCall R23.1(x=R22),R23
+# Line 27: 
+Library __allocateObject(12),R25 # Allocation of Foo
+MoveField _DV_Foo,R25.0 # Move field for DV pointer
+Move R25, f_Foo_21 # assigning val to loc
+# Line 28: 
+Move 4, R27
+Move f_Foo_21, R28
+VirtualCall R28.0(x=R27),R28
+# Line 29: 
+Move 5, R30
+Move f_Foo_21, R31
+VirtualCall R31.1(x=R30),R31
+# Line 30: 
+Library __allocateObject(16),R32 # Allocation of Bar
+MoveField _DV_Bar,R32.0 # Move field for DV pointer
+Move R32, b_Foo_21
+# Line 31: 
+Move 3, R34
+Move b_Foo_21, R35
+VirtualCall R35.2(x=R34),R35
+# Line 32: 
+Library __allocateObject(16),R36 # Allocation of BN
+MoveField _DV_BN,R36.0 # Move field for DV pointer
+Move R36, bn_Foo_21
+# Line 33: 
+Move 3, R38
+Move bn_Foo_21, R39
+VirtualCall R39.0(x=R38),R39
+Library __exit(0),Rdummy
+# Method main end
+Return 9999
+_Bar_rise:   # Method rise:
+# Line 41: 
+Move str2, R40 # assigning literal to reg
+Library __println(R40),R41
+# Line 42: 
+Move x, R42
+Library __printi(R42),R43
+# Line 43: 
+Move 3, R44
+Move R44, R45
+Return R45
+Return 9999
+_Bar_twinkle:   # Method twinkle:
+# Line 47: 
+Move str3, R46 # assigning literal to reg
+Library __println(R46),R47
+# Line 48: 
+Move x, R48
+Library __printi(R48),R49
+# Line 49: 
+Move 4, R50
+Move R50, R51
+Return R51
+Return 9999
+_BN_rise:   # Method rise:
+# Line 56: 
+Move str4, R52 # assigning literal to reg
+Library __println(R52),R53
+# Line 57: 
+Move x, R54
+Library __printi(R54),R55
+# Line 58: 
+Move 3, R56
+Move R56, R57
+Return R57
+Return 9999
