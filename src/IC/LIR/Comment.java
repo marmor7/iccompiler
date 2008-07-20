@@ -31,6 +31,9 @@ public class Comment extends Instruction{
 		Comment
 	}
 	
+	/**
+	 * ToString()
+	 */
 	public String toString()
 	{
 		return "# " + this.comment; 

@@ -14,6 +14,11 @@ public class ControlTransfer extends Instruction{
 		super(op1P, op2P, type);
 	}
 	
+	/**
+	 * Constructor
+	 * @param op1P
+	 * @param type
+	 */
 	public ControlTransfer(Op op1P, 
 			ControlTransferInstructionType type) // TBD - why is this two operators - i put the same one twice
 	{

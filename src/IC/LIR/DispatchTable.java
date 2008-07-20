@@ -24,16 +24,29 @@ public class DispatchTable {
 		fieldCounter   = 0;
 	}
 	
+	/**
+	 * Gets methods
+	 * @return
+	 */
 	public HashMap<String, Integer> getMethods()
 	{
 		return methodToOffset;
 	}
 	
+	
+	/**
+	 * Gets fields
+	 * @return
+	 */
 	public HashMap<String, Integer> getFields()
 	{
 		return fieldToOffset;
 	}
 
+	/**
+	 * Sets the DT parent
+	 * @param parent
+	 */
 	public void setParent(DispatchTable parent)
 	{
 		//Verify this is the first insertion
@@ -62,6 +75,11 @@ public class DispatchTable {
 		}
 	}
 	
+	/**
+	 * Adds field to DT
+	 * @param f
+	 * @return
+	 */
 	public int addField(Field f){
 		
 		Iterator it = this.getFields().entrySet().iterator();
@@ -79,7 +97,12 @@ public class DispatchTable {
 		fieldCounter++;
 		return fieldCounter - 1; //returns the counter before the increment
 	}
-
+	
+	/**
+	 * Adds method to DT
+	 * @param m
+	 * @return
+	 */
 	public int addMethod(Method m){
 		Iterator it = this.getMethods().entrySet().iterator();
 		while (it.hasNext())
@@ -97,6 +120,11 @@ public class DispatchTable {
 		return methodCounter - 1; //returns the counter before the increment
 	}
 	
+	/**
+	 * Gets method position by name
+	 * @param name
+	 * @return
+	 */
 	public int getMethodPos(String name){
 		Iterator it = this.getMethods().entrySet().iterator();
 		while (it.hasNext())
@@ -109,6 +137,11 @@ public class DispatchTable {
 		return -1;
 	}
 
+	/**
+	 * Gets field position by name
+	 * @param name
+	 * @return
+	 */
 	public int getFieldPos(String name){
 		Iterator it = this.getFields().entrySet().iterator();
 		while (it.hasNext())
@@ -121,6 +154,9 @@ public class DispatchTable {
 		return -1;
 	}
 	
+	/**
+	 * ToString()
+	 */
 	public String toString(){
 		String ret = "_DV_" + className + ": [";
 		
@@ -154,6 +190,10 @@ public class DispatchTable {
 		return ret;
 	}
 	
+	/**
+	 * Gets DT label name
+	 * @return
+	 */
 	public String getName()
 	{
 		String ret = "_DV_" + className;
@@ -161,20 +201,37 @@ public class DispatchTable {
 		
 	}
 	
+	/**
+	 * Gets the DV actual name
+	 * @return
+	 */
 	public String getDvName()
 	{
 		return className;		
 	}
 	
-	
+	/**
+	 * Gets the current instruction
+	 * @return
+	 */
 	public StringInstruction getInstruction(){
 		return new StringInstruction(this.toString());
 	}
 	
+	/**
+	 * Gets the class name
+	 * @param key
+	 * @return
+	 */
 	private Object getClassName(String key) {
 		return key.substring(0, key.indexOf("$"));
 	}
 	
+	/**
+	 * Gets a var name by key
+	 * @param key
+	 * @return
+	 */
 	private Object getVarName(String key) {
 		return key.substring(key.indexOf("$") + 1, key.length());
 	}

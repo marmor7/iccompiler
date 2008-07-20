@@ -13,12 +13,21 @@ public class Label extends Instruction {
 		super(op1P, op2P, type);
 	}
 	
+	/**
+	 * Constructor
+	 * @param nameP
+	 */
 	public Label(String nameP) 
 	{
 		super(LabelType.Label);
 		this.name = nameP;
 	}
 	
+	/**
+	 * Constructor
+	 * @param nameP
+	 * @param comment
+	 */
 	public Label(String nameP, String comment) 
 	{
 		super(LabelType.Label);

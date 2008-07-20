@@ -2,7 +2,11 @@ package IC.LIR;
 
 public class ControlTransferInstruction extends Instruction{
 
-	
+	/**
+	 * Constructor
+	 * @param op1P
+	 * @param type
+	 */
 	public ControlTransferInstruction(Op op1P, 
 			InstructionType type) 
 	{
@@ -26,6 +30,9 @@ public class ControlTransferInstruction extends Instruction{
 		JumpLE
 	}
 	
+	/**
+	 * ToString()
+	 */
 	public String toString(){
 		String str  = getInstructionType().toString() + " ";
 			str += getOp1();

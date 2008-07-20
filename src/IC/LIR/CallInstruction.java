@@ -14,7 +14,13 @@ public class CallInstruction extends Instruction{
 		super(op1P, op2P, type);
 	}
 	
-	
+	/**
+	 * Constructor
+	 * @param op1P
+	 * @param op2P
+	 * @param op3P
+	 * @param type
+	 */
 	public CallInstruction(Op op1P, Op op2P, Op op3P,  
 			CallInstructionType type)
 {
