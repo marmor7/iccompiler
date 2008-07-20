@@ -1,0 +1,69 @@
+
+######################
+# Program localVariableOverride.ic
+######################
+
+######################
+# STRING LITERALS
+arr_neg_alloc_size: "Negative or zero array size allocation. Program will now exit. "
+null_reference: "Null reference. Program will now exit. "
+illegal_arr_loc: "Illegal array location. Program will now exit. "
+dev_by_zero: "Devision by zero. Program will now exit. "
+
+######################
+
+######################
+# DISPATCH VECTORS
+_DV_A: [_A_foo]
+######################
+
+_A_foo:   # Method foo:
+# Line 4: 
+Move 1, R1
+# new smartMove on: R1, x_A_17
+Move R1, x_A_17 # brought to you by safe/smartmove
+# Line 5: 
+# Line 5: 
+Move 2, R1
+# new smartMove on: R1, x_A_18
+Move R1, x_A_18 # brought to you by safe/smartmove
+# new smartMove on: x_A_18, R1
+Move x_A_18, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, x_A_18 # reversed
+Library __printi(R1),R3
+# Line 9: 
+# new smartMove on: x_A_17, R1
+Move x_A_17, R2 # brought to you by safe/smartmove
+Move R2, R1 # brought to you by safe/smartmove
+Move R2, x_A_17 # reversed
+Library __printi(R1),R3
+# Method foo end
+Return 9999
+_ic_main:   # Main Method
+# Line 13: 
+StaticCall _A_foo(),R1
+Library __exit(0),Rdummy
+# Method main end
+Return 9999
+
+######################
+# Error Labels
+######################
+
+_null_reference:
+Library __println(null_reference),Rdummy
+Library __exit(1),Rdummy
+
+_illegal_arr_loc:
+Library __println(illegal_arr_loc),Rdummy
+Library __exit(1),Rdummy
+
+_dev_by_zero:
+Library __println(dev_by_zero),Rdummy
+Library __exit(1),Rdummy
+
+_arr_neg_alloc_size:
+Library __println(arr_neg_alloc_size),Rdummy
+Library __exit(1),Rdummy
+

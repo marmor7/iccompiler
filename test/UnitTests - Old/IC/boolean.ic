@@ -1,0 +1,30 @@
+class BooleanTest {
+
+	static void main(string[] args) {
+		int x = 1;
+		int y = x + 1;		
+		
+		Library.print("y=");
+		Library.printi(y);
+		Library.println("");
+
+		if (x<y) {
+			Library.println("x<y");
+		}
+		if (x>y) {
+			Library.println("x>y");
+		}
+		if (x<=y) {
+			Library.println("x<=y");
+		}
+		if (x>=y) {
+			Library.println("x>=y");
+		}
+		if (x==y) {
+			Library.println("x==y");
+		}
+		if (x!=y) {
+			Library.println("x!=y");
+		}
+	} 
+}
