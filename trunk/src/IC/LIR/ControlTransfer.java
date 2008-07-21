@@ -9,7 +9,7 @@ public class ControlTransfer extends Instruction{
 	 * @param type Instruction's Type
 	 */
 	public ControlTransfer(Op op1P, Op op2P, 
-						   ControlTransferInstructionType type) // TBD - why is this two operators - i put the same one twice
+						   ControlTransferInstructionType type)
 	{
 		super(op1P, op2P, type);
 	}
@@ -20,7 +20,7 @@ public class ControlTransfer extends Instruction{
 	 * @param type
 	 */
 	public ControlTransfer(Op op1P, 
-			ControlTransferInstructionType type) // TBD - why is this two operators - i put the same one twice
+			ControlTransferInstructionType type)
 	{
 	super(op1P,  type);
 	}

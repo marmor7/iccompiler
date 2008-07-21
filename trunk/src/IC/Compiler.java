@@ -112,9 +112,7 @@ public class Compiler
             	System.out.println(symbolTable);
             	System.out.println(typeTable);
             }
-            
-            System.out.println("SEMANTIC CHECKS DONE"); //TMP
-            
+                        
             //LIR Translation
             if (libroot != null){
             	// remove the Library from the classes list
@@ -124,10 +122,7 @@ public class Compiler
             }
             
             LirVisitor lir = new LirVisitor(croppedFileName,typeTable);
-            System.out.println("Lir constructor");
             ArrayList<Instruction> lirList = (ArrayList<Instruction>) lir.visit(root);
-            
-            System.out.println("LIR TRANSLATION DONE"); //TMP
             
             fileName = fileName.substring(0, fileName.indexOf('.')) + ".lir";
             
