@@ -488,8 +488,6 @@ public class LirVisitor implements Visitor {
 		this.latestWhileStartLabel = previousWhileStartLabel;
 		this.latestWhileEndLabel = previousWhileEndLabel;
 
-		// TBD: Fix the double __ print
-
 		return null;
 	}
 
@@ -920,7 +918,7 @@ public Object visit(VariableLocation location) {
 														ControlTransferInstructionType.JumpTrue));
 							
 			}
-						//New instruction
+			//New instruction
 			i = new ArithmeticInstruction(two, one, AIT);
 			toRet = one;
 		}
@@ -945,12 +943,11 @@ public Object visit(VariableLocation location) {
 		one = oneReg;
 		two = twoReg;
 		
-		
 		Op reg = new Op(Register.getFreeReg(), OpType.Reg);
 		Op zero = new Op("0", OpType.Immediate);
-//		DIT = DataTransferInstructionType.Move;
-		Instruction i;// = new DataTransferInstruction(zero, reg, DIT);
-//		list.add(i);
+		//DIT = DataTransferInstructionType.Move;
+		Instruction i; // = new DataTransferInstruction(zero, reg, DIT);
+		//list.add(i);
 		smartMove(zero, reg);
 		Op jumpto = new Op(Jump.getNextJumpCounter(), OpType.Label);
 
@@ -1014,7 +1011,6 @@ public Object visit(VariableLocation location) {
 			i = new ControlTransferInstruction(jumpto,
 					ControlTransferInstructionType.JumpGE);
 			list.add(i);
-
 		}
 
 		Op one2 = new Op("1", OpType.Immediate);
