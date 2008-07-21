@@ -181,18 +181,10 @@ public class LirVisitor implements Visitor {
 
 	public Object visit(PrimitiveType type) {
 
-		if (type.getDimension() > 0)
-			// TBD: do something here?
-			;
-
 		return null;
 	}
 
 	public Object visit(UserType type) {
-
-		if (type.getDimension() > 0)
-			// TBD: do something here?
-			;
 
 		return null;
 	}
@@ -228,7 +220,6 @@ public class LirVisitor implements Visitor {
 		for (Statement statement : method.getStatements()) {
 			isString = false;
 			list.add(new Comment("Line " + statement.getLine() + ": "));
-			System.out.println("LINE - " + statement.getLine());// TMP
 			statement.accept(this);
 			Register.reset();
 		}
@@ -257,7 +248,6 @@ public class LirVisitor implements Visitor {
 		for (Statement statement : method.getStatements()) {
 			isString = false;
 			list.add(new Comment("Line " + statement.getLine() + ": "));
-			System.out.println("LINE - " + statement.getLine());// TMP
 			statement.accept(this);
 			Register.reset();
 		}
@@ -320,8 +310,6 @@ public class LirVisitor implements Visitor {
 
 			
 			assert(oldAssignmentLoc != null);
-			
-			list.add(new Comment("TMP 1"));
 			
 			smartMove(value, oldAssignmentLoc);
 			/*if (oldAssigmentIndex > -1)
@@ -600,7 +588,6 @@ public Object visit(VariableLocation location) {
 			return reg3;
 			
 		}
-		System.out.println(tc.getId());// TMP
 		if (tc.getId().equals("string")) {
 			isString = true;
 		}
@@ -651,9 +638,8 @@ public Object visit(VariableLocation location) {
 		
 		Op newarr = new Op(arr.getName() + "[" + place.getName() + "]",
 				OpType.Reg);
-		list.add(new Comment("TMP 2"));
+
 		smartMove(newarr, reg);
-		//TMP list.add(new DataTransferInstruction(newarr, reg, DataTransferInstructionType.MoveArray).setOptComment("### 1"));
 
 		assignmentLocation = newarr;
 		assignmentIndex = 1;
@@ -863,7 +849,7 @@ public Object visit(VariableLocation location) {
 
 		Op one = (Op) length.getArray().accept(this);
 		Op reg = new Op(Register.getFreeReg(), OpType.Reg);
-		list.add(new Comment("TMP 3"));
+
 		smartMove(one, reg);
 		Instruction i = new DataTransferInstruction(reg, reg, DataTransferInstructionType.ArrayLength); 
 		list.add(i);
@@ -898,8 +884,7 @@ public Object visit(VariableLocation location) {
 		one = oneReg;
 		two = twoReg;
 		Op toRet = one;
-		if (two.getOpType() != OpType.Reg)
-			System.out.println("THROW NEW ERROR"); // TBD Throw error
+
 		Instruction i;
 		if (isString) {
 			i = new LibraryInstruction(new Op("__stringCat(" + one.getName()
@@ -1027,16 +1012,7 @@ public Object visit(VariableLocation location) {
 		Op one = (Op) unaryOp.getOperand().accept(this);
 		ArithmeticInstructionType AIT;
 		AIT = ArithmeticInstructionType.Neg;
-		Instruction i = new ArithmeticInstruction(one, AIT); // TBD - how do
-																// we handle
-																// arithmetic
-																// instructions
-																// that have
-																// only one
-																// parameter-
-																// currently im
-																// passing the
-																// same op twice
+		Instruction i = new ArithmeticInstruction(one, AIT);
 		list.add(i);
 
 		return (one);
@@ -1242,7 +1218,7 @@ public Object visit(VariableLocation location) {
 		smartMove(new Op("0", OpType.Immediate), zeroReg);
 		
 		Op arr = new Op(Register.getFreeReg(), OpType.Reg);
-		tlist.add(new Comment("TMP 4"));
+
 		smartMove(arrayObject, arr);
 		
 		tlist.add(new LogicalInstruction(arr, arrSize, 
