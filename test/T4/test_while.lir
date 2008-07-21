@@ -1,14 +1,10 @@
 
 ######################
-# Program ~test_while.ic
+# Program test_while.ic
 ######################
 
 ######################
 # STRING LITERALS
-arr_neg_alloc_size: "Negative or zero array size allocation. Program will no exit. "
-null_reference: "Null reference. Program will no exit. "
-illegal_arr_loc: "Illegal array location. Program will no exit. "
-dev_by_zero: "Devision by zero. Program will no exit. "
 str0: "x="
 str1: ""
 ######################
@@ -21,76 +17,31 @@ _DV_MyClass: []
 _ic_main:   # Main Method
 # Line 3: 
 Move 42, R1
-# new smartMove on: R1, x_MyClass_17
-Move R1, x_MyClass_17 # brought to you by safe/smartmove
+Move R1, x_MyClass_17
 # Line 4: 
-_l1:   # While
-# new smartMove on: x_MyClass_17, R2
-Move x_MyClass_17, R3 # brought to you by safe/smartmove
-Move R3, R2 # brought to you by safe/smartmove
-Move R3, x_MyClass_17 # reversed
+__l1:   # While
+Move x_MyClass_17, R2
+Move 0, R3
 Move 0, R4
-# new smartMove on: R2, R5
-Move R2, R5 # brought to you by safe/smartmove
-# new smartMove on: R4, R6
-Move R4, R6 # brought to you by safe/smartmove
-# new smartMove on: 0, R7
-Move 0, R8 # brought to you by safe/smartmove
-Move R8, R7 # brought to you by safe/smartmove
-Compare R6,R5
-JumpLE _l3
-# new smartMove on: 1, R7
-Move 1, R9 # brought to you by safe/smartmove
-Move R9, R7 # brought to you by safe/smartmove
-_l3:
-Compare 0,R7		# While condition check
-JumpTrue _l2		# Conditional jump when while statement is false
+Compare R2,R3
+Move 1, R4
+__l3:
+Compare 0,R4		# While condition check
+JumpLE _l2		# Conditional jump when while statement is false
 # Line 4: 
-# new smartMove on: x_MyClass_17, R11
-Move x_MyClass_17, R12 # brought to you by safe/smartmove
-Move R12, R11 # brought to you by safe/smartmove
-Move R12, x_MyClass_17 # reversed
-Move 1, R13
-# new smartMove on: R11, R14
-Move R11, R14 # brought to you by safe/smartmove
-# new smartMove on: R13, R15
-Move R13, R15 # brought to you by safe/smartmove
-Sub R15,R14
-# TMP 1
-# new smartMove on: R14, x_MyClass_17
-Move R14, x_MyClass_17 # brought to you by safe/smartmove
-Move str0, R16 # assigning literal to reg
-Library __print(R16),R17
-# new smartMove on: x_MyClass_17, R18
-Move x_MyClass_17, R19 # brought to you by safe/smartmove
-Move R19, R18 # brought to you by safe/smartmove
-Move R19, x_MyClass_17 # reversed
-Library __printi(R18),R20
-Move str1, R21 # assigning literal to reg
-Library __println(R21),R22
-Jump _l1
-_l2:   # False while condition
+Move x_MyClass_18, R5
+Move x_MyClass_18, R6
+Move 1, R7
+Sub R7,R6
+Move R6, R5 # (Assignment statement)
+Move R6, x_MyClass_18 # assigning value back to the location
+Move str0, R8 # assigning string lit to register
+Library __print(R8),R9
+Move x_MyClass_18, R10
+Library __printi(R10),R11
+Move str1, R12 # assigning string lit to register
+Library __println(R12),R13
+__l2:   # False while condition
 Library __exit(0),Rdummy
 # Method main end
 Return 9999
-
-######################
-# Error Labels
-######################
-
-_null_reference:
-Library __println(null_reference),Rdummy
-Library __exit(1),Rdummy
-
-_illegal_arr_loc:
-Library __println(illegal_arr_loc),Rdummy
-Library __exit(1),Rdummy
-
-_dev_by_zero:
-Library __println(dev_by_zero),Rdummy
-Library __exit(1),Rdummy
-
-_arr_neg_alloc_size:
-Library __println(arr_neg_alloc_size),Rdummy
-Library __exit(1),Rdummy
-
