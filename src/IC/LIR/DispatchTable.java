@@ -160,19 +160,6 @@ public class DispatchTable {
 	public String toString(){
 		String ret = "_DV_" + className + ": [";
 		
-		/*
-		for (int i = 0; i < fieldCounter; i++){
-			Iterator<String> it = fieldToOffset.keySet().iterator();
-			while (it.hasNext()){
-				String field = it.next();
-				if (fieldToOffset.get(field) == i){
-					ret += i + ": " + field + ",";
-					break;
-				}
-			}
-		}
-		*/
-		
 		for (int i = 0; i < methodCounter; i++){
 			Iterator<String> it = methodToOffset.keySet().iterator();
 			while (it.hasNext()){

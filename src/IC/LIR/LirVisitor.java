@@ -1,14 +1,10 @@
 package IC.LIR;
 
-import java.sql.Savepoint;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import java_cup.internal_error;
-
-import IC.LiteralTypes;
 import IC.AST.ArrayLocation;
 import IC.AST.Assignment;
 import IC.AST.Break;
@@ -48,7 +44,6 @@ import IC.LIR.ArithmeticInstruction.ArithmeticInstructionType;
 import IC.LIR.CallInstruction.CallInstructionType;
 import IC.LIR.ControlTransferInstruction.ControlTransferInstructionType;
 import IC.LIR.DataTransferInstruction.DataTransferInstructionType;
-import IC.LIR.LibraryInstruction.LibraryInstructionType;
 import IC.LIR.LogicalInstruction.LogicalInstructionType;
 import IC.LIR.Op.OpType;
 import IC.Semantics.MethodSigType;
@@ -291,71 +286,17 @@ public class LirVisitor implements Visitor {
 						this.currentVisitedClassName);
 				objects.put(mangledName, value);
 			}
-
-			// Copy value into location:
-		/*	if (loc.getName().contains(".")) {
-				Instruction ins = new DataTransferInstruction(value, loc,
-						DataTransferInstructionType.MoveField);
-				ins.setOptComment("(Assignment statement)");
-				list.add(ins);
-			} */ 
-			//else {
-			//	list.remove(assignmentListIndex);
-				/*
-				 * Instruction ins = new DataTransferInstruction(value,
-				 * loc,DataTransferInstructionType.Move);
-				 * ins.setOptComment("(Assignment statement)"); list.add(ins);
-				 */
-			//}
-
 			
 			assert(oldAssignmentLoc != null);
 			
 			smartMove(value, oldAssignmentLoc);
-			/*if (oldAssigmentIndex > -1)
-			{
-				list.add(new DataTransferInstruction(value,oldAssignmentLoc,DataTransferInstructionType.MoveArray).setOptComment("assigning val to loc"));
-			}
-			else
-			{
-				if(oldAssignmentLoc.getName().contains(".") || value.getName().contains("."))
-				{
-					if (value.getName().contains("."))
-					{
-						addNullReferenceCheckToList(value);
-						list.add(new DataTransferInstruction(value,
-								oldAssignmentLoc, DataTransferInstructionType.MoveField)
-								.setOptComment("assigning val to loc"));
-					}
-					else
-					{
-						if (oldAssignmentLoc.getOpType() == OpType.Memory)
-						{ 
-							Op newreg = new Op(Register.getFreeReg(),OpType.Reg);
-							Op varname = new Op(oldAssignmentLoc.getName().substring(0, oldAssignmentLoc.getName().indexOf("."))
-									, OpType.Memory);
-							int varpos = Integer.parseInt(oldAssignmentLoc.getName().substring(oldAssignmentLoc.getName().indexOf(".")+1));
-							list.add(new DataTransferInstruction(varname,newreg,DataTransferInstructionType.Move));
-							
-							oldAssignmentLoc = new Op(newreg.getName() +"."+ varpos , OpType.Memory);
-						}
-						addNullReferenceCheckToList(oldAssignmentLoc);
-						list.add(new DataTransferInstruction(value,
-								oldAssignmentLoc, DataTransferInstructionType.MoveField)
-								.setOptComment("assigning val to loc"));
-					}
-				}
-				else
-					list.add(new DataTransferInstruction(value,
-						oldAssignmentLoc, DataTransferInstructionType.Move)
-						.setOptComment("assigning val to loc"));
-			}
-			*/
+
 			oldAssigmentIndex = -1;
 			oldAssignmentLoc = null;
 
 		} catch (Exception e) {
-			System.out.println("casting error - need to implement something: " + e.getMessage()); // TMP!
+			System.out.println("Bad assignment found. Code genetartion cannot continue: " 
+							   + e.getMessage());
 		}
 
 		return null;
@@ -367,15 +308,11 @@ public class LirVisitor implements Visitor {
 	}
 
 	public Object visit(Return returnStatement) {
-		// if (returnStatement.getValue() == null)
-		// list.add(new)
 		if (!returnStatement.hasValue())
 			return null;
 		Op reg = (Op) returnStatement.getValue().accept(this);
 		Op newregister = new Op(Register.getFreeReg(), OpType.Reg);
 		
-		//list.add(new DataTransferInstruction(reg, newregister,
-			//	DataTransferInstruction.DataTransferInstructionType.Move));
 		smartMove(reg, newregister);
 	
 		list.add(new ControlTransferInstruction(newregister,
@@ -405,8 +342,6 @@ public class LirVisitor implements Visitor {
 				ControlTransferInstructionType.JumpTrue);
 		ctThen.setOptComment("Conditional jump when If's outcome is true");
 		list.add(ctThen);
-
-	
 
 		// If's then label
 		list.add(new Label(thenLabel, "If's then label"));
@@ -480,7 +415,7 @@ public class LirVisitor implements Visitor {
 	}
 
 	public Object visit(Break breakStatement) {
-		// Upon break call, jump to innest while end label:
+		// Upon break call, jump to in-est while end label:
 		ControlTransferInstruction ctBreak = new ControlTransferInstruction(
 				new Op(this.latestWhileEndLabel, OpType.Label),
 				ControlTransferInstructionType.Jump);
@@ -543,11 +478,9 @@ public class LirVisitor implements Visitor {
 						this.currentVisitedClassName);
 				objects.put(mangledName, init);
 				smartMove(init, var);
-				//list.add(new DataTransferInstruction(init, var,
-				//		DataTransferInstructionType.Move));
-			} else {
-				//list.add(new DataTransferInstruction(init, var,
-					//	DataTransferInstructionType.Move));
+			} 
+			else 
+			{
 				smartMove(init, var);
 			}
 
@@ -555,7 +488,6 @@ public class LirVisitor implements Visitor {
 
 		}
 		return new Op(localVariable.getName(), OpType.Memory);
-		// throw new RuntimeException("local variable Bug?");
 	}
 
 	
@@ -570,23 +502,20 @@ public Object visit(VariableLocation location) {
 			
 			Op firstOp = new Op("this", OpType.ThisType);
 			Op reg = new Op(Register.getFreeReg(), OpType.Reg);
+			
 			// Move this,methodRegister
-			//DataTransferInstruction dti = new DataTransferInstruction(firstOp, reg,
-				//	DataTransferInstructionType.Move);
 			smartMove(firstOp, reg);
+			
 			//list.add(dti);
 			DispatchTable dt = dTables.get(location.enclosingScope().searchVariableReturnScope(location.getName()).getId()) ;
 			int pos = dt.getFieldPos(location.getName());
 			Op reg2 = new Op(reg.getName() + "." + pos, OpType.Memory);
 			Op reg3 = new Op(Register.getFreeReg(), OpType.Reg);
 			addNullReferenceCheckToList(reg2);
-			//dti = new DataTransferInstruction(reg2, reg3,
-			//		DataTransferInstructionType.MoveField);
-			//list.add(dti.setOptComment("### 1"));
+	
 			smartMove(reg2, reg3);
 			assignmentLocation = reg2;
 			return reg3;
-			
 		}
 		if (tc.getId().equals("string")) {
 			isString = true;
@@ -602,7 +531,9 @@ public Object visit(VariableLocation location) {
 			assignmentLocation = reg;
 
 			return reg;
-		} else {
+		} 
+		else 
+		{
 			Op var;
 			if (localParams.contains(location.getName()))
 				var = new Op(location.getName(), OpType.Memory);
@@ -617,8 +548,7 @@ public Object visit(VariableLocation location) {
 			if (!lval)
 			{
 				smartMove(var, reg);
-		//	list.add(new DataTransferInstruction(var, reg, 
-		//			DataTransferInstructionType.Move));
+				
 			return reg;
 			}
 			else return var;
@@ -659,7 +589,7 @@ public Object visit(VariableLocation location) {
 				if (op.getName().contains(".")) {
 					reg = new Op(Register.getFreeReg(), OpType.Reg);
 					addNullReferenceCheckToList(op);
-				//	list.add(new DataTransferInstruction(op, reg,DataTransferInstructionType.MoveField).setOptComment("### 2"));
+
 					smartMove(op, reg );
 					op = reg;
 				}
@@ -705,9 +635,7 @@ public Object visit(VariableLocation location) {
 	public Object visit(VirtualCall call) {
 		Op methodRegister, firstOp;
 		int methodPos = -1;
-		DataTransferInstruction dti;
 		String params = "";
-		// call.getName() = function name
 
 		methodRegister = new Op(Register.getFreeReg(), OpType.Reg);
 		
@@ -716,10 +644,10 @@ public Object visit(VariableLocation location) {
 		
 		Method m = (Method) mst.getNode(); 
 		
-//		Method m = (Method) typeTable.getMethodSig(call.getName(),currentVisitedClassName).getNode();
 		List<Formal> lst = m.getFormals();
 
 		params = "(";
+		
 		// Prepare params for instruction
 		for (i = 0; i < call.getArguments().size(); i++) {
 			Op op = (Op) call.getArguments().get(i).accept(this);
@@ -743,15 +671,10 @@ public Object visit(VariableLocation location) {
 		else
 		{
 			firstOp = new Op("this", OpType.ThisType);
-			// Move this,methodRegister
-		//	dti = new DataTransferInstruction(firstOp, methodRegister,
-			//		DataTransferInstructionType.Move);
-			//list.add(dti);
+
 			smartMove(firstOp, methodRegister);
 			methodPos = curDt.getMethodPos(call.getName());
 		}
-
-		// VirtualCall FreeReg.pos(params), FreeReg
 		
 		CallInstruction ci = new CallInstruction(new Op(methodRegister
 				.getName()
@@ -805,7 +728,7 @@ public Object visit(VariableLocation location) {
 		DataTransferInstruction dti = new DataTransferInstruction(dvOp, reg,
 				offset, DataTransferInstructionType.MoveField);
 		dti.setOptComment("Move field for DV pointer");
-//		smartMove(dvOp, reg);
+
 		list.add(li);
 		list.add(dti);
 
@@ -822,8 +745,7 @@ public Object visit(VariableLocation location) {
 												// always 4 - if its an object -
 												// its just a pointer
 		Op four = new Op(Register.getFreeReg(), OpType.Reg);
-		//list.add(new DataTransferInstruction(num, four,
-			//	DataTransferInstructionType.Move));
+
 		smartMove(num, four);
 
 		Instruction i = new ArithmeticInstruction(four, size,
@@ -874,7 +796,6 @@ public Object visit(VariableLocation location) {
 		Op one = (Op) binaryOp.getFirstOperand().accept(this);
 		Op two = (Op) binaryOp.getSecondOperand().accept(this);
 		
-
 		Op oneReg = new Op(Register.getFreeReg(), OpType.Reg);
 		Op twoReg = new Op(Register.getFreeReg(), OpType.Reg);
 
@@ -930,9 +851,9 @@ public Object visit(VariableLocation location) {
 		
 		Op reg = new Op(Register.getFreeReg(), OpType.Reg);
 		Op zero = new Op("0", OpType.Immediate);
-		//DIT = DataTransferInstructionType.Move;
+		
 		Instruction i; // = new DataTransferInstruction(zero, reg, DIT);
-		//list.add(i);
+	
 		smartMove(zero, reg);
 		Op jumpto = new Op(Jump.getNextJumpCounter(), OpType.Label);
 
@@ -1001,7 +922,7 @@ public Object visit(VariableLocation location) {
 		Op one2 = new Op("1", OpType.Immediate);
 		DIT = DataTransferInstructionType.Move;
 		i = new DataTransferInstruction(one2, reg, DIT);
-		//list.add(i);
+		
 		smartMove(one2, reg);
 		list.add(new Label(jumpto.getName()));
 		return reg;
@@ -1093,7 +1014,6 @@ public Object visit(VariableLocation location) {
 	private int getClassFieldsNumber(ICClass icClass) {
 		int fieldsNums = 0;
 		ICClass superClass = null;
-		// String superClassName = "";
 
 		if (icClass == null) {
 			return 0;
@@ -1214,7 +1134,7 @@ public Object visit(VariableLocation location) {
 	{
 		Op arrSize = new Op(Register.getFreeReg(), OpType.Reg);
 		Op zeroReg = new Op(Register.getFreeReg(), OpType.Reg);
-		//list.add(new DataTransferInstruction(new Op("0", OpType.Immediate), zeroReg, DataTransferInstructionType.Move));
+		
 		smartMove(new Op("0", OpType.Immediate), zeroReg);
 		
 		Op arr = new Op(Register.getFreeReg(), OpType.Reg);
