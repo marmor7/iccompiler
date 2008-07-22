@@ -24,12 +24,10 @@ _ic_main:   # Main Method
 # Line 5: 
 # Line 6: 
 Move 0, R2
-# TMP 1
 # new smartMove on: R2, i_Test_while_17
 Move R2, i_Test_while_17 # brought to you by safe/smartmove
 # Line 7: 
 Move 0, R2
-# TMP 1
 # new smartMove on: R2, j_Test_while_17
 Move R2, j_Test_while_17 # brought to you by safe/smartmove
 # Line 9: 
@@ -65,7 +63,6 @@ Move R10, R13 # brought to you by safe/smartmove
 # new smartMove on: R12, R14
 Move R12, R14 # brought to you by safe/smartmove
 Add R14,R13
-# TMP 1
 # new smartMove on: R13, j_Test_while_17
 Move R13, j_Test_while_17 # brought to you by safe/smartmove
 # new smartMove on: i_Test_while_17, R2
@@ -78,7 +75,6 @@ Move R2, R5 # brought to you by safe/smartmove
 # new smartMove on: R4, R6
 Move R4, R6 # brought to you by safe/smartmove
 Add R6,R5
-# TMP 1
 # new smartMove on: R5, i_Test_while_17
 Move R5, i_Test_while_17 # brought to you by safe/smartmove
 Jump _l1
@@ -112,12 +108,10 @@ _l5:   # If's else label
 _l6:   # End of If statement
 # Line 18: 
 Move 0, R2
-# TMP 1
 # new smartMove on: R2, i_Test_while_17
 Move R2, i_Test_while_17 # brought to you by safe/smartmove
 # Line 19: 
 Move 0, R2
-# TMP 1
 # new smartMove on: R2, j_Test_while_17
 Move R2, j_Test_while_17 # brought to you by safe/smartmove
 # Line 20: 
@@ -153,7 +147,6 @@ Move R10, R13 # brought to you by safe/smartmove
 # new smartMove on: R12, R14
 Move R12, R14 # brought to you by safe/smartmove
 Add R14,R13
-# TMP 1
 # new smartMove on: R13, i_Test_while_17
 Move R13, i_Test_while_17 # brought to you by safe/smartmove
 # new smartMove on: j_Test_while_17, R2
@@ -166,7 +159,6 @@ Move R2, R5 # brought to you by safe/smartmove
 # new smartMove on: R4, R6
 Move R4, R6 # brought to you by safe/smartmove
 Add R6,R5
-# TMP 1
 # new smartMove on: R5, j_Test_while_17
 Move R5, j_Test_while_17 # brought to you by safe/smartmove
 # new smartMove on: i_Test_while_17, R1
@@ -225,12 +217,10 @@ _l16:   # If's else label
 _l17:   # End of If statement
 # Line 30: 
 Move 0, R2
-# TMP 1
 # new smartMove on: R2, i_Test_while_17
 Move R2, i_Test_while_17 # brought to you by safe/smartmove
 # Line 31: 
 Move 0, R2
-# TMP 1
 # new smartMove on: R2, j_Test_while_17
 Move R2, j_Test_while_17 # brought to you by safe/smartmove
 # Line 33: 
@@ -266,7 +256,6 @@ Move R10, R13 # brought to you by safe/smartmove
 # new smartMove on: R12, R14
 Move R12, R14 # brought to you by safe/smartmove
 Add R14,R13
-# TMP 1
 # new smartMove on: R13, i_Test_while_17
 Move R13, i_Test_while_17 # brought to you by safe/smartmove
 # new smartMove on: j_Test_while_17, R2
@@ -279,7 +268,6 @@ Move R2, R5 # brought to you by safe/smartmove
 # new smartMove on: R4, R6
 Move R4, R6 # brought to you by safe/smartmove
 Add R6,R5
-# TMP 1
 # new smartMove on: R5, j_Test_while_17
 Move R5, j_Test_while_17 # brought to you by safe/smartmove
 # new smartMove on: i_Test_while_17, R1
@@ -329,7 +317,6 @@ Compare 0,R6		# If's condition check
 JumpTrue _l27		# Conditional jump when If's outcome is true
 _l26:   # If's then label
 Move 20, R10
-# TMP 1
 # new smartMove on: R10, j_Test_while_17
 Move R10, j_Test_while_17 # brought to you by safe/smartmove
 Jump _l28		# Jump to end label(end of then part)

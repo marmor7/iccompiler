@@ -25,12 +25,10 @@ MoveField _DV_A,R1.0 # Move field for DV pointer
 Move R1, a_A_17 # brought to you by safe/smartmove
 # Line 6: 
 Move 0, R2
-# TMP 1
 # new smartMove on: R2, a_A_17
 Move R2, a_A_17 # brought to you by safe/smartmove
 # Line 7: 
 Move 2, R2
-# TMP 1
 # new smartMove on: R2, a_A_17.1
 Move a_A_17, R4 # brought to you by safe/smartmove
 Compare 0,R4

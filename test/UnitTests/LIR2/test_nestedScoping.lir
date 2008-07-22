@@ -45,7 +45,6 @@ MoveField R1.1,R4 # SMART MOVED BITCH - field style
 Move R4, R3 # brought to you by safe/smartmove
 MoveField R4,R1.1 # reversed
 Move 0, R5
-# TMP 1
 # new smartMove on: R5, R1.1
 Compare 0,R1
 JumpTrue _null_reference
@@ -165,7 +164,6 @@ Move R3, nsa_NestedScopingA_21 # reversed
 VirtualCall R2.0(),R2
 # Line 43: 
 Move 100, R2
-# TMP 1
 # new smartMove on: R2, nsa_NestedScopingA_21.1
 Move nsa_NestedScopingA_21, R4 # brought to you by safe/smartmove
 Compare 0,R4
@@ -237,7 +235,6 @@ Move this, R1
 Move var, R3 # brought to you by safe/smartmove
 Move R3, R2 # brought to you by safe/smartmove
 Move R3, var # reversed
-# TMP 1
 # new smartMove on: R2, R1.1
 Compare 0,R1
 JumpTrue _null_reference
@@ -258,7 +255,6 @@ JumpTrue _null_reference
 MoveField R2.1,R5 # SMART MOVED BITCH - field style
 Move R5, R4 # brought to you by safe/smartmove
 MoveField R5,R2.1 # reversed
-# TMP 1
 # new smartMove on: R4, R1.2
 Compare 0,R1
 JumpTrue _null_reference
@@ -304,7 +300,6 @@ JumpFalse _l11
 Move 1, R14 # brought to you by safe/smartmove
 Move R14, R12 # brought to you by safe/smartmove
 _l11:
-# TMP 1
 # new smartMove on: R12, R1.3
 Compare 0,R1
 JumpTrue _null_reference

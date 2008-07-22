@@ -41,7 +41,6 @@ Move 0, R2
 # new smartMove on: 0, R5
 Move 0, R6 # brought to you by safe/smartmove
 Move R6, R5 # brought to you by safe/smartmove
-# TMP 4
 # new smartMove on: arr1_RunTimeChecks_20, R7
 Move arr1_RunTimeChecks_20, R8 # brought to you by safe/smartmove
 Move R8, R7 # brought to you by safe/smartmove
@@ -51,7 +50,6 @@ Compare R2,R4
 JumpL _illegal_arr_loc
 Compare R2,R5
 JumpG _illegal_arr_loc
-# TMP 2
 # new smartMove on: arr1_RunTimeChecks_20[R2], R3
 Move arr1_RunTimeChecks_20, R10 # brought to you by safe/smartmove
 MoveArray R10[R2], R9 # SMART MOVED BITCH - Array Style
@@ -60,7 +58,6 @@ MoveArray R9, R10[R2] # reversed
 Move R10, arr1_RunTimeChecks_20 # reversed
 Library __allocateObject(16),R11 # Allocation of A
 MoveField _DV_A,R11.0 # Move field for DV pointer
-# TMP 1
 # new smartMove on: R11, arr1_RunTimeChecks_20[R2]
 Move arr1_RunTimeChecks_20, R13 # brought to you by safe/smartmove
 MoveArray R13[R2], R12 # SMART MOVED BITCH - Array Style
@@ -72,7 +69,6 @@ Move 1, R2
 # new smartMove on: 0, R5
 Move 0, R6 # brought to you by safe/smartmove
 Move R6, R5 # brought to you by safe/smartmove
-# TMP 4
 # new smartMove on: arr1_RunTimeChecks_20, R7
 Move arr1_RunTimeChecks_20, R8 # brought to you by safe/smartmove
 Move R8, R7 # brought to you by safe/smartmove
@@ -82,7 +78,6 @@ Compare R2,R4
 JumpL _illegal_arr_loc
 Compare R2,R5
 JumpG _illegal_arr_loc
-# TMP 2
 # new smartMove on: arr1_RunTimeChecks_20[R2], R3
 Move arr1_RunTimeChecks_20, R10 # brought to you by safe/smartmove
 MoveArray R10[R2], R9 # SMART MOVED BITCH - Array Style
@@ -91,7 +86,6 @@ MoveArray R9, R10[R2] # reversed
 Move R10, arr1_RunTimeChecks_20 # reversed
 Library __allocateObject(16),R11 # Allocation of A
 MoveField _DV_A,R11.0 # Move field for DV pointer
-# TMP 1
 # new smartMove on: R11, arr1_RunTimeChecks_20[R2]
 Move arr1_RunTimeChecks_20, R13 # brought to you by safe/smartmove
 MoveArray R13[R2], R12 # SMART MOVED BITCH - Array Style
@@ -103,7 +97,6 @@ Move R13, arr1_RunTimeChecks_20 # reversed
 Move arr1_RunTimeChecks_20, R2 # brought to you by safe/smartmove
 Move R2, R1 # brought to you by safe/smartmove
 Move R2, arr1_RunTimeChecks_20 # reversed
-# TMP 3
 # new smartMove on: R1, R3
 Move R1, R3 # brought to you by safe/smartmove
 ArrayLength R3, R3
@@ -123,7 +116,6 @@ Mul R3,R2
 Compare 0,R2
 JumpLE _arr_neg_alloc_size
 Library __allocateArray(R2),R5
-# TMP 1
 # new smartMove on: R5, arr2_RunTimeChecks_20
 Move R5, arr2_RunTimeChecks_20 # brought to you by safe/smartmove
 # Line 28: 
@@ -133,7 +125,6 @@ Move R1, a_RunTimeChecks_20 # brought to you by safe/smartmove
 # Line 32: 
 Library __allocateObject(16),R2 # Allocation of A
 MoveField _DV_A,R2.0 # Move field for DV pointer
-# TMP 1
 # new smartMove on: R2, a_RunTimeChecks_20
 Move R2, a_RunTimeChecks_20 # brought to you by safe/smartmove
 # Line 33: 
@@ -189,7 +180,6 @@ Move this, R1
 Move val, R3 # brought to you by safe/smartmove
 Move R3, R2 # brought to you by safe/smartmove
 Move R3, val # reversed
-# TMP 1
 # new smartMove on: R2, R1.1
 Compare 0,R1
 JumpTrue _null_reference

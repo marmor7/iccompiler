@@ -60,7 +60,6 @@ Move sc_StringConcat_18, R6 # brought to you by safe/smartmove
 Move R6, R5 # brought to you by safe/smartmove
 Move R6, sc_StringConcat_18 # reversed
 VirtualCall R5.0(s=R3),R5
-# TMP 1
 # new smartMove on: R5, s_StringConcat_18
 Move R5, s_StringConcat_18 # brought to you by safe/smartmove
 # Line 14: 
@@ -79,7 +78,6 @@ Move sc_StringConcat_18, R6 # brought to you by safe/smartmove
 Move R6, R5 # brought to you by safe/smartmove
 Move R6, sc_StringConcat_18 # reversed
 VirtualCall R5.0(s=R3),R5
-# TMP 1
 # new smartMove on: R5, s_StringConcat_18
 Move R5, s_StringConcat_18 # brought to you by safe/smartmove
 # Line 16: 
@@ -98,7 +96,6 @@ Move sc_StringConcat_18, R6 # brought to you by safe/smartmove
 Move R6, R5 # brought to you by safe/smartmove
 Move R6, sc_StringConcat_18 # reversed
 VirtualCall R5.0(s=R3),R5
-# TMP 1
 # new smartMove on: R5, s_StringConcat_18
 Move R5, s_StringConcat_18 # brought to you by safe/smartmove
 # Line 18: 

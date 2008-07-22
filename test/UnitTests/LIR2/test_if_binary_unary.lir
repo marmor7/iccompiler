@@ -1024,7 +1024,6 @@ Move x_Test_if_17, R3 # brought to you by safe/smartmove
 Move R3, R2 # brought to you by safe/smartmove
 Move R3, x_Test_if_17 # reversed
 Neg R2
-# TMP 1
 # new smartMove on: R2, x_Test_if_17
 Move R2, x_Test_if_17 # brought to you by safe/smartmove
 # Line 158: 
@@ -1033,7 +1032,6 @@ Move x_Test_if_17, R3 # brought to you by safe/smartmove
 Move R3, R2 # brought to you by safe/smartmove
 Move R3, x_Test_if_17 # reversed
 Neg R2
-# TMP 1
 # new smartMove on: R2, x_Test_if_17
 Move R2, x_Test_if_17 # brought to you by safe/smartmove
 # Line 159: 
