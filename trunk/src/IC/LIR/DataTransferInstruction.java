@@ -92,6 +92,5 @@ public class DataTransferInstruction extends Instruction{
             }
 
             return ret;
-
     }
 }
