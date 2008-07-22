@@ -1,0 +1,10 @@
+class Str {
+
+	static void main(string[] args) {
+		string s = "hello";
+		Library.println(s);
+		s = s + " hello";
+		Library.println(s);
+		Library.println(s + "!!!");
+	}
+}
