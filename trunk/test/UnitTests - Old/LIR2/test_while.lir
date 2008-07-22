@@ -56,7 +56,6 @@ Move R10, R13 # brought to you by safe/smartmove
 # new smartMove on: R12, R14
 Move R12, R14 # brought to you by safe/smartmove
 Sub R14,R13
-# TMP 1
 # new smartMove on: R13, x_MyClass_17
 Move R13, x_MyClass_17 # brought to you by safe/smartmove
 Move str0, R1 # assigning literal to reg

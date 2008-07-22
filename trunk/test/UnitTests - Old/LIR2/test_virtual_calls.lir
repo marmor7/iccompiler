@@ -76,7 +76,6 @@ VirtualCall R3.1(x=R2),R3
 # Line 22: 
 Library __allocateObject(12),R2 # Allocation of Foo
 MoveField _DV_Foo,R2.0 # Move field for DV pointer
-# TMP 1
 # new smartMove on: R2, f_Foo_20
 Move R2, f_Foo_20 # brought to you by safe/smartmove
 # Line 23: 

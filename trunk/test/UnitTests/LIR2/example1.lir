@@ -45,7 +45,6 @@ MoveField _DV_A,R1.0 # Move field for DV pointer
 # new smartMove on: R1, x_A_22
 Move R1, x_A_22 # brought to you by safe/smartmove
 Move 9, R2
-# TMP 1
 # new smartMove on: R2, x_A_22.2
 Move x_A_22, R4 # brought to you by safe/smartmove
 Compare 0,R4
@@ -55,7 +54,6 @@ Move R2, R3 # brought to you by safe/smartmove
 MoveField R3,R4.2 # reversed
 Move R4, x_A_22 # reversed
 Move str0, R2 # assigning literal to reg
-# TMP 1
 # new smartMove on: R2, x_A_22.1
 Move x_A_22, R4 # brought to you by safe/smartmove
 Compare 0,R4
@@ -119,7 +117,6 @@ JumpTrue _l5		# Conditional jump when while statement is false
 # new smartMove on: 0, R14
 Move 0, R15 # brought to you by safe/smartmove
 Move R15, R14 # brought to you by safe/smartmove
-# TMP 4
 # new smartMove on: arr_A_23, R16
 Move arr_A_23, R17 # brought to you by safe/smartmove
 Move R17, R16 # brought to you by safe/smartmove
@@ -129,7 +126,6 @@ Compare i_A_23,R13
 JumpL _illegal_arr_loc
 Compare i_A_23,R14
 JumpG _illegal_arr_loc
-# TMP 2
 # new smartMove on: arr_A_23[i_A_23], R12
 Move arr_A_23, R19 # brought to you by safe/smartmove
 MoveArray R19[i_A_23], R18 # SMART MOVED BITCH - Array Style
@@ -140,7 +136,6 @@ Move R19, arr_A_23 # reversed
 Move val, R21 # brought to you by safe/smartmove
 Move R21, R20 # brought to you by safe/smartmove
 Move R21, val # reversed
-# TMP 1
 # new smartMove on: R20, arr_A_23[i_A_23]
 Move arr_A_23, R23 # brought to you by safe/smartmove
 MoveArray R23[i_A_23], R22 # SMART MOVED BITCH - Array Style
@@ -157,7 +152,6 @@ Move R2, R5 # brought to you by safe/smartmove
 # new smartMove on: R4, R6
 Move R4, R6 # brought to you by safe/smartmove
 Add R6,R5
-# TMP 1
 # new smartMove on: R5, i_A_23
 Move R5, i_A_23 # brought to you by safe/smartmove
 # new smartMove on: i_A_23, R1

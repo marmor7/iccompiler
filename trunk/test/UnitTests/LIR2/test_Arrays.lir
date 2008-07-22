@@ -30,7 +30,6 @@ Mul R3,R2
 Compare 0,R2
 JumpLE _arr_neg_alloc_size
 Library __allocateArray(R2),R5
-# TMP 1
 # new smartMove on: R5, R1.1
 Compare 0,R1
 JumpTrue _null_reference
@@ -43,7 +42,6 @@ Move 0, R2
 # new smartMove on: 0, R5
 Move 0, R6 # brought to you by safe/smartmove
 Move R6, R5 # brought to you by safe/smartmove
-# TMP 4
 # new smartMove on: R1.1, R7
 Compare 0,R1
 JumpTrue _null_reference
@@ -55,7 +53,6 @@ Compare R2,R4
 JumpL _illegal_arr_loc
 Compare R2,R5
 JumpG _illegal_arr_loc
-# TMP 2
 # new smartMove on: R1.1[R2], R3
 Compare 0,R1
 JumpTrue _null_reference
@@ -65,7 +62,6 @@ Move R9, R3 # brought to you by safe/smartmove
 MoveArray R9, R10[R2] # reversed
 MoveField R10,R1.1 # reversed
 Move 5, R11
-# TMP 1
 # new smartMove on: R11, R1.1[R2]
 Compare 0,R1
 JumpTrue _null_reference
@@ -80,7 +76,6 @@ Move 1, R2
 # new smartMove on: 0, R5
 Move 0, R6 # brought to you by safe/smartmove
 Move R6, R5 # brought to you by safe/smartmove
-# TMP 4
 # new smartMove on: R1.1, R7
 Compare 0,R1
 JumpTrue _null_reference
@@ -92,7 +87,6 @@ Compare R2,R4
 JumpL _illegal_arr_loc
 Compare R2,R5
 JumpG _illegal_arr_loc
-# TMP 2
 # new smartMove on: R1.1[R2], R3
 Compare 0,R1
 JumpTrue _null_reference
@@ -102,7 +96,6 @@ Move R9, R3 # brought to you by safe/smartmove
 MoveArray R9, R10[R2] # reversed
 MoveField R10,R1.1 # reversed
 Move 6, R11
-# TMP 1
 # new smartMove on: R11, R1.1[R2]
 Compare 0,R1
 JumpTrue _null_reference
@@ -120,7 +113,6 @@ MoveField _DV_ArrayType,R1.0 # Move field for DV pointer
 Move R1, a_Test_19 # brought to you by safe/smartmove
 # Line 16: 
 Move 0, R2
-# TMP 1
 # new smartMove on: R2, a_Test_19.2
 Move a_Test_19, R4 # brought to you by safe/smartmove
 Compare 0,R4
@@ -175,7 +167,6 @@ JumpTrue _l2		# Conditional jump when while statement is false
 # new smartMove on: 0, R13
 Move 0, R14 # brought to you by safe/smartmove
 Move R14, R13 # brought to you by safe/smartmove
-# TMP 4
 # new smartMove on: arr_Test_19, R15
 Move arr_Test_19, R16 # brought to you by safe/smartmove
 Move R16, R15 # brought to you by safe/smartmove
@@ -185,7 +176,6 @@ Compare i_Test_19,R12
 JumpL _illegal_arr_loc
 Compare i_Test_19,R13
 JumpG _illegal_arr_loc
-# TMP 2
 # new smartMove on: arr_Test_19[i_Test_19], R11
 Move arr_Test_19, R18 # brought to you by safe/smartmove
 MoveArray R18[i_Test_19], R17 # SMART MOVED BITCH - Array Style
@@ -194,7 +184,6 @@ MoveArray R17, R18[i_Test_19] # reversed
 Move R18, arr_Test_19 # reversed
 Library __allocateObject(12),R19 # Allocation of ArrayType
 MoveField _DV_ArrayType,R19.0 # Move field for DV pointer
-# TMP 1
 # new smartMove on: R19, arr_Test_19[i_Test_19]
 Move arr_Test_19, R21 # brought to you by safe/smartmove
 MoveArray R21[i_Test_19], R20 # SMART MOVED BITCH - Array Style
@@ -212,7 +201,6 @@ Move R5, i_Test_19 # reversed
 # new smartMove on: 0, R8
 Move 0, R9 # brought to you by safe/smartmove
 Move R9, R8 # brought to you by safe/smartmove
-# TMP 4
 # new smartMove on: R2, R10
 Move R2, R10 # brought to you by safe/smartmove
 ArrayLength R10,R7		# Getting array length
@@ -220,7 +208,6 @@ Compare R4,R7
 JumpL _illegal_arr_loc
 Compare R4,R8
 JumpG _illegal_arr_loc
-# TMP 2
 # new smartMove on: R2[R4], R6
 MoveArray R2[R4], R11 # SMART MOVED BITCH - Array Style
 Move R11, R6 # brought to you by safe/smartmove
@@ -236,7 +223,6 @@ Move R2, R5 # brought to you by safe/smartmove
 # new smartMove on: R4, R6
 Move R4, R6 # brought to you by safe/smartmove
 Add R6,R5
-# TMP 1
 # new smartMove on: R5, i_Test_19
 Move R5, i_Test_19 # brought to you by safe/smartmove
 Jump _l1
@@ -246,7 +232,6 @@ Move 3, R2
 # new smartMove on: 0, R5
 Move 0, R6 # brought to you by safe/smartmove
 Move R6, R5 # brought to you by safe/smartmove
-# TMP 4
 # new smartMove on: arr_Test_19, R7
 Move arr_Test_19, R8 # brought to you by safe/smartmove
 Move R8, R7 # brought to you by safe/smartmove
@@ -256,7 +241,6 @@ Compare R2,R4
 JumpL _illegal_arr_loc
 Compare R2,R5
 JumpG _illegal_arr_loc
-# TMP 2
 # new smartMove on: arr_Test_19[R2], R3
 Move arr_Test_19, R10 # brought to you by safe/smartmove
 MoveArray R10[R2], R9 # SMART MOVED BITCH - Array Style
@@ -271,7 +255,6 @@ Mul R12,R11
 Compare 0,R11
 JumpLE _arr_neg_alloc_size
 Library __allocateArray(R11),R14
-# TMP 1
 # new smartMove on: R14, R3.2
 Compare 0,R3
 JumpTrue _null_reference
@@ -283,7 +266,6 @@ Move 3, R2
 # new smartMove on: 0, R5
 Move 0, R6 # brought to you by safe/smartmove
 Move R6, R5 # brought to you by safe/smartmove
-# TMP 4
 # new smartMove on: arr_Test_19, R7
 Move arr_Test_19, R8 # brought to you by safe/smartmove
 Move R8, R7 # brought to you by safe/smartmove
@@ -293,7 +275,6 @@ Compare R2,R4
 JumpL _illegal_arr_loc
 Compare R2,R5
 JumpG _illegal_arr_loc
-# TMP 2
 # new smartMove on: arr_Test_19[R2], R3
 Move arr_Test_19, R10 # brought to you by safe/smartmove
 MoveArray R10[R2], R9 # SMART MOVED BITCH - Array Style
@@ -304,7 +285,6 @@ Move 0, R11
 # new smartMove on: 0, R14
 Move 0, R15 # brought to you by safe/smartmove
 Move R15, R14 # brought to you by safe/smartmove
-# TMP 4
 # new smartMove on: R3.2, R16
 Compare 0,R3
 JumpTrue _null_reference
@@ -316,7 +296,6 @@ Compare R11,R13
 JumpL _illegal_arr_loc
 Compare R11,R14
 JumpG _illegal_arr_loc
-# TMP 2
 # new smartMove on: R3.2[R11], R12
 Compare 0,R3
 JumpTrue _null_reference
@@ -333,7 +312,6 @@ Mul R21,R20
 Compare 0,R20
 JumpLE _arr_neg_alloc_size
 Library __allocateArray(R20),R23
-# TMP 1
 # new smartMove on: R23, R3.2[R11]
 Compare 0,R3
 JumpTrue _null_reference
@@ -347,7 +325,6 @@ Move 3, R2
 # new smartMove on: 0, R5
 Move 0, R6 # brought to you by safe/smartmove
 Move R6, R5 # brought to you by safe/smartmove
-# TMP 4
 # new smartMove on: arr_Test_19, R7
 Move arr_Test_19, R8 # brought to you by safe/smartmove
 Move R8, R7 # brought to you by safe/smartmove
@@ -357,7 +334,6 @@ Compare R2,R4
 JumpL _illegal_arr_loc
 Compare R2,R5
 JumpG _illegal_arr_loc
-# TMP 2
 # new smartMove on: arr_Test_19[R2], R3
 Move arr_Test_19, R10 # brought to you by safe/smartmove
 MoveArray R10[R2], R9 # SMART MOVED BITCH - Array Style
@@ -368,7 +344,6 @@ Move 0, R11
 # new smartMove on: 0, R14
 Move 0, R15 # brought to you by safe/smartmove
 Move R15, R14 # brought to you by safe/smartmove
-# TMP 4
 # new smartMove on: R3.2, R16
 Compare 0,R3
 JumpTrue _null_reference
@@ -380,7 +355,6 @@ Compare R11,R13
 JumpL _illegal_arr_loc
 Compare R11,R14
 JumpG _illegal_arr_loc
-# TMP 2
 # new smartMove on: R3.2[R11], R12
 Compare 0,R3
 JumpTrue _null_reference
@@ -393,7 +367,6 @@ Move 0, R20
 # new smartMove on: 0, R23
 Move 0, R24 # brought to you by safe/smartmove
 Move R24, R23 # brought to you by safe/smartmove
-# TMP 4
 # new smartMove on: R12, R25
 Move R12, R25 # brought to you by safe/smartmove
 ArrayLength R25,R22		# Getting array length
@@ -401,13 +374,11 @@ Compare R20,R22
 JumpL _illegal_arr_loc
 Compare R20,R23
 JumpG _illegal_arr_loc
-# TMP 2
 # new smartMove on: R12[R20], R21
 MoveArray R12[R20], R26 # SMART MOVED BITCH - Array Style
 Move R26, R21 # brought to you by safe/smartmove
 MoveArray R26, R12[R20] # reversed
 Move 8, R27
-# TMP 1
 # new smartMove on: R27, R12[R20]
 MoveArray R12[R20], R28 # SMART MOVED BITCH - Array Style
 Move R27, R28 # brought to you by safe/smartmove
@@ -421,7 +392,6 @@ Move 3, R3
 # new smartMove on: 0, R6
 Move 0, R7 # brought to you by safe/smartmove
 Move R7, R6 # brought to you by safe/smartmove
-# TMP 4
 # new smartMove on: R1, R8
 Move R1, R8 # brought to you by safe/smartmove
 ArrayLength R8,R5		# Getting array length
@@ -429,7 +399,6 @@ Compare R3,R5
 JumpL _illegal_arr_loc
 Compare R3,R6
 JumpG _illegal_arr_loc
-# TMP 2
 # new smartMove on: R1[R3], R4
 MoveArray R1[R3], R9 # SMART MOVED BITCH - Array Style
 Move R9, R4 # brought to you by safe/smartmove
@@ -459,7 +428,6 @@ Move 0, R3
 # new smartMove on: 0, R6
 Move 0, R7 # brought to you by safe/smartmove
 Move R7, R6 # brought to you by safe/smartmove
-# TMP 4
 # new smartMove on: R1, R8
 Move R1, R8 # brought to you by safe/smartmove
 ArrayLength R8,R5		# Getting array length
@@ -467,12 +435,10 @@ Compare R3,R5
 JumpL _illegal_arr_loc
 Compare R3,R6
 JumpG _illegal_arr_loc
-# TMP 2
 # new smartMove on: R1[R3], R4
 MoveArray R1[R3], R9 # SMART MOVED BITCH - Array Style
 Move R9, R4 # brought to you by safe/smartmove
 MoveArray R9, R1[R3] # reversed
-# TMP 3
 # new smartMove on: R4, R10
 Move R4, R10 # brought to you by safe/smartmove
 ArrayLength R10, R10
@@ -489,7 +455,6 @@ Move 0, R3
 # new smartMove on: 0, R6
 Move 0, R7 # brought to you by safe/smartmove
 Move R7, R6 # brought to you by safe/smartmove
-# TMP 4
 # new smartMove on: R1, R8
 Move R1, R8 # brought to you by safe/smartmove
 ArrayLength R8,R5		# Getting array length
@@ -497,7 +462,6 @@ Compare R3,R5
 JumpL _illegal_arr_loc
 Compare R3,R6
 JumpG _illegal_arr_loc
-# TMP 2
 # new smartMove on: R1[R3], R4
 MoveArray R1[R3], R9 # SMART MOVED BITCH - Array Style
 Move R9, R4 # brought to you by safe/smartmove
@@ -506,7 +470,6 @@ Move 0, R10
 # new smartMove on: 0, R13
 Move 0, R14 # brought to you by safe/smartmove
 Move R14, R13 # brought to you by safe/smartmove
-# TMP 4
 # new smartMove on: R4, R15
 Move R4, R15 # brought to you by safe/smartmove
 ArrayLength R15,R12		# Getting array length
@@ -514,7 +477,6 @@ Compare R10,R12
 JumpL _illegal_arr_loc
 Compare R10,R13
 JumpG _illegal_arr_loc
-# TMP 2
 # new smartMove on: R4[R10], R11
 MoveArray R4[R10], R16 # SMART MOVED BITCH - Array Style
 Move R16, R11 # brought to you by safe/smartmove

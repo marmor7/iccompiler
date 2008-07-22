@@ -38,7 +38,6 @@ Move 6, R3
 # new smartMove on: 0, R6
 Move 0, R7 # brought to you by safe/smartmove
 Move R7, R6 # brought to you by safe/smartmove
-# TMP 4
 # new smartMove on: R1, R8
 Move R1, R8 # brought to you by safe/smartmove
 ArrayLength R8,R5		# Getting array length
@@ -46,7 +45,6 @@ Compare R3,R5
 JumpL _illegal_arr_loc
 Compare R3,R6
 JumpG _illegal_arr_loc
-# TMP 2
 # new smartMove on: R1[R3], R4
 MoveArray R1[R3], R9 # SMART MOVED BITCH - Array Style
 Move R9, R4 # brought to you by safe/smartmove
